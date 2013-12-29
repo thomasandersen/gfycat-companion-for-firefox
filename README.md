@@ -1,0 +1,1 @@
+See: https://github.com/Imdsm/AutoGfy for a Chrome variant.
