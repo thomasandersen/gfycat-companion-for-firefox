@@ -2,15 +2,22 @@
   "name": "gfycat-companion-for-firefox",
   "fullName": "gfycat Companion for Firefox",
   "id": "jid1-WXgslz4jzyjBJw",
-  "description": "Redirects gifs to gfycat",
+  "description": "gfycat tools for Firefox. Icon by gfycat.com",
   "author": "Thomas Andersen<thomas@mr-andersen.no>",
   "license": "MPL 2.0",
-  "version": "0.2",
+  "version": "0.3a",
   "preferences": [{
     "name": "redirectGifResponses",
     "title": "Redirect to gfycat",
     "description": "Automatically redirect to gfycat when a gif is requested",
     "type": "bool",
     "value": true
+  }, 
+  {
+    "name": "experimental",
+    "title": "Try experimental features",
+    "description": "Toggle experimental features",
+    "type": "bool",
+    "value": false
   }]
 }
