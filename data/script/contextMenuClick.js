@@ -1,4 +1,5 @@
 self.on("click", function (node, data) {
-  self.postMessage(node.src);
+  let link = node.nodeName.toLowerCase() == "a" ? node.href : node.src;
+  self.postMessage(link);
   return true;
 });
