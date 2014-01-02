@@ -7,18 +7,27 @@
   "license": "MPL 2.0",
   "version": "0.3a3",
   "icon": "data/images/icon-128.png",
-  "preferences": [{
-    "name": "redirectDirectGifRequests",
-    "title": "Redirect to gfycat",
-    "description": "Automatically redirect to gfycat when a gif is directly requested",
-    "type": "bool",
-    "value": true
-  }, 
-  {
-    "name": "experimental",
-    "title": "Try experimental features",
-    "description": "Toggle experimental features",
-    "type": "bool",
-    "value": false
-  }]
+  "preferences": [
+    {
+      "name": "redirectDirectGifRequests",
+      "title": "Redirect gif requests to gfycat",
+      "description": "Automatically redirect to gfycat when a gif is directly requested",
+      "type": "bool",
+      "value": true
+    }, 
+    {
+      "name": "resImageViewerSupport",
+      "title": "Enable gfycat in RES image viewer",
+      "description": "Replaces gifs in the RES image viewer with gfycat videos (requires page refresh).",
+      "type": "bool",
+      "value": true
+    }, 
+    {
+      "name": "experimental",
+      "title": "Try experimental features",
+      "description": "Toggle experimental features",
+      "type": "bool",
+      "value": false
+    }
+  ]
 }
