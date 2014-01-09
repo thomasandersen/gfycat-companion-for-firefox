@@ -1,5 +1,6 @@
 let { Cc, Ci, Cr } = require("chrome");
 let properties = require("./properties");
+let system = require("sdk/system");
 let systemEvents = require("sdk/system/events");
 let windowUtils = require("sdk/window/utils");
 let urlHelper = require("./urlHelper");
@@ -41,10 +42,16 @@ function getWindowForRequest(request){
 }
 
 function reditectToGfyCat(request) {
-  let gBrowser = windowUtils.getMostRecentBrowserWindow().gBrowser;
-  let domWin = getWindowForRequest(request);
-  let browser = gBrowser.getBrowserForDocument(domWin.top.document);
-  browser.loadURI(properties.gfycat.fetchEndpoint + request.URI.spec);
+  let redirectUrl = properties.gfycat.fetchEndpoint + request.URI.spec;
+  let browserWindow = windowUtils.getMostRecentWindow();
+  if (system.platform == "android") {
+    browserWindow.BrowserApp.loadURI(redirectUrl);
+  } else {
+    let gBrowser = browserWindow.gBrowser;
+    let domWin = getWindowForRequest(request);
+    let browser = gBrowser.getBrowserForDocument(domWin.top.document);
+    browser.loadURI(redirectUrl);
+  }
 }
 
 function requestListener(event) {

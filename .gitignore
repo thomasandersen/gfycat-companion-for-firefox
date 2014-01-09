@@ -1,2 +1,5 @@
-*.xpi
 .DS_Store
+*.xpi
+*.log
+/dist/
+/node_modules/

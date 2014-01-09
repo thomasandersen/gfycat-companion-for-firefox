@@ -1,33 +1,9 @@
 {
   "name": "gfycat-companion-for-firefox",
-  "fullName": "gfycat Companion for Firefox",
-  "id": "jid1-WXgslz4jzyjBJw",
-  "description": "gfycat tools for Firefox. Icon by gfycat.com",
-  "author": "Thomas Andersen<thomas@mr-andersen.no>",
-  "license": "MPL 2.0",
-  "version": "0.3a6",
-  "icon": "data/images/icon-128.png",
-  "preferences": [
-    {
-      "name": "redirectDirectGifRequests",
-      "title": "Redirect gif requests to gfycat",
-      "description": "Automatically redirect to gfycat when a gif is directly requested",
-      "type": "bool",
-      "value": true
-    }, 
-    {
-      "name": "resImageViewerSupport",
-      "title": "Enable gfycat in RES image viewer",
-      "description": "Replaces gifs in the RES image viewer with gfycat videos (requires page refresh).",
-      "type": "bool",
-      "value": true
-    }, 
-    {
-      "name": "experimental",
-      "title": "Try experimental features",
-      "description": "Toggle experimental features",
-      "type": "bool",
-      "value": false
-    }
-  ]
+  "version": "0.1.0",
+  "devDependencies": {
+    "grunt": "~0.4.2",
+    "grunt-mozilla-addon-sdk": "0.3.2",
+    "grunt-contrib-copy": "~0.5.0"
+  }
 }
