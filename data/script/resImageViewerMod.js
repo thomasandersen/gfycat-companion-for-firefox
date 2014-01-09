@@ -73,7 +73,7 @@ function getImageSrc(gif) {
   return gif.getAttribute("data-gccfxOriginalSrc");
 }
 
-function urlEndsWithDotGif(url) {
+function isGif(url) {
   return /\.gif.*$/.test(url);
 }
 
@@ -240,7 +240,7 @@ function addLoaderBar(gif) {
 }
 
 function fetchVideo(gif) {
-  if (!urlEndsWithDotGif(gif.src)) {
+  if (!isGif(gif.src)) {
     cleanUp(gif);
     return;  
   }
