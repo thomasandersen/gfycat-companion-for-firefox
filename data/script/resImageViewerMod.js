@@ -28,8 +28,8 @@ self.port.on("gfyInfoFetchSuccess", (gfyInfo, gifKey, loadingMessage) => {
   addVideo(gfyInfo, gifKey, loadingMessage);
 });
 
-self.port.on("gfyInfoFetchError", (gfyInfo, gifKey, errorMessage) => {
-  fallbackToOriginalImage(gfyInfo, gifKey, errorMessage);
+self.port.on("gfyInfoFetchError", (gfyInfo, gifKey, errorMessage, showErrorMessage) => {
+  fallbackToOriginalImage(gfyInfo, gifKey, errorMessage, showErrorMessage);
 });
 
 function getImageViewerNode(gif) {
@@ -148,7 +148,7 @@ function createMessageNode(message) {
   return node;
 }
 
-function fallbackToOriginalImage(gfyInfo, gifKey, errorMessage) {
+function fallbackToOriginalImage(gfyInfo, gifKey, errorMessage, showErrorMessage) {
   let gif = gifmap.get(gifKey);
 
   console.error(errorMessage);
@@ -161,6 +161,16 @@ function fallbackToOriginalImage(gfyInfo, gifKey, errorMessage) {
   let newSrc = !src.contains("?") ? src + "?" : src + "&";
   newSrc += "gccfxDoRequest=1";
   gif.setAttribute("src", newSrc);
+
+  if (showErrorMessage) {
+    let messageNode = getMessageNode(gif);
+    if (messageNode) {
+      messageNode.parentNode.removeChild(messageNode);
+    }
+    messageNode = createMessageNode(errorMessage);
+    let anchor = getGifAnchorNode(gif);
+    anchor.parentNode.insertBefore(messageNode, anchor);
+  }
   
   gifmap.delete(gifKey);
 }
