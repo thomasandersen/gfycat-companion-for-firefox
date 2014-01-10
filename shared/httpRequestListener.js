@@ -7,7 +7,7 @@ let urlHelper = require("./urlHelper");
 
 exports.enable = (enable) => {
   return doEnable(enable);
-}
+};
 
 function doEnable(enable) {
   if (enable) {

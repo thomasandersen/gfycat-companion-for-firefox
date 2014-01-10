@@ -26,7 +26,7 @@ exports["test RES image viewer mod"] = function(assert, done) {
     test_onResImageViewerCollapse(assert, deferred);
     return deferred.promise;
   })
-  .then(done)
+  .then(done);
 };
 
 function test_onResImageViewerExpand(assert, deferred) {

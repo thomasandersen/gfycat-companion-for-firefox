@@ -10,7 +10,7 @@ Cu.import("resource://gre/modules/AddonManager.jsm");
 
 exports.enable = (enable) => {
   return doEnable(enable);
-}
+};
 
 let pageMod = null;
 let gWorker = null;
@@ -32,7 +32,7 @@ function doEnable(enable) {
     return;
   }
   AddonManager.getAddonByID(properties.res.addOnId, (addOn) => {
-    if (addOn && addOn.isActive == true) {
+    if (addOn && addOn.isActive) {
       enablePageMod();
     }
   });

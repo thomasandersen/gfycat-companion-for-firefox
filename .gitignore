@@ -3,3 +3,12 @@
 *.log
 /dist/
 /node_modules/
+
+# Copied by build
+desktop/lib/httpRequestListener.js
+desktop/lib/properties.js
+desktop/lib/urlHelper.js
+
+mobile/lib/httpRequestListener.js
+mobile/lib/properties.js
+mobile/lib/urlHelper.js

@@ -63,7 +63,7 @@ function getResGalleryControlsNode(gif) {
 function getResGalleryControlsNodeShimNode(gif) {
   let galleryControls = getResGalleryControlsNode(gif);
   try {
-    return galleryControls.querySelector(".gccfx-gallery-controls-shim")
+    return galleryControls.querySelector(".gccfx-gallery-controls-shim");
   } catch(ex) {
   }
   return null;
@@ -135,7 +135,7 @@ function initGalleryBrowse(resGalleryControls) {
       shim.style.pointerEvents = "none";
 
       fetchVideo(gif);
-    }
+    };
     nextButton.addEventListener("click", browse);
     prevButton.addEventListener("click", browse);
   }
@@ -277,7 +277,7 @@ function onImageViewerExpanded(imageViewerNode) {
   anchor.style.display = "none";
   let resGalleryControls = getResGalleryControlsNode(gif);
   if (resGalleryControls) {
-    initGalleryBrowse(resGalleryControls)
+    initGalleryBrowse(resGalleryControls);
   }
 
   fetchVideo(gif, null);

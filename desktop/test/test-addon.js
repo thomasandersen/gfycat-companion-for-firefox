@@ -28,7 +28,7 @@ exports["test context menu should have two gfycat menu items when comtext clicki
     test_contextMenuShouldHaveTwoMenuItemsWhenClickingNode(getAnchorNode(), assert, deferred);
     return deferred.promise;
   })
-  .then(done)
+  .then(done);
 };
 
 exports["test context menu should have two gfycat menu items when comtext clicking an image node"] = function(assert, done) {
@@ -38,13 +38,13 @@ exports["test context menu should have two gfycat menu items when comtext clicki
     test_contextMenuShouldHaveTwoMenuItemsWhenClickingNode(getImageNode(), assert, deferred);
     return deferred.promise;
   })
-  .then(done)
+  .then(done);
 };
 
 exports["test browser should redirect to gfycat service when a gif is directly requested"] = function(assert, done) {
   loadTestPage(assert)
   .then(test_gifRequestShouldBeRedirectedToGfycat)
-  .then(done)
+  .then(done);
 };
 
 exports["test Copy as gfycat URL context menu item"] = function(assert, done) {
@@ -54,7 +54,7 @@ exports["test Copy as gfycat URL context menu item"] = function(assert, done) {
     test_copyGfyCatUrlMenuItem(assert, deferred);
     return deferred.promise;
   })
-  .then(done)
+  .then(done);
 };
 
 exports["test Upload to gfycat context menu item"] = function(assert, done) {
@@ -64,7 +64,7 @@ exports["test Upload to gfycat context menu item"] = function(assert, done) {
     test_uploadToGfyCatMenuItem(assert, deferred);
     return deferred.promise;
   })
-  .then(done)
+  .then(done);
 };
 
 function test_contextMenuShouldHaveTwoMenuItemsWhenClickingNode(node, assert, deferred) {
@@ -79,7 +79,7 @@ function test_contextMenuShouldHaveTwoMenuItemsWhenClickingNode(node, assert, de
     
     contextMenu.hidePopup();
     deferred.resolve(assert);
-  }, 300);
+  });
 
   return deferred.promise;
 }
@@ -180,11 +180,11 @@ function getContentAreaContextMenu() {
 }
 
 function getUploadToGfyCatMenuItem(contextMenu) {
-  return contextMenu.querySelector("menuitem[value='gccfx-openWithGfyCat']")
+  return contextMenu.querySelector("menuitem[value='gccfx-openWithGfyCat']");
 }
 
 function getCopyAsGfyCatUrlMenuItem(contextMenu) {
-  return contextMenu.querySelector("menuitem[value='gccfx-menuItemCopyAsGfycatUrl']")
+  return contextMenu.querySelector("menuitem[value='gccfx-menuItemCopyAsGfycatUrl']");
 }
 
 function getAnchorNode() {
