@@ -28,8 +28,8 @@ self.port.on("gfyInfoFetchSuccess", (gfyInfo, gifKey, loadingMessage) => {
   addVideo(gfyInfo, gifKey, loadingMessage);
 });
 
-self.port.on("gfyInfoFetchError", (gfyInfo, gifKey, errorMessage, showErrorMessage) => {
-  fallbackToOriginalImage(gfyInfo, gifKey, errorMessage, showErrorMessage);
+self.port.on("gfyInfoFetchError", (gifKey, errorMessage, showErrorMessage) => {
+  fallbackToOriginalImage(gifKey, errorMessage, showErrorMessage);
 });
 
 function getImageViewerNode(gif) {
@@ -148,7 +148,7 @@ function createMessageNode(message) {
   return node;
 }
 
-function fallbackToOriginalImage(gfyInfo, gifKey, errorMessage, showErrorMessage) {
+function fallbackToOriginalImage(gifKey, errorMessage, showErrorMessage) {
   let gif = gifmap.get(gifKey);
 
   console.error(errorMessage);
@@ -241,7 +241,7 @@ function addLoaderBar(gif) {
   }
   bar = document.createElement("div");
   bar.setAttribute("class", "gccfx-loader-bar gccfx-loader-bar-background gccfx-loader-animation");
-  bar.textContent = "Contacting gfycat";
+  bar.textContent = "gfycat is transcoding the gif";
   let imageViewerNode = getImageViewerNode(gif);
   
   let anchor = getGifAnchorNode(gif);
@@ -250,11 +250,6 @@ function addLoaderBar(gif) {
 }
 
 function fetchVideo(gif) {
-  if (!isGif(gif.src)) {
-    cleanUp(gif);
-    return;  
-  }
-  
   // Add the loader bar.
   addLoaderBar(gif);
 
@@ -263,7 +258,7 @@ function fetchVideo(gif) {
   gifmap.set(gifKey, gif);
 
   // Tell the add-on to fetch the info.
-  self.port.emit("fetchGfyInfo", encodeURIComponent(gif.src), gifKey);
+  self.port.emit("fetchGfyInfo", gif.src, gifKey);
 }
 
 function onImageViewerExpanded(imageViewerNode) {
