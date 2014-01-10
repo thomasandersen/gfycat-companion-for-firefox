@@ -31,63 +31,63 @@ function doEnable(enable) {
   }
   AddonManager.getAddonByID(properties.res.addOnId, (addOn) => {
     if (addOn && addOn.isActive) {
-      enablePageMod();
+      enableResPageMod();
     }
   });
 }
 
-function checkContentTypeBeforeRequestingGfyInfo(gifUrl, gifKey, worker) {
+function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
   Request({
     url: gifUrl,
     onComplete: (response) => {
       let contentType = response.headers["Content-Type"];
       if (contentType.toLowerCase().contains("gif")) {
-        requestGfyInfo(gifUrl, gifKey, worker);
+        requestGfyTranscoder(gifUrl, gifKey, worker);
       } else {
-        onError(gifKey, worker, "Could not convert " + urlHelper.getFileExtension(gifUrl) + " to gfycat video. Displaying original image", false);
+        onTranscodeError(gifKey, worker, "Could not transform " + urlHelper.getFileExtension(gifUrl) + " to gfycat video. Displaying original image", false);
       }
     }
   }).head();
 }
 
-function requestGfyInfo(gifUrl, gifKey, worker) {
+function requestGfyTranscoder(gifUrl, gifKey, worker) {
   let url = properties.gfycat.transcodeEndpoint +  hasher.sha1(gifUrl).substring(0,9) + "?fetchUrl=" + gifUrl;
   Request({
     url: url,
     onComplete: (response) => {
-      resolveGfyInfoResponse(response, gifUrl, gifKey, worker);
+      resolveTranscodingResponse(response, gifUrl, gifKey, worker);
     }
   }).get();
 }
 
-function resolveGfyInfoResponse(response, requestedUrl, gifKey, worker) {
+function resolveTranscodingResponse(response, requestedUrl, gifKey, worker) {
   console.log("gfycat http response: " + response.status, response.json);
 
   if (response.status >= 400) {
-    onError(gifKey, worker, "Something went wrong. Server responded with: Status " + repsonse.status + ", " + response.statusText, false);
+    onTranscodeError(gifKey, worker, "Something went wrong. Server responded with: Status " + repsonse.status + ", " + response.statusText, false);
   } else if (response.json.error) {
-    onError(gifKey, worker, "Could not convert gif. " + response.json.error, true);
+    onTranscodeError(gifKey, worker, "Could not convert gif. " + response.json.error, true);
   } else {
     // Success
-    let gfyInfo = response.json;
-    let bytesSaved = getBandwidthSavedInMB(gfyInfo);
+    let transcodingJson = response.json;
+    let bytesSaved = getBandwidthSavedInMB(transcodingJson);
     let message = "About " + bytesSaved.toPrecision(2) + " MB of bandwidth was saved";
     if (bytesSaved < 0) {
-      message = "The gfycat video file size (" + gfyInfo.gfysize + " Bytes) is actually larger than the gif (" + gfyInfo.gifSize + " Bytes)";
+      message = "The gfycat video file size (" + transcodingJson.gfysize + " Bytes) is actually larger than the gif (" + transcodingJson.gifSize + " Bytes)";
     }
-    onSuccess(response, gifKey, worker, message);
+    onTranscodeSuccess(response, gifKey, worker, message);
   }
 }
 
-function onSuccess(response, gifKey, worker, loadingMessage) {
-  worker.port.emit("gfyInfoFetchSuccess", response.json, gifKey, loadingMessage);
+function onTranscodeSuccess(response, gifKey, worker, loadingMessage) {
+  worker.port.emit("transcodeSuccess", response.json, gifKey, loadingMessage);
 }
 
-function onError(gifKey, worker, errorMessage, showErrorMessage) {
-  worker.port.emit("gfyInfoFetchError", gifKey, errorMessage, showErrorMessage);
+function onTranscodeError(gifKey, worker, errorMessage, showErrorMessage) {
+  worker.port.emit("transcodeError", gifKey, errorMessage, showErrorMessage);
 }
 
-function enablePageMod() {
+function enableResPageMod() {
   pageMod = PageMod({
     include: ["*.reddit.com"],
     attachTo: ["existing", "top"],
@@ -95,8 +95,8 @@ function enablePageMod() {
     contentStyleFile: self.data.url("css/resImageViewerMod.css"),
     onAttach: function(worker) {
       gWorker = worker;
-      worker.port.on("fetchGfyInfo", (gifUrl, gifKey) => {
-        checkContentTypeBeforeRequestingGfyInfo(gifUrl, gifKey, worker);
+      worker.port.on("requestGfyTranscoder", (gifUrl, gifKey) => {
+        checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker);
       });
     },
     contentScriptWhen: "ready"
@@ -108,4 +108,3 @@ function getBandwidthSavedInMB(gfyInfo) {
   let gfySize = gfyInfo.gfysize;
   return (gifSize - gfySize) / 1024 / 1024;
 }
-

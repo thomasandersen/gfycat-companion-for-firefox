@@ -21,7 +21,7 @@ exports["test direct gif request should redirect to gfycat"] = function(assert, 
   .then(done);
 };
 
-function test_gifRequestShouldBeRedirectedToGfycat(assert, deferred) {
+function test_gifRequestShouldBeRedirectedToGfycat(assert) {
   let deferred = promise.defer();
 
   // Wait for response from gfycat service.

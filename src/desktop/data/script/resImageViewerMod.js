@@ -4,12 +4,6 @@
  * This script runs only when the RES add-on is installed (see lib/main.js).
  * Sets up listeners for when the image viewer is expaned or collapsed
  * Tries to replace the image viewer's gif with a gfycat video.
- *
- * Todo: Research support multiple images in image viewer.
- *       Test page: http://www.reddit.com/r/gifs/comments/1ty6ft/stereographic_3d_drawings/
- *
- * Todo: Should we modify .RESImagePlaceholder ?
- *
  */
 
 let gifKey = -1;
@@ -24,12 +18,12 @@ self.port.on("resImageViewerSupportDisabled", () => {
   isResImageViewerSupportDisabled = true;
 });
 
-self.port.on("gfyInfoFetchSuccess", (gfyInfo, gifKey, loadingMessage) => {
-  addVideo(gfyInfo, gifKey, loadingMessage);
+self.port.on("transcodeSuccess", (transcodingJson, gifKey, loadingMessage) => {
+  replaceGifWithVideo(transcodingJson, gifKey, loadingMessage);
 });
 
-self.port.on("gfyInfoFetchError", (gifKey, errorMessage, showErrorMessage) => {
-  fallbackToOriginalImage(gifKey, errorMessage, showErrorMessage);
+self.port.on("transcodeError", (gifKey, errorMessage, showErrorMessage) => {
+  onTranscodeError(gifKey, errorMessage, showErrorMessage);
 });
 
 function getImageViewerNode(gif) {
@@ -148,7 +142,7 @@ function createMessageNode(message) {
   return node;
 }
 
-function fallbackToOriginalImage(gifKey, errorMessage, showErrorMessage) {
+function onTranscodeError(gifKey, errorMessage, showErrorMessage) {
   let gif = gifmap.get(gifKey);
 
   console.error(errorMessage);
@@ -175,7 +169,7 @@ function fallbackToOriginalImage(gifKey, errorMessage, showErrorMessage) {
   gifmap.delete(gifKey);
 }
 
-function addVideo(gfyInfo, gifKey, loadingMessage) {
+function replaceGifWithVideo(transcodingJson, gifKey, loadingMessage) {
   let gif = gifmap.get(gifKey);
 
   let imageViewerNode = getImageViewerNode(gif);
@@ -192,7 +186,7 @@ function addVideo(gfyInfo, gifKey, loadingMessage) {
   video.setAttribute("loop", "true");
   video.setAttribute("autoplay", "true");
   video.setAttribute("controls", "true");
-  video.setAttribute("width", gfyInfo.gifWidth);
+  video.setAttribute("width", transcodingJson.gifWidth);
   video.setAttribute("style", "display: block");
   video.setAttribute("class", "gccfx-video");
   video.addEventListener("loadeddata", () => {
@@ -228,7 +222,7 @@ function addVideo(gfyInfo, gifKey, loadingMessage) {
 
   let source = document.createElement("source");
   source.setAttribute("type", "video/webm");
-  source.setAttribute("src", gfyInfo.webmUrl);
+  source.setAttribute("src", transcodingJson.webmUrl);
   video.appendChild(source);
 
   imageViewerNode.appendChild(video);
@@ -241,7 +235,7 @@ function addLoaderBar(gif) {
   }
   bar = document.createElement("div");
   bar.setAttribute("class", "gccfx-loader-bar gccfx-loader-bar-background gccfx-loader-animation");
-  bar.textContent = "gfycat is transcoding the gif";
+  bar.textContent = "gfycat is transforming the gif";
   let imageViewerNode = getImageViewerNode(gif);
   
   let anchor = getGifAnchorNode(gif);
@@ -258,7 +252,7 @@ function fetchVideo(gif) {
   gifmap.set(gifKey, gif);
 
   // Tell the add-on to fetch the info.
-  self.port.emit("fetchGfyInfo", gif.src, gifKey);
+  self.port.emit("requestGfyTranscoder", gif.src, gifKey);
 }
 
 function onImageViewerExpanded(imageViewerNode) {
