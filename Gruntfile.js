@@ -5,8 +5,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-copy");
   
   var SHARED_DIR = "shared";
-  var DESKTOP_DIR = "desktop";
-  var MOBILE_DIR = "mobile";
+  var DESKTOP_DIR = "src/desktop";
+  var MOBILE_DIR = "src/mobile";
   var DIST_DIR = "dist";
 
   grunt.initConfig({
