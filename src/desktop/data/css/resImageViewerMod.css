@@ -1,24 +1,24 @@
 @keyframes gccfxLoaderAnimation { 
   0% { 
-    background-size: 0 30px; 
+    background-size: 0 30px;
     opacity: 1;
   } 
   90% { 
-    background-size: 100% 30px; 
+    background-size: 100% 30px;
     opacity: 1;
   }
   100% {
-    background-size: 100% 30px; 
+    background-size: 100% 30px;
     opacity: 0;
   }
 }
 
 .gccfx-loader-animation { 
-  animation-duration: 3s; animation-name: gccfxLoaderAnimation; animation-iteration-count: infinite; 
+  animation-duration: 3s; animation-name: gccfxLoaderAnimation; animation-iteration-count: infinite;
 }
 
 .gccfx-loader-bar-background { 
   background-repeat: no-repeat;
-  background-size: 1px 30px; 
+  background-size: 1px 30px;
   background-image:  linear-gradient(to right, rgba(206,227,248,0.3) 0%,rgba(206,227,248,1) 100%);
 }

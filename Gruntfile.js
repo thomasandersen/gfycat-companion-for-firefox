@@ -48,7 +48,7 @@ module.exports = function(grunt) {
           "mozilla-addon-sdk": "1_15",
           "extension_dir": DESKTOP_DIR,
           "command": "test",
-          "arguments": "-p ~/mozilla-profiles/gfycat-companion --static-args='{\"testPage\":\"http://mr-andersen.no/gfcycat-companion-test/index.html\"}'"
+          "arguments": "-p ~/mozilla-profiles/gfycat-companion --static-args={\"testPage\":\"http://mr-andersen.no/gfcycat-companion-test/index.html\"}"
         }
       },
 
@@ -117,6 +117,11 @@ module.exports = function(grunt) {
   grunt.registerTask("run_mobile", [
     "copy:shared",
     "mozilla-cfx:run_mobile"
+  ]);
+
+  grunt.registerTask("test_desktop", [
+    "copy:shared",
+    "mozilla-cfx:test_desktop"
   ]);
   
   grunt.registerTask("lint", [
