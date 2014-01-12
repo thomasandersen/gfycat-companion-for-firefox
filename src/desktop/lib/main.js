@@ -1,6 +1,6 @@
 let self = require("sdk/self");
 let properties = require("./properties");
-let httpRequestListener = require("./httpRequestListener");
+let gifRequestBlocker = require("./gifRequestBlocker");
 let resImageViewerModHelper = require("./resImageViewerModHelper");
 let simplePrefs = require("sdk/simple-prefs");
 let clipboard = require("sdk/clipboard");
@@ -14,13 +14,13 @@ const CONTEXT_MENU_CONTEXT_SELECTOR = "img[src*=\".gif\"], a[href*=\".gif\"]";
 // ------------------------------------------------------------------------------
 
 simplePrefs.on("redirectDirectGifRequests", () => {
-  httpRequestListener.enable(simplePrefs.prefs.redirectDirectGifRequests);
+  gifRequestBlocker.enable(simplePrefs.prefs.redirectDirectGifRequests);
 });
 
 simplePrefs.on("resImageViewerSupport", () => {
   let enable = simplePrefs.prefs.resImageViewerSupport;
   resImageViewerModHelper.enable(enable);
-  httpRequestListener.enable(enable);
+  gifRequestBlocker.enable(enable);
 });
 
 // ------------------------------------------------------------------------------
@@ -53,5 +53,5 @@ contextMenu.Item({
 // Start
 // ------------------------------------------------------------------------------
 
-httpRequestListener.enable(simplePrefs.prefs.redirectDirectGifRequests);
+gifRequestBlocker.enable(simplePrefs.prefs.redirectDirectGifRequests);
 resImageViewerModHelper.enable(simplePrefs.prefs.resImageViewerSupport);

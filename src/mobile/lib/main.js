@@ -1,3 +1,3 @@
-let httpRequestListener = require("./httpRequestListener");
+let gifRequestBlocker = require("./gifRequestBlocker");
 
-httpRequestListener.enable(true);
+gifRequestBlocker.enable(true);

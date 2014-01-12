@@ -10,7 +10,7 @@ module.exports = function(grunt) {
   var MOBILE_DIR = "src/mobile";
   var DIST_DIR = "dist";
 
-  var SHARED_FILES_TMP = ["/lib/httpRequestListener.js", "/lib/properties.js", "/lib/urlHelper.js"];
+  var SHARED_FILES_TMP = ["/lib/gifRequestBlocker.js", "/lib/properties.js", "/lib/urlHelper.js"];
   var SHARED_FILES = [];
   for (var i = 0; i < SHARED_FILES_TMP.length; i++) {
     SHARED_FILES.push(DESKTOP_DIR + SHARED_FILES_TMP[i]);
