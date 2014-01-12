@@ -5,7 +5,6 @@
 let { Cu } = require("chrome");
 let self = require("sdk/self");
 let properties = require("./properties");
-let hasher = require("./sha1");
 let urlHelper = require("./urlHelper");
 let PageMod = require("sdk/page-mod").PageMod;
 let Request = require("sdk/request").Request;
@@ -51,7 +50,7 @@ function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
 }
 
 function requestGfyTranscoder(gifUrl, gifKey, worker) {
-  let url = properties.gfycat.transcodeEndpoint +  hasher.sha1(gifUrl).substring(0,9) + "?fetchUrl=" + gifUrl;
+  let url = properties.gfycat.transcodeEndpoint +  createPsudoRandomStr(5) + "?fetchUrl=" + gifUrl;
   Request({
     url: url,
     onComplete: (response) => {
@@ -101,6 +100,15 @@ function enableResPageMod() {
     },
     contentScriptWhen: "ready"
   });
+}
+
+function createPsudoRandomStr(stringLength) {
+  let text = "";
+  let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for( let i=0; i < stringLength; i++ ) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
 }
 
 function getBandwidthSavedInMB(gfyInfo) {
