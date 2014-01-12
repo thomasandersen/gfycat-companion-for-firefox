@@ -20,10 +20,15 @@ exports.gifHostingServices = [
   "gifti.me",
   "reactiongifs.com",
   "ifcdn.com",
-  "ifcdn.com",
   "forgifs.com",
   "gifti.me",
-  "googleusercontent.com"
+  "googleusercontent.com",
+  "gifbin.com",
+  "gifply.com",
+  "imgflip.com",
+  "abload.de",
+  "sta.sh",
+  "reactiongifs.us"
 ];
 
  

@@ -17,6 +17,10 @@
   animation-duration: 3s; animation-name: gccfxLoaderAnimation; animation-iteration-count: infinite;
 }
 
+.gccfx-video {
+  transition: width 300ms;
+}
+
 .gccfx-loader-bar-background { 
   background-repeat: no-repeat;
   background-size: 1px 30px;

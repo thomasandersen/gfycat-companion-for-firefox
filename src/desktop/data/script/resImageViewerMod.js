@@ -46,6 +46,10 @@ function getVideoNode(gif) {
   return getImageViewerNode(gif).querySelector(".gccfx-video");
 }
 
+function getVideoSizeSlider(gif) {
+  return getImageViewerNode(gif).querySelector(".gccfx-video-size-slider");
+}
+
 function getResGalleryControlsNode(gif) {
   try {
     return getGifAnchorNode(gif).parentNode.parentNode.querySelector(".RESGalleryControls");
@@ -71,10 +75,20 @@ function isGif(url) {
   return /\.gif.*$/.test(url);
 }
 
+function removeDomNode(node) {
+  node.parentNode.removeChild(node);
+}
+
 function cleanUp(gif) {
   let video = getVideoNode(gif);
   if (video) {
-    video.parentNode.removeChild(video);
+    removeDomNode(video);
+  }
+
+  let videoResizer = getVideoSizeSlider(gif);
+  if (videoResizer) {
+    videoResizer.removeEventListener("change", onResize);
+    removeDomNode(videoResizer);
   }
 
   let shim = getResGalleryControlsNodeShimNode(gif);
@@ -92,12 +106,12 @@ function cleanUp(gif) {
 
   let loadingBarNode = getLoadingBarNode(gif);
   if (loadingBarNode) {
-    loadingBarNode.parentNode.removeChild(loadingBarNode);
+    removeDomNode(loadingBarNode);
   }
 
   let messageNode = getMessageNode(gif);
   if (messageNode) {
-    messageNode.parentNode.removeChild(messageNode);
+    removeDomNode(messageNode);
   }
 }
 
@@ -159,7 +173,7 @@ function onTranscodeError(gifKey, errorMessage, showErrorMessage) {
   if (showErrorMessage) {
     let messageNode = getMessageNode(gif);
     if (messageNode) {
-      messageNode.parentNode.removeChild(messageNode);
+      removeDomNode(messageNode);
     }
     messageNode = createMessageNode(errorMessage);
     let anchor = getGifAnchorNode(gif);
@@ -169,9 +183,26 @@ function onTranscodeError(gifKey, errorMessage, showErrorMessage) {
   gifmap.delete(gifKey);
 }
 
+function onResize(event) {
+  let resizer = event.target;
+  let video = resizer.nextSibling;
+  video.setAttribute("width", resizer.value);
+}
+
+function createImageResizeSlider() {
+  let range = document.createElement("input");
+  range.classList.add("gccfx-video-size-slider");
+  range.setAttribute("type", "range");
+  range.setAttribute("min", "150");
+  range.setAttribute("max", "640");
+  range.setAttribute("step", "1");
+  range.addEventListener("change", onResize);
+
+  return range;
+}
+
 function replaceGifWithVideo(transcodingJson, gifKey, loadingMessage) {
   let gif = gifmap.get(gifKey);
-
   let imageViewerNode = getImageViewerNode(gif);
   let video = imageViewerNode.querySelector("video");
 
@@ -179,7 +210,7 @@ function replaceGifWithVideo(transcodingJson, gifKey, loadingMessage) {
   getGifAnchorNode(gif).style.display = "none";
 
   if (video) {
-    video.parentNode.removeChild(video);
+    removeDomNode(video);
   }
 
   video = document.createElement("video");
@@ -195,23 +226,26 @@ function replaceGifWithVideo(transcodingJson, gifKey, loadingMessage) {
     // Display loading message.
     let loaderBar = getLoadingBarNode(gif);
     if (loaderBar) {
-      loaderBar.parentNode.removeChild(loaderBar);
+      removeDomNode(loaderBar);
     }
 
     // Add message
     let messageNode = getMessageNode(gif);
     if (messageNode) {
-      messageNode.parentNode.removeChild(messageNode);
+      removeDomNode(messageNode);
     }
     messageNode = createMessageNode(loadingMessage);
     video.parentNode.insertBefore(messageNode, video);
-    //imageViewerNode.appendChild(messageNode);
     
     // Make sure the gallery controls are enabled.
     let shim = getResGalleryControlsNodeShimNode(gif);
     if (shim) {
       shim.style.pointerEvents = "none";
     }
+
+    let videoResizer = createImageResizeSlider();
+    video.parentNode.insertBefore(videoResizer, video);
+    videoResizer.setAttribute("value", transcodingJson.gifWidth);
 
     gifmap.delete(gifKey);
 
@@ -231,7 +265,7 @@ function replaceGifWithVideo(transcodingJson, gifKey, loadingMessage) {
 function addLoaderBar(gif) {
   let bar = getLoadingBarNode(gif);
   if (bar) {
-    bar.parentNode.removeChild(bar);
+    removeDomNode(bar);
   }
   bar = document.createElement("div");
   bar.setAttribute("class", "gccfx-loader-bar gccfx-loader-bar-background gccfx-loader-animation");

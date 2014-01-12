@@ -36,6 +36,7 @@ function doEnable(enable) {
 }
 
 function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
+  console.log("checking content type", gifUrl);
   Request({
     url: gifUrl,
     onComplete: (response) => {
