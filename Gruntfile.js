@@ -3,11 +3,19 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-mozilla-addon-sdk");
   grunt.loadNpmTasks("grunt-contrib-copy");
+  grunt.loadNpmTasks("grunt-contrib-clean");
   
   var SHARED_DIR = "shared";
   var DESKTOP_DIR = "src/desktop";
   var MOBILE_DIR = "src/mobile";
   var DIST_DIR = "dist";
+
+  var SHARED_FILES_TMP = ["/lib/httpRequestListener.js", "/lib/properties.js", "/lib/urlHelper.js"];
+  var SHARED_FILES = [];
+  for (var i = 0; i < SHARED_FILES_TMP.length; i++) {
+    SHARED_FILES.push(DESKTOP_DIR + SHARED_FILES_TMP[i]);
+    SHARED_FILES.push(MOBILE_DIR + SHARED_FILES_TMP[i]);
+  }
 
   grunt.initConfig({
     "mozilla-addon-sdk": {
@@ -105,7 +113,9 @@ module.exports = function(grunt) {
         },
       },
       "files": ["Gruntfile.js", DESKTOP_DIR + "/**/*.js", MOBILE_DIR + "/**/*.js"]
-    }
+    },
+
+    "clean": SHARED_FILES
 
   });
 
