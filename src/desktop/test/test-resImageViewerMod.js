@@ -37,13 +37,20 @@ function test_onResImageViewerExpand(assert, deferred) {
   // Wait for video to load.
   wait(10000).then(() => {
     let video = pageDocument.querySelector(".gccfx-video");
+    let videoResizer = pageDocument.querySelector(".gccfx-video-size-slider");
     let gifImageAnchor = pageDocument.querySelector(".toggleImage ~ .madeVisible a.madeVisible");
     let gifImageAnchorDisplay = context.getWindow().getComputedStyle(gifImageAnchor).display;
     let loaderBar = pageDocument.querySelector(".gccfx-loader-bar");
     let messageNode = pageDocument.querySelector(".gccfx-message");
-    
+
     assert.ok(video != null, "The video node should exist.");
-    
+
+    assert.ok(videoResizer != null, "The video resizer node should exist.");
+
+    context.simulateChangeEvent(videoResizer, "614");
+
+    assert.equal(video.getAttribute("width"), "614", "After changing resizer value the video should be resized.");
+
     assert.ok(gifImageAnchorDisplay == "none", "The anchor for the original image should now be hidden.");
 
     assert.ok(loaderBar == null, "The loader bar node should now have been removed.");
@@ -62,12 +69,15 @@ function test_onResImageViewerCollapse(assert, deferred) {
   // Wait for element to collapse.
   wait(500).then(() => {
     let video = pageDocument.querySelector(".gccfx-video");
+    let videoResizer = pageDocument.querySelector(".gccfx-video-size-slider");
     let gifImageAnchor = pageDocument.querySelector(".toggleImage ~ .madeVisible a.madeVisible");
     let gifImageAnchorDisplay = context.getWindow().getComputedStyle(gifImageAnchor).display;
     let loaderBar = pageDocument.querySelector(".gccfx-loader-bar");
     let messageNode = pageDocument.querySelector(".gccfx-message");
     
     assert.ok(video == null, "The video node should not exist");
+    
+    assert.ok(videoResizer == null, "The video resizer should not exist");
 
     assert.ok(gifImageAnchorDisplay == "inline-block", "The original image should now be visible.");
 

@@ -18,7 +18,9 @@ simplePrefs.on("redirectDirectGifRequests", () => {
 });
 
 simplePrefs.on("resImageViewerSupport", () => {
-  resImageViewerModHelper.enable(simplePrefs.prefs.resImageViewerSupport);
+  let enable = simplePrefs.prefs.resImageViewerSupport;
+  resImageViewerModHelper.enable(enable);
+  httpRequestListener.enable(enable);
 });
 
 // ------------------------------------------------------------------------------

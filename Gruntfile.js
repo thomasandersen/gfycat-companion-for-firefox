@@ -135,6 +135,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask("release", [
+    "jshint",
     "copy:shared",
     "mozilla-cfx-xpi:release_desktop",
     "mozilla-cfx-xpi:release_mobile",

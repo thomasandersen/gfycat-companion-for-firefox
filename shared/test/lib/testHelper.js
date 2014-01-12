@@ -10,7 +10,8 @@ exports.wait = (ms) => {
 exports.context = {
   getWindow: getPageWindow,
   getDocument: getPageDocument,
-  simulateMouseEvent: simulateMouseEvent
+  simulateMouseEvent: simulateMouseEvent,
+  simulateChangeEvent: simulateChangeEvent
 };
 
 exports.createMouseEvent = (mouseEventType, doc) => {
@@ -47,4 +48,11 @@ function simulateMouseEvent(eventType, node) {
   false, false, false, false, 2, null);
 
   node.dispatchEvent(mouseEvent);
+}
+
+function simulateChangeEvent(node, value) {
+  node.setAttribute("value", value);
+  let htmlEvents = node.ownerDocument.createEvent("HTMLEvents");
+  htmlEvents.initEvent("change", false, true);
+  node.dispatchEvent(htmlEvents);
 }
