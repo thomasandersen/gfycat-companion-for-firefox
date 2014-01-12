@@ -3,6 +3,7 @@ let properties = require("./properties");
 let system = require("sdk/system");
 let systemEvents = require("sdk/system/events");
 let windowUtils = require("sdk/window/utils");
+let Request = require("sdk/request").Request;
 let urlHelper = require("./urlHelper");
 
 exports.enable = (enable) => {
@@ -41,8 +42,7 @@ function getWindowForRequest(request){
   return null;
 }
 
-function reditectToGfyCat(request) {
-  let redirectUrl = properties.gfycat.fetchEndpoint + request.URI.spec;
+function redirect(request, redirectUrl) {
   let browserWindow = windowUtils.getMostRecentWindow();
   if (system.platform == "android") {
     browserWindow.BrowserApp.loadURI(redirectUrl);
@@ -71,19 +71,41 @@ function requestListener(event) {
   }
 
   let isInitialDocument = isChannelInitialDocument(channel);
-  let isGif = urlHelper.isGif(url);
+  let isImage = urlHelper.isImage(url);
 
   // Redirect direct gif requests.
-  if (isInitialDocument && isGif) {
+  if (isInitialDocument && isImage) {
     console.log("direct request");
     channel.cancel(Cr.NS_BINDING_ABORTED);
-    reditectToGfyCat(request);
+
+    // Check if image is a gif by doing a head request.
+    // fixme: refactor and share with lib/resImageViewerModHelper
+    // todo: check if it is possible to read the first bytes of the file in order to determine if it is a gif animation.
+    Request({
+      url: url,
+      onComplete: (response) => {
+        let contentType = response.headers["Content-Type"];
+        if (contentType.toLowerCase().contains("gif")) {
+          console.log("Is gif");
+          redirect(request, (properties.gfycat.fetchEndpoint + request.URI.spec));
+        } else {
+          console.log("Is not gif");
+          redirect(request, request.URI.spec);
+        }
+      }
+    }).head();
+    
   }
 
+  // Make sure inline requests to gif hosting services requested by reddit.com is canceled.
+  // RES image viewer will create a video request instead. 
+  // fixme: should listen for preference: resImageViewerSupport
+  let isGif = urlHelper.isGif(url);
   let isRequestedByReddit = request.referrer && request.referrer.host == "www.reddit.com";
 
-  // Cancel inline requests to gif hosting services.
   if (isGif && isRequestedByReddit) {
+
+    // Must be one of the hosting services.
     let domain = urlHelper.getDomain(request.URI.host);
     if (!isInitialDocument && properties.gifHostingServices.indexOf(domain) > -1) {
       console.log("cancel request to " + domain + " gif");

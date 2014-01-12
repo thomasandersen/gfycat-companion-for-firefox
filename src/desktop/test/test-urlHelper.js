@@ -30,4 +30,14 @@ exports["file should be .gif"] = function(assert, done) {
   done();
 };
 
+exports["file should be an image"] = function(assert, done) {
+  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.gif"), true, "File should be a image");
+  assert.equal(urlHelper.isGif("http://i.imgur.com/Ae1ehbK.png"), true, "File should be a image");
+  assert.equal(urlHelper.isGif("http://i.imgur.com/Cc7fEMH.jpg"), true, "File should be a image");
+  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.gif?param=1"), true, "File should be a image");
+  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.png?param=1&ost=3#top"), true, "File should be a image");
+  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.jpg#goto=2"), true, "File should be a image");
+  done();
+};
+
 require("sdk/test").run(exports);

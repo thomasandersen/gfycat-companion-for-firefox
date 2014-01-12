@@ -7,5 +7,9 @@ exports.getFileExtension = (url) => {
 };
 
 exports.isGif = (url) => {
-  return /\.gif.*$/.test(url);
+  return /\.gif.*$/i.test(url);
+};
+
+exports.isImage = (url) => {
+  return /\.(gif|jpg|jpeg|png).*$/i.test(url);
 };
