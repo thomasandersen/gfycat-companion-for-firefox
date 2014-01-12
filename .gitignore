@@ -5,10 +5,10 @@
 /node_modules/
 
 # Copied by build
-desktop/lib/httpRequestListener.js
-desktop/lib/properties.js
-desktop/lib/urlHelper.js
+src/desktop/lib/httpRequestListener.js
+src/desktop/lib/properties.js
+src/desktop/lib/urlHelper.js
 
-mobile/lib/httpRequestListener.js
-mobile/lib/properties.js
-mobile/lib/urlHelper.js
+src/mobile/lib/httpRequestListener.js
+src/mobile/lib/properties.js
+src/mobile/lib/urlHelper.js
