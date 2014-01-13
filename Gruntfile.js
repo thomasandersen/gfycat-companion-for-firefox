@@ -5,16 +5,16 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-clean");
   
-  var SHARED_DIR = "shared";
+  var SHARED_DIR = "src/shared";
   var DESKTOP_DIR = "src/desktop";
   var MOBILE_DIR = "src/mobile";
   var DIST_DIR = "dist";
 
-  var SHARED_FILES_TMP = ["/lib/gifRequestBlocker.js", "/lib/properties.js", "/lib/urlHelper.js"];
-  var SHARED_FILES = [];
-  for (var i = 0; i < SHARED_FILES_TMP.length; i++) {
-    SHARED_FILES.push(DESKTOP_DIR + SHARED_FILES_TMP[i]);
-    SHARED_FILES.push(MOBILE_DIR + SHARED_FILES_TMP[i]);
+  var JS_FILES_TO_REMOVE = ["/lib/gifRequestBlocker.js", "/lib/properties.js", "/lib/urlHelper.js"];
+  var FILES_TO_REMOVE = [];
+  for (var i = 0; i < JS_FILES_TO_REMOVE.length; i++) {
+    FILES_TO_REMOVE.push(DESKTOP_DIR + JS_FILES_TO_REMOVE[i]);
+    FILES_TO_REMOVE.push(MOBILE_DIR + JS_FILES_TO_REMOVE[i]);
   }
 
   grunt.initConfig({
@@ -115,7 +115,7 @@ module.exports = function(grunt) {
       "files": ["Gruntfile.js", DESKTOP_DIR + "/**/*.js", MOBILE_DIR + "/**/*.js"]
     },
 
-    "clean": SHARED_FILES
+    "clean": FILES_TO_REMOVE
 
   });
 
