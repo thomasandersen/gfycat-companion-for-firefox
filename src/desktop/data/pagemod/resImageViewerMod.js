@@ -67,10 +67,6 @@ function getResGalleryControlsNodeShimNode(gif) {
   return null;
 }
 
-function getImageSrc(gif) {
-  return gif.getAttribute("data-gccfxOriginalSrc");
-}
-
 function isGif(url) {
   return /\.gif.*$/.test(url);
 }

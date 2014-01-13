@@ -90,7 +90,7 @@ function requestListener(event) {
           redirect(request, (properties.gfycat.fetchEndpoint + request.URI.spec));
         } else {
           console.log("Is not gif");
-          redirect(request, request.URI.spec);
+          redirect(request, urlHelper.addParameterToUrl("gccfxDoRequest", "1", request.URI.spec));
         }
       }
     }).head();

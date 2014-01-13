@@ -20,7 +20,7 @@ exports["test get file extension from url"] = function(assert, done) {
   done();
 };
 
-exports["file should be .gif"] = function(assert, done) {
+exports["test file should be gif"] = function(assert, done) {
   assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.gif"), true, "File should be gif");
   assert.equal(urlHelper.isGif("http://i.imgur.com/Ae1ehbK.png"), false, "File should not be gif");
   assert.equal(urlHelper.isGif("http://i.imgur.com/Cc7fEMH.jpg"), false, "File should not be gif");
@@ -30,13 +30,19 @@ exports["file should be .gif"] = function(assert, done) {
   done();
 };
 
-exports["file should be an image"] = function(assert, done) {
-  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.gif"), true, "File should be a image");
-  assert.equal(urlHelper.isGif("http://i.imgur.com/Ae1ehbK.png"), true, "File should be a image");
-  assert.equal(urlHelper.isGif("http://i.imgur.com/Cc7fEMH.jpg"), true, "File should be a image");
-  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.gif?param=1"), true, "File should be a image");
-  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.png?param=1&ost=3#top"), true, "File should be a image");
-  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.jpg#goto=2"), true, "File should be a image");
+exports["test file should be an image type"] = function(assert, done) {
+  assert.equal(urlHelper.isImage("http://i.minus.com/iJEuFMVd3l0AU.gif"), true, "File should be a image");
+  assert.equal(urlHelper.isImage("http://i.imgur.com/Ae1ehbK.png"), true, "File should be a image");
+  assert.equal(urlHelper.isImage("http://i.imgur.com/Cc7fEMH.jpg"), true, "File should be a image");
+  assert.equal(urlHelper.isImage("http://i.minus.com/iJEuFMVd3l0AU.gif?param=1"), true, "File should be a image");
+  assert.equal(urlHelper.isImage("http://i.minus.com/iJEuFMVd3l0AU.png?param=1&ost=3#top"), true, "File should be a image");
+  assert.equal(urlHelper.isImage("http://i.minus.com/iJEuFMVd3l0AU.jpg#goto=2"), true, "File should be a image");
+  done();
+};
+
+exports["test parameter should be added to url"] = function(assert, done) {
+  assert.equal(urlHelper.addParameterToUrl("flag", "1", "http://i.imgur.com/xyz.gif"), "http://i.imgur.com/xyz.gif?flag=1", "Parameter should be added to url properly");
+  assert.equal(urlHelper.addParameterToUrl("key", "58473", "http://i.imgur.com/xyz.gif?flag=1"), "http://i.imgur.com/xyz.gif?flag=1&key=58473", "Parameter should be added to url properly");
   done();
 };
 
