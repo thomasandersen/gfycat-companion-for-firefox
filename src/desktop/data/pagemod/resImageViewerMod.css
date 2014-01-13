@@ -21,6 +21,11 @@
   transition: width 300ms;
 }
 
+.gccfx-loader-bar, 
+.gccfx-message {
+  font-size: x-small;
+}
+
 .gccfx-loader-bar-background { 
   background-repeat: no-repeat;
   background-size: 1px 30px;

@@ -56,6 +56,7 @@ module.exports = function(grunt) {
           "mozilla-addon-sdk": "1_15",
           "extension_dir": DESKTOP_DIR,
           "command": "test",
+          "pipe_output": true,
           "arguments": "-p ~/mozilla-profiles/gfycat-companion --static-args={\"testPage\":\"http://mr-andersen.no/gfcycat-companion-test/index.html\"}"
         }
       },
@@ -65,6 +66,7 @@ module.exports = function(grunt) {
           "mozilla-addon-sdk": "1_15",
           "extension_dir": MOBILE_DIR,
           "command": "test",
+          "pipe_output": true,
           "arguments": "-a fennec-on-device -b adb --mobile-app firefox --force-mobile"
         }
       }
@@ -92,8 +94,8 @@ module.exports = function(grunt) {
     "copy": {
       "shared": {
         "files": [
-          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/*.js"], "dest": DESKTOP_DIR + "/lib/" },
-          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/*.js"], "dest": MOBILE_DIR + "/lib/" },
+          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/packages/*.js"], "dest": DESKTOP_DIR + "/lib/packages/" },
+          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/packages/*.js"], "dest": MOBILE_DIR + "/lib/packages/" },
           { "expand": true, "flatten": true, "src": [SHARED_DIR + "/images/*.png"], "dest": DESKTOP_DIR + "/data/images/" },
           { "expand": true, "flatten": true, "src": [SHARED_DIR + "/images/*.png"], "dest": MOBILE_DIR + "/data/images/" },
           { "expand": true, "flatten": true, "src": [SHARED_DIR + "/test/lib/*.js"], "dest": DESKTOP_DIR + "/test/lib/" },

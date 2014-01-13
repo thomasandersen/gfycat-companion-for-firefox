@@ -67,10 +67,6 @@ function getResGalleryControlsNodeShimNode(gif) {
   return null;
 }
 
-function isGif(url) {
-  return /\.gif.*$/.test(url);
-}
-
 function removeDomNode(node) {
   node.parentNode.removeChild(node);
 }
@@ -269,7 +265,7 @@ function addLoaderBar(gif) {
   }
   bar = document.createElement("div");
   bar.setAttribute("class", "gccfx-loader-bar gccfx-loader-bar-background gccfx-loader-animation");
-  bar.textContent = "gfycat is transforming the gif";
+  bar.textContent = "gfycat is working";
   let imageViewerNode = getImageViewerNode(gif);
   
   let anchor = getGifAnchorNode(gif);

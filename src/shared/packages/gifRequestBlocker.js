@@ -1,10 +1,10 @@
 let { Cc, Ci, Cr } = require("chrome");
-let properties = require("./properties");
 let system = require("sdk/system");
 let systemEvents = require("sdk/system/events");
 let windowUtils = require("sdk/window/utils");
 let Request = require("sdk/request").Request;
-let urlHelper = require("./urlHelper");
+let properties = require("packages/properties");
+let urlHelper = require("packages/urlHelper");
 
 exports.enable = (enable) => {
   return doEnable(enable);
@@ -76,25 +76,19 @@ function requestListener(event) {
   // Redirect direct gif requests.
   if (isInitialDocument && isImage) {
     console.log("direct request");
+    
     channel.cancel(Cr.NS_BINDING_ABORTED);
 
-    // Check if image is a gif by doing a head request.
-    // fixme: refactor and share with lib/resImageViewerModHelper
-    // fixme: instead of reading the content-type we should try to read the file somehow.
-    Request({
-      url: url,
-      onComplete: (response) => {
+    let isGifCallback = () => {
+      redirect(request, (properties.gfycat.fetchEndpoint + request.URI.spec));
+    };
 
-        let contentType = response.headers["Content-Type"];
-        if (contentType.toLowerCase().contains("gif")) {
-          console.log("is gif", response);
-          //redirect(request, (properties.gfycat.fetchEndpoint + request.URI.spec));
-        } else {
-          //redirect(request, request.URI.spec);
-        }
-      }
-    }).head();
-    
+    let isGNotifCallback = () => {
+      redirect(request, urlHelper.addParameterToUrl("gccfxDoRequest", "1", request.URI.spec));
+    };
+
+    // Check if image is a gif by doing a head request.
+    urlHelper.isGifContentType(url, isGifCallback, isGNotifCallback);
   }
 
   // Make sure inline requests to gif hosting services requested by reddit.com is canceled.
@@ -106,7 +100,7 @@ function requestListener(event) {
   if (isGif && isRequestedByReddit) {
 
     // Must be one of the hosting services.
-    let domain = urlHelper.getDomain(request.URI.host);
+    let domain = urlHelper.getDomainForHost(request.URI.host);
     if (!isInitialDocument && properties.gifHostingServices.indexOf(domain) > -1) {
       console.log("cancel request to " + domain + " gif");
       channel.cancel(Cr.NS_BINDING_ABORTED);

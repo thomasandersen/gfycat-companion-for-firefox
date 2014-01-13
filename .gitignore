@@ -5,11 +5,6 @@
 /node_modules/
 
 # Copied by build
-src/desktop/lib/gifRequestBlocker.js
-src/desktop/lib/properties.js
-src/desktop/lib/urlHelper.js
+src/desktop/lib/packages
+src/mobile/lib/packages
 
-
-src/mobile/lib/gifRequestBlocker.js
-src/mobile/lib/properties.js
-src/mobile/lib/urlHelper.js

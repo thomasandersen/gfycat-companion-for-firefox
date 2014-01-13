@@ -4,10 +4,10 @@
 
 let { Cu } = require("chrome");
 let self = require("sdk/self");
-let properties = require("./properties");
-let urlHelper = require("./urlHelper");
 let PageMod = require("sdk/page-mod").PageMod;
 let Request = require("sdk/request").Request;
+let properties = require("packages/properties");
+let urlHelper = require("packages/urlHelper");
 
 Cu.import("resource://gre/modules/AddonManager.jsm");
 
@@ -37,17 +37,16 @@ function doEnable(enable) {
 
 function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
   console.log("checking content type", gifUrl);
-  Request({
-    url: gifUrl,
-    onComplete: (response) => {
-      let contentType = response.headers["Content-Type"];
-      if (contentType.toLowerCase().contains("gif")) {
-        requestGfyTranscoder(gifUrl, gifKey, worker);
-      } else {
-        onTranscodeError(gifKey, worker, "Could not transform " + urlHelper.getFileExtension(gifUrl) + " to gfycat video. Displaying original image", false);
-      }
-    }
-  }).head();
+
+  let isGifCallback = () => {
+    requestGfyTranscoder(gifUrl, gifKey, worker)
+  };
+
+  let isNotGifCallback = () => {
+    onTranscodeError(gifKey, worker, "Could not transform " + urlHelper.getFileExtension(gifUrl) + " to gfycat video. Displaying original image", false);
+  };  
+  
+  urlHelper.isGifContentType(gifUrl, isGifCallback, isNotGifCallback);
 }
 
 function requestGfyTranscoder(gifUrl, gifKey, worker) {
@@ -61,7 +60,7 @@ function requestGfyTranscoder(gifUrl, gifKey, worker) {
 }
 
 function resolveTranscodingResponse(response, requestedUrl, gifKey, worker) {
-  console.log("gfycat http response: " + response.status, response.json);
+  console.log("transcode response " + response.status, response.json);
 
   if (response.status >= 400) {
     onTranscodeError(gifKey, worker, "Something went wrong. Server responded with: Status " + repsonse.status + ", " + response.statusText, false);

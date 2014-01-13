@@ -1,11 +1,11 @@
 let self = require("sdk/self");
-let properties = require("./properties");
-let gifRequestBlocker = require("./gifRequestBlocker");
-let resImageViewerModHelper = require("./resImageViewerModHelper");
 let simplePrefs = require("sdk/simple-prefs");
 let clipboard = require("sdk/clipboard");
 let tabs = require("sdk/tabs");
 let contextMenu = require("sdk/context-menu");
+let properties = require("packages/properties");
+let gifRequestBlocker = require("packages/gifRequestBlocker");
+let resImageViewerModHelper = require("./resImageViewerModHelper");
 
 const CONTEXT_MENU_CONTEXT_SELECTOR = "img[src*=\".gif\"], a[href*=\".gif\"]";
 

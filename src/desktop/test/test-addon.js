@@ -101,7 +101,7 @@ function test_copyGfyCatUrlMenuItem(assert, deferred) {
     // Wait for clipboard
     wait(300).then(() => {
       assert.ok(clipboard.get().contains("http://gfycat.com/fetch/"), "clipbard should contain gfycat endpoint");
-      assert.ok(clipboard.get().contains("zar3D1n.gif"), "clipbard should contain gif file");
+      assert.ok(clipboard.get().contains("1963.gif"), "clipbard should contain gif file");
       deferred.resolve(assert);
     });
 
