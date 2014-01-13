@@ -239,7 +239,11 @@ function replaceGifWithVideo(transcodingJson, gifKey, loadingMessage) {
       shim.style.pointerEvents = "none";
     }
 
-    let videoResizer = createImageResizeSlider();
+    let videoResizer = getVideoSizeSlider(gif);
+    if (videoResizer) {
+      removeDomNode(videoResizer);
+    }
+    videoResizer = createImageResizeSlider();
     video.parentNode.insertBefore(videoResizer, video);
     videoResizer.setAttribute("value", transcodingJson.gifWidth);
 
