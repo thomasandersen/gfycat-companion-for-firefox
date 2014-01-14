@@ -4,6 +4,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-mozilla-addon-sdk");
   grunt.loadNpmTasks("grunt-contrib-copy");
   grunt.loadNpmTasks("grunt-contrib-clean");
+
+  var profile = grunt.option("profile") || "~/mozilla-profiles/gfycat-companion";
   
   var SHARED_DIR = "src/shared";
   var DESKTOP_DIR = "src/desktop";
@@ -39,7 +41,7 @@ module.exports = function(grunt) {
           "extension_dir": DESKTOP_DIR,
           "command": "run",
           "pipe_output": true,
-          "arguments": "-p ~/mozilla-profiles/gfycat-companion"
+          "arguments": "-p " + profile
         }
       },
 
@@ -59,7 +61,7 @@ module.exports = function(grunt) {
           "extension_dir": DESKTOP_DIR,
           "command": "test",
           "pipe_output": true,
-          "arguments": "-p ~/mozilla-profiles/gfycat-companion --static-args={\"testPage\":\"http://mr-andersen.no/gfcycat-companion-test/index.html\"}"
+          "arguments": "-p " + profile + " --static-args={\"testPage\":\"http://mr-andersen.no/gfcycat-companion-test/index.html\"}"
         }
       },
 
