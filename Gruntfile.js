@@ -38,6 +38,7 @@ module.exports = function(grunt) {
           "mozilla-addon-sdk": "1_15",
           "extension_dir": DESKTOP_DIR,
           "command": "run",
+          "pipe_output": true,
           "arguments": "-p ~/mozilla-profiles/gfycat-companion"
         }
       },
@@ -47,6 +48,7 @@ module.exports = function(grunt) {
           "mozilla-addon-sdk": "1_15",
           "extension_dir": MOBILE_DIR,
           "command": "run",
+          "pipe_output": true,
           "arguments": "-a fennec-on-device -b adb --mobile-app firefox --force-mobile"
         }
       },

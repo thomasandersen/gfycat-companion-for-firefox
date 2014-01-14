@@ -13,10 +13,6 @@
   }
 }
 
-.gccfx-loader-animation { 
-  animation-duration: 3s; animation-name: gccfxLoaderAnimation; animation-iteration-count: infinite;
-}
-
 .gccfx-video {
   transition: width 300ms;
 }
@@ -24,10 +20,16 @@
 .gccfx-loader-bar, 
 .gccfx-message {
   font-size: x-small;
+  height: 16px;
 }
 
 .gccfx-loader-bar-background { 
   background-repeat: no-repeat;
-  background-size: 1px 30px;
-  background-image:  linear-gradient(to right, rgba(206,227,248,0.3) 0%,rgba(206,227,248,1) 100%);
+  padding-left: 23px;
+}
+
+.gccfx-gallery-controls-shim {
+  position: absolute; 
+  top: 0; left: 0; 
+  cursor: default;  
 }

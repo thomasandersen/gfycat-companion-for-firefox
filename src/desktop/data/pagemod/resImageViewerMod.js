@@ -79,7 +79,7 @@ function cleanUp(gif) {
 
   let videoResizer = getVideoSizeSlider(gif);
   if (videoResizer) {
-    videoResizer.removeEventListener("change", onResize);
+    videoResizer.removeEventListener("change", onVideoResize);
     removeDomNode(videoResizer);
   }
 
@@ -112,7 +112,7 @@ function createGalleryControlsShim(resGalleryControls) {
   let height = resGalleryControls.offsetHeight;
   let shim = document.createElement("div");
   shim.classList.add("gccfx-gallery-controls-shim");
-  shim.setAttribute("style", "position:absolute; top:0; left:0; cursor:default; width: " + width + "px; height:" + height + "px ");
+  shim.setAttribute("style", "width: " + width + "px; height:" + height + "px ");
   shim.style.pointerEvents = "none";
   return shim;
 }
@@ -175,20 +175,20 @@ function onTranscodeError(gifKey, errorMessage, showErrorMessage) {
   gifmap.delete(gifKey);
 }
 
-function onResize(event) {
+function onVideoResize(event) {
   let resizer = event.target;
   let video = resizer.nextSibling;
   video.setAttribute("width", resizer.value);
 }
 
-function createImageResizeSlider() {
+function createImageResizeSlider(transcodingJson) {
   let range = document.createElement("input");
   range.classList.add("gccfx-video-size-slider");
   range.setAttribute("type", "range");
-  range.setAttribute("min", "150");
-  range.setAttribute("max", "640");
+  range.setAttribute("min", (transcodingJson.gifWidth / 2));
+  range.setAttribute("max", (transcodingJson.gifWidth * 2));
   range.setAttribute("step", "1");
-  range.addEventListener("change", onResize);
+  range.addEventListener("change", onVideoResize);
 
   return range;
 }
@@ -239,7 +239,7 @@ function replaceGifWithVideo(transcodingJson, gifKey, loadingMessage) {
     if (videoResizer) {
       removeDomNode(videoResizer);
     }
-    videoResizer = createImageResizeSlider();
+    videoResizer = createImageResizeSlider(transcodingJson);
     video.parentNode.insertBefore(videoResizer, video);
     videoResizer.setAttribute("value", transcodingJson.gifWidth);
 
@@ -264,7 +264,8 @@ function addLoaderBar(gif) {
     removeDomNode(bar);
   }
   bar = document.createElement("div");
-  bar.setAttribute("class", "gccfx-loader-bar gccfx-loader-bar-background gccfx-loader-animation");
+  bar.setAttribute("class", "gccfx-loader-bar gccfx-loader-bar-background");
+  bar.style.backgroundImage = "url(" + self.options.spinnerFile + ")";
   bar.textContent = "gfycat is working";
   let imageViewerNode = getImageViewerNode(gif);
   

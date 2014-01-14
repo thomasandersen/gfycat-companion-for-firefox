@@ -18,8 +18,8 @@ Make sure ```adb``` (Android Debug Bridge) is in the $path.
   * ```grunt run_mobile``` - Starts a new mobile browser instance.
   * ```grunt test_desktop``` - Runs browser tests.
   * ```grunt test_mobile``` - Runs mobile browser tests.
-  * ```grunt release``` - Exports the .xpi's to the dist folder.
   * ```grunt lint``` - Runs jshint against the project's JavaScript files.
+  * ```grunt release``` - Exports the .xpi's to the dist folder.
 
 The default grunt task starts a new browser instance with the add-on installed
 

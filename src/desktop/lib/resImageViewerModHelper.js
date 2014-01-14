@@ -39,7 +39,7 @@ function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
   console.log("checking content type", gifUrl);
 
   let isGifCallback = () => {
-    requestGfyTranscoder(gifUrl, gifKey, worker)
+    requestGfyTranscoder(gifUrl, gifKey, worker);
   };
 
   let isNotGifCallback = () => {
@@ -98,7 +98,10 @@ function enableResPageMod() {
         checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker);
       });
     },
-    contentScriptWhen: "ready"
+    contentScriptWhen: "ready",
+    contentScriptOptions: {
+      spinnerFile: self.data.url("images/spinner.gif")
+    }
   });
 }
 
