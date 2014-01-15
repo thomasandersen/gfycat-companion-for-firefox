@@ -8,6 +8,7 @@ let PageMod = require("sdk/page-mod").PageMod;
 let Request = require("sdk/request").Request;
 let properties = require("packages/properties");
 let urlHelper = require("packages/urlHelper");
+let resImageBlocker = require("./resImageBlocker");
 
 Cu.import("resource://gre/modules/AddonManager.jsm");
 
@@ -19,6 +20,7 @@ let pageMod = null;
 let gWorker = null;
 
 function doEnable(enable) {
+  resImageBlocker.enable(enable);
   if (!enable) {
     try { 
       pageMod.destroy(); 

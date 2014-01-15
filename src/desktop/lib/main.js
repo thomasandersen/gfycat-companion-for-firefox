@@ -4,21 +4,21 @@ let clipboard = require("sdk/clipboard");
 let tabs = require("sdk/tabs");
 let contextMenu = require("sdk/context-menu");
 let properties = require("packages/properties");
-let gifRequestBlocker = require("packages/gifRequestBlocker");
-let resImageViewerModHelper = require("./resImageViewerModHelper");
+let redirecter = require("packages/redirecter");
+let resImageViewerModHelper = require("./res/resImageViewerModHelper");
 
 // ------------------------------------------------------------------------------
 // Setup listeners
 // ------------------------------------------------------------------------------
 
 simplePrefs.on("redirectDirectGifRequests", () => {
-  gifRequestBlocker.enable(simplePrefs.prefs.redirectDirectGifRequests);
+  redirecter.enable(simplePrefs.prefs.redirectDirectGifRequests);
 });
 
 simplePrefs.on("resImageViewerSupport", () => {
   let enable = simplePrefs.prefs.resImageViewerSupport;
   resImageViewerModHelper.enable(enable);
-  gifRequestBlocker.enable(enable);
+  redirecter.enable(enable);
 });
 
 // ------------------------------------------------------------------------------
@@ -51,5 +51,5 @@ contextMenu.Item({
 // Start
 // ------------------------------------------------------------------------------
 
-gifRequestBlocker.enable(simplePrefs.prefs.redirectDirectGifRequests);
+redirecter.enable(simplePrefs.prefs.redirectDirectGifRequests);
 resImageViewerModHelper.enable(simplePrefs.prefs.resImageViewerSupport);

@@ -17,8 +17,8 @@
     },
     {
       "name": "resImageViewerSupport",
-      "title": "Enable gfycat in RES image viewer",
-      "description": "Replaces gifs in the RES image viewer with gfycat videos (requires page refresh).",
+      "title": "RES: Enable video conversion in image viewer",
+      "description": "Replaces gifs in the RES image viewer with gfycat videos.",
       "type": "bool",
       "value": true
     },

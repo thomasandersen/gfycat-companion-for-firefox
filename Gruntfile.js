@@ -3,7 +3,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-jshint");
   grunt.loadNpmTasks("grunt-mozilla-addon-sdk");
   grunt.loadNpmTasks("grunt-contrib-copy");
-  grunt.loadNpmTasks("grunt-contrib-clean");
 
   var profile = grunt.option("profile") || "~/mozilla-profiles/gfycat-companion";
   
@@ -11,13 +10,6 @@ module.exports = function(grunt) {
   var DESKTOP_DIR = "src/desktop";
   var MOBILE_DIR = "src/mobile";
   var DIST_DIR = "dist";
-
-  var JS_FILES_TO_REMOVE = ["/lib/gifRequestBlocker.js", "/lib/properties.js", "/lib/urlHelper.js"];
-  var FILES_TO_REMOVE = [];
-  for (var i = 0; i < JS_FILES_TO_REMOVE.length; i++) {
-    FILES_TO_REMOVE.push(DESKTOP_DIR + JS_FILES_TO_REMOVE[i]);
-    FILES_TO_REMOVE.push(MOBILE_DIR + JS_FILES_TO_REMOVE[i]);
-  }
 
   grunt.initConfig({
     "mozilla-addon-sdk": {
@@ -119,9 +111,7 @@ module.exports = function(grunt) {
         },
       },
       "files": ["Gruntfile.js", DESKTOP_DIR + "/**/*.js", MOBILE_DIR + "/**/*.js"]
-    },
-
-    "clean": FILES_TO_REMOVE
+    }
 
   });
 

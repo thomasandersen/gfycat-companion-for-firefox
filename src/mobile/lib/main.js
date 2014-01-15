@@ -1,3 +1,3 @@
-let gifRequestBlocker = require("packages/gifRequestBlocker");
+let redirecter = require("packages/redirecter");
 
-gifRequestBlocker.enable(true);
+redirecter.enable(true);
