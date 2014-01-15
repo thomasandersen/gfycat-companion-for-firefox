@@ -26,6 +26,11 @@ function requestListener(event) {
   let request = event.subject;
   let channel = request.QueryInterface(Ci.nsIHttpChannel);
   let url = request.URI.spec;
+  // Make sure flagged gifs falls through (see data/scripts/resImageViewerMod).
+  if (url.contains("gccfxDoRequest=1")) {
+    return;
+  }
+
   let isInitialDocument = isChannelInitialDocument(channel);
 
   let isImage = urlHelper.isImage(url);
