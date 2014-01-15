@@ -7,8 +7,6 @@ let properties = require("packages/properties");
 let gifRequestBlocker = require("packages/gifRequestBlocker");
 let resImageViewerModHelper = require("./resImageViewerModHelper");
 
-const CONTEXT_MENU_CONTEXT_SELECTOR = "img[src*=\".gif\"], a[href*=\".gif\"]";
-
 // ------------------------------------------------------------------------------
 // Setup listeners
 // ------------------------------------------------------------------------------
