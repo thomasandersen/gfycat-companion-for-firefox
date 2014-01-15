@@ -21,13 +21,6 @@
       "description": "Replaces gifs in the RES image viewer with gfycat videos.",
       "type": "bool",
       "value": true
-    },
-    {
-      "name": "experimental",
-      "title": "Try experimental features",
-      "description": "Toggle experimental features",
-      "type": "bool",
-      "value": false
     }
   ]
 }
