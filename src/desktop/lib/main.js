@@ -30,7 +30,7 @@ simplePrefs.on("resImageViewerSupport", () => {
 contextMenu.Item({
   label: "Open with gfycat",
   data: "gccfx-openWithGfyCat",
-  context: contextMenu.SelectorContext(CONTEXT_MENU_CONTEXT_SELECTOR),
+  context: contextMenu.SelectorContext("img[src*=\".gif\"]"),
   contentScriptFile: self.data.url("pagemod/contextMenuClick.js"),
   image: self.data.url("images/icon-16.png"),
   onMessage: function (link) {
@@ -41,7 +41,7 @@ contextMenu.Item({
 contextMenu.Item({
   label: "Copy as gfycat URL",
   data: "gccfx-menuItemCopyAsGfycatUrl",
-  context: contextMenu.SelectorContext(CONTEXT_MENU_CONTEXT_SELECTOR),
+  context: contextMenu.SelectorContext("img[src*=\".gif\"], a[href*=\".gif\"]"),
   contentScriptFile: self.data.url("pagemod/contextMenuClick.js"),
   image: self.data.url("images/icon-16.png"),
   onMessage: function (link) {

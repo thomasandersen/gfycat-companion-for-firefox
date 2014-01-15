@@ -137,11 +137,13 @@ module.exports = function(grunt) {
 
   grunt.registerTask("test_desktop", [
     "copy:shared",
+    "jshint",
     "mozilla-cfx:test_desktop"
   ]);
   
   grunt.registerTask("test_mobile", [
     "copy:shared",
+    "jshint",
     "mozilla-cfx:test_mobile"
   ]);
   

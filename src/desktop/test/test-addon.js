@@ -21,21 +21,21 @@ if (!testPage) {
 // Tests
 // ------------------------------------------------------------------------------
 
-exports["test context menu should have two gfycat menu items when comtext clicking an anchor node"] = function(assert, done) {
+exports["test context menu should only have *copy as gfycat url* menu item when comtext clicking an anchor node"] = function(assert, done) {
   loadTestPage(assert)
   .then(() => {
     let deferred = promise.defer();
-    test_contextMenuShouldHaveTwoMenuItemsWhenClickingNode(getAnchorNode(), assert, deferred);
+    test_contextMenuOnAnchorNode(assert, deferred);
     return deferred.promise;
   })
   .then(done);
 };
 
-exports["test context menu should have two gfycat menu items when comtext clicking an image node"] = function(assert, done) {
+exports["test context menu should have *open with gfycat* and *copy as gfycat url*  menu items when comtext clicking an image[src=gif] node"] = function(assert, done) {
   loadTestPage(assert)
   .then(() => {
     let deferred = promise.defer();
-    test_contextMenuShouldHaveTwoMenuItemsWhenClickingNode(getImageNode(), assert, deferred);
+    test_contextMenuOnImageNode(assert, deferred);
     return deferred.promise;
   })
   .then(done);
@@ -67,15 +67,15 @@ exports["test Upload to gfycat context menu item"] = function(assert, done) {
   .then(done);
 };
 
-function test_contextMenuShouldHaveTwoMenuItemsWhenClickingNode(node, assert, deferred) {
+function test_contextMenuOnAnchorNode(assert, deferred) {
   // Context click the node
-  context.simulateMouseEvent("contextmenu", node);
+  context.simulateMouseEvent("contextmenu", getAnchorNode());
   // Wait for context menu
   wait(300).then(() => {
     let contextMenu = getContentAreaContextMenu();
 
-    assert.ok(!getUploadToGfyCatMenuItem(contextMenu).hidded, "Upload to gfycat menu item is shown");
-    assert.ok(!getCopyAsGfyCatUrlMenuItem(contextMenu).hidded, "Copy as gfycat menu item is shown");
+    assert.ok(getOpenWithGfyCatMenuItem(contextMenu).hidden, "*open with gfycat* menu item should be hidden");
+    assert.ok(!getCopyAsGfyCatUrlMenuItem(contextMenu).hidden, "*copy as gfycat url* menu item should be visible");
     
     contextMenu.hidePopup();
     deferred.resolve(assert);
@@ -83,6 +83,24 @@ function test_contextMenuShouldHaveTwoMenuItemsWhenClickingNode(node, assert, de
 
   return deferred.promise;
 }
+
+function test_contextMenuOnImageNode(assert, deferred) {
+  // Context click the node
+  context.simulateMouseEvent("contextmenu", getImageNode());
+  // Wait for context menu
+  wait(300).then(() => {
+    let contextMenu = getContentAreaContextMenu();
+
+    assert.ok(!getOpenWithGfyCatMenuItem(contextMenu).hidden, "*Open with gfycat* menu item should be visible");
+    assert.ok(!getCopyAsGfyCatUrlMenuItem(contextMenu).hidden, "*copy as gfycat url* menu item should be visible");
+    
+    contextMenu.hidePopup();
+    deferred.resolve(assert);
+  });
+
+  return deferred.promise;
+}
+
 
 function test_copyGfyCatUrlMenuItem(assert, deferred) {
   // Context click the node
@@ -119,7 +137,7 @@ function test_uploadToGfyCatMenuItem(assert, deferred) {
   // Wait for context menu
   wait(500).then(() => {
     let contextMenu = getContentAreaContextMenu();
-    let menuItem = getUploadToGfyCatMenuItem(contextMenu);
+    let menuItem = getOpenWithGfyCatMenuItem(contextMenu);
 
     assert.ok(!menuItem.hidded, "Upload to gfycat menu item is shown");
 
@@ -179,7 +197,7 @@ function getContentAreaContextMenu() {
   return windowUtil.getMostRecentBrowserWindow().document.querySelector("#contentAreaContextMenu");
 }
 
-function getUploadToGfyCatMenuItem(contextMenu) {
+function getOpenWithGfyCatMenuItem(contextMenu) {
   return contextMenu.querySelector("menuitem[value='gccfx-openWithGfyCat']");
 }
 
