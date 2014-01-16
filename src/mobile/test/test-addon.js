@@ -3,7 +3,7 @@ let windowUtil = require("sdk/window/utils");
 let tabs = require("sdk/tabs");
 let tabUtil = require("sdk/tabs/utils");
 let main = require("./main");
-let { wait, context } = require("./lib/testHelper");
+let { wait, context } = require("./lib/testUtil");
 
 let testGif = "http://i.imgur.com/jqVmuPG.gif";
 

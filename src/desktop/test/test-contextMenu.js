@@ -1,21 +1,15 @@
 let system = require("sdk/system");
-let { Cc, Ci, Cu } = require("chrome");
 let promise = require("sdk/core/promise");
 let windowUtil = require("sdk/window/utils");
 let tabs = require("sdk/tabs");
 let tabUtil = require("sdk/tabs/utils");
 let clipboard = require("sdk/clipboard");
 let main = require("./main");
-let { wait, context } = require("./lib/testHelper");
-
-let testPage = "http://mr-andersen.no/gfcycat-companion-test/index.html";
-
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
+let { wait, context } = require("./lib/testUtil");
+let helper = require("./helper");
 
 exports["test context menu should only have *copy as gfycat url* menu item when comtext clicking an anchor node"] = function(assert, done) {
-  loadTestPage(assert)
+  helper.loadTestPage(assert)
   .then(() => {
     let deferred = promise.defer();
     test_contextMenuOnAnchorNode(assert, deferred);
@@ -25,7 +19,7 @@ exports["test context menu should only have *copy as gfycat url* menu item when 
 };
 
 exports["test context menu should have *open with gfycat* and *copy as gfycat url*  menu items when comtext clicking an image[src=gif] node"] = function(assert, done) {
-  loadTestPage(assert)
+  helper.loadTestPage(assert)
   .then(() => {
     let deferred = promise.defer();
     test_contextMenuOnImageNode(assert, deferred);
@@ -34,14 +28,8 @@ exports["test context menu should have *open with gfycat* and *copy as gfycat ur
   .then(done);
 };
 
-exports["test browser should redirect to gfycat service when a gif is directly requested"] = function(assert, done) {
-  loadTestPage(assert)
-  .then(test_gifRequestShouldBeRedirectedToGfycat)
-  .then(done);
-};
-
 exports["test Copy as gfycat URL context menu item"] = function(assert, done) {
-  loadTestPage(assert)
+  helper.loadTestPage(assert)
   .then(() => {
     let deferred = promise.defer();
     test_copyGfyCatUrlMenuItem(assert, deferred);
@@ -51,7 +39,7 @@ exports["test Copy as gfycat URL context menu item"] = function(assert, done) {
 };
 
 exports["test Upload to gfycat context menu item"] = function(assert, done) {
-  loadTestPage(assert)
+  helper.loadTestPage(assert)
   .then(() => {
     let deferred = promise.defer();
     test_uploadToGfyCatMenuItem(assert, deferred);
@@ -62,13 +50,13 @@ exports["test Upload to gfycat context menu item"] = function(assert, done) {
 
 function test_contextMenuOnAnchorNode(assert, deferred) {
   // Context click the node
-  context.simulateMouseEvent("contextmenu", getAnchorNode());
+  context.simulateMouseEvent("contextmenu", helper.getAnchorNode());
   // Wait for context menu
   wait(300).then(() => {
-    let contextMenu = getContentAreaContextMenu();
+    let contextMenu = helper.getContentAreaContextMenu();
 
-    assert.equal(getOpenWithGfyCatMenuItem(contextMenu).hidden, true, "*open with gfycat* menu item should be hidden");
-    assert.equal(getCopyAsGfyCatUrlMenuItem(contextMenu).hidden, false, "*copy as gfycat url* menu item should be visible");
+    assert.equal(helper.getOpenWithGfyCatMenuItem(contextMenu).hidden, true, "*open with gfycat* menu item should be hidden");
+    assert.equal(helper.getCopyAsGfyCatUrlMenuItem(contextMenu).hidden, false, "*copy as gfycat url* menu item should be visible");
     
     contextMenu.hidePopup();
     deferred.resolve(assert);
@@ -79,13 +67,14 @@ function test_contextMenuOnAnchorNode(assert, deferred) {
 
 function test_contextMenuOnImageNode(assert, deferred) {
   // Context click the node
-  context.simulateMouseEvent("contextmenu", getImageNode());
+  context.simulateMouseEvent("contextmenu", helper.getImageNode());
+
   // Wait for context menu
   wait(300).then(() => {
-    let contextMenu = getContentAreaContextMenu();
+    let contextMenu = helper.getContentAreaContextMenu();
 
-    assert.equal(getOpenWithGfyCatMenuItem(contextMenu).hidden, false, "*Open with gfycat* menu item should be visible");
-    assert.equal(getCopyAsGfyCatUrlMenuItem(contextMenu).hidden, false, "*copy as gfycat url* menu item should be visible");
+    assert.equal(helper.getOpenWithGfyCatMenuItem(contextMenu).hidden, false, "*Open with gfycat* menu item should be visible");
+    assert.equal(helper.getCopyAsGfyCatUrlMenuItem(contextMenu).hidden, false, "*copy as gfycat url* menu item should be visible");
     
     contextMenu.hidePopup();
     deferred.resolve(assert);
@@ -97,12 +86,12 @@ function test_contextMenuOnImageNode(assert, deferred) {
 
 function test_copyGfyCatUrlMenuItem(assert, deferred) {
   // Context click the node
-  context.simulateMouseEvent("contextmenu", getImageNode());
+  context.simulateMouseEvent("contextmenu", helper.getImageNode());
 
   // Wait for context menu
   wait(500).then(() => {
-    let contextMenu = getContentAreaContextMenu();
-    let menuItem = getCopyAsGfyCatUrlMenuItem(contextMenu);
+    let contextMenu = helper.getContentAreaContextMenu();
+    let menuItem = helper.getCopyAsGfyCatUrlMenuItem(contextMenu);
 
     assert.ok(!menuItem.hidded, "Copy as gfycat menu item is shown");
 
@@ -125,12 +114,12 @@ function test_copyGfyCatUrlMenuItem(assert, deferred) {
 
 function test_uploadToGfyCatMenuItem(assert, deferred) {
   // Context click the node
-  context.simulateMouseEvent("contextmenu", getImageNode());
+  context.simulateMouseEvent("contextmenu", helper.getImageNode());
 
   // Wait for context menu
   wait(500).then(() => {
-    let contextMenu = getContentAreaContextMenu();
-    let menuItem = getOpenWithGfyCatMenuItem(contextMenu);
+    let contextMenu = helper.getContentAreaContextMenu();
+    let menuItem = helper.getOpenWithGfyCatMenuItem(contextMenu);
 
     assert.ok(!menuItem.hidded, "Upload to gfycat menu item is shown");
 
@@ -156,57 +145,5 @@ function test_uploadToGfyCatMenuItem(assert, deferred) {
 
   return deferred.promise;
 }
-
-function test_gifRequestShouldBeRedirectedToGfycat(assert) {
-  let deferred = promise.defer();
-  getAnchorNode().click();
-
-  // Wait for response from gfycat service.
-  wait(10000).then(() => {
-    assert.ok(tabs.activeTab.url.startsWith("http://gfycat.com/"), "gif request should be redirected to gfycat");
-    deferred.resolve(assert);
-  }, 10000);
-  return deferred.promise;
-}
-
-// ------------------------------------------------------------------------------
-// Helper functions
-// ------------------------------------------------------------------------------
-
-function loadTestPage(assert) {
-  let deferred = promise.defer();
-  let allTabs = tabUtil.getTabs(windowUtil.getMostRecentBrowserWindow());
-  let contentWindow = tabUtil.getTabContentWindow(allTabs[0]);
-
-  contentWindow.location.href = testPage;
-
-  wait(4000).then(() => {
-    deferred.resolve(assert);
-  });
-  return deferred.promise;
-}
-
-function getContentAreaContextMenu() {
-  return windowUtil.getMostRecentBrowserWindow().document.querySelector("#contentAreaContextMenu");
-}
-
-function getOpenWithGfyCatMenuItem(contextMenu) {
-  return contextMenu.querySelector("menuitem[value='gccfx-openWithGfyCat']");
-}
-
-function getCopyAsGfyCatUrlMenuItem(contextMenu) {
-  return contextMenu.querySelector("menuitem[value='gccfx-menuItemCopyAsGfycatUrl']");
-}
-
-function getAnchorNode() {
-  let doc = context.getDocument();
-  return doc.querySelector("#gif-link");
-}
-
-function getImageNode() {
-  let doc = context.getDocument();
-  return getAnchorNode().querySelector("img");
-}
-
 
 require("sdk/test").run(exports);

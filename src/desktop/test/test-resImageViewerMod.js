@@ -6,7 +6,7 @@ let tabs = require("sdk/tabs");
 let tabUtil = require("sdk/tabs/utils");
 let clipboard = require("sdk/clipboard");
 let main = require("./main");
-let { wait, context } = require("./lib/testHelper");
+let { wait, context } = require("./lib/testUtil");
 
 let testPage = "http://www.reddit.com/r/gifs/comments/1ugfm4/almost_done_hhdyduzhakdufhhe/";
 
