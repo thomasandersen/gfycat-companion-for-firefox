@@ -107,6 +107,6 @@ function requestListener(event) {
     };
 
     // Check if image is a gif by doing a head request.
-    urlHelper.isGifContentType(url, isGifCallback, isGNotifCallback);
+    urlHelper.asyncIsContentTypeGif(url, isGifCallback, isGNotifCallback);
   }
 }

@@ -22,7 +22,7 @@ exports.addParameterToUrl = (paramName, paramValue, url) => {
   return urlWithParam;
 };  
 
-exports.isGifContentType = (url, isGifCallback, isNotGifCallback) => {
+exports.asyncIsContentTypeGif = (url, isGifCallback, isNotGifCallback) => {
   Request({
     url: url,
     onComplete: (response) => {

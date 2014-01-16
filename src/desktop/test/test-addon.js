@@ -74,8 +74,8 @@ function test_contextMenuOnAnchorNode(assert, deferred) {
   wait(300).then(() => {
     let contextMenu = getContentAreaContextMenu();
 
-    assert.ok(getOpenWithGfyCatMenuItem(contextMenu).hidden, "*open with gfycat* menu item should be hidden");
-    assert.ok(!getCopyAsGfyCatUrlMenuItem(contextMenu).hidden, "*copy as gfycat url* menu item should be visible");
+    assert.equal(getOpenWithGfyCatMenuItem(contextMenu).hidden, true, "*open with gfycat* menu item should be hidden");
+    assert.equal(getCopyAsGfyCatUrlMenuItem(contextMenu).hidden, false, "*copy as gfycat url* menu item should be visible");
     
     contextMenu.hidePopup();
     deferred.resolve(assert);
@@ -91,8 +91,8 @@ function test_contextMenuOnImageNode(assert, deferred) {
   wait(300).then(() => {
     let contextMenu = getContentAreaContextMenu();
 
-    assert.ok(!getOpenWithGfyCatMenuItem(contextMenu).hidden, "*Open with gfycat* menu item should be visible");
-    assert.ok(!getCopyAsGfyCatUrlMenuItem(contextMenu).hidden, "*copy as gfycat url* menu item should be visible");
+    assert.equal(getOpenWithGfyCatMenuItem(contextMenu).hidden, false, "*Open with gfycat* menu item should be visible");
+    assert.equal(getCopyAsGfyCatUrlMenuItem(contextMenu).hidden, false, "*copy as gfycat url* menu item should be visible");
     
     contextMenu.hidePopup();
     deferred.resolve(assert);

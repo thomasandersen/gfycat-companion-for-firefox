@@ -48,7 +48,7 @@ function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
     onTranscodeError(gifKey, worker, "Could not transform " + urlHelper.getFileExtension(gifUrl) + " to gfycat video. Displaying original image", false);
   };  
   
-  urlHelper.isGifContentType(gifUrl, isGifCallback, isNotGifCallback);
+  urlHelper.asyncIsContentTypeGif(gifUrl, isGifCallback, isNotGifCallback);
 }
 
 function requestGfyTranscoder(gifUrl, gifKey, worker) {
