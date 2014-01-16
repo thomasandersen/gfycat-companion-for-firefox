@@ -18,6 +18,11 @@ self.port.on("resImageViewerSupportDisabled", () => {
   isResImageViewerSupportDisabled = true;
 });
 
+self.port.on("transcodeStart", (gifUrl, gifKey) => {
+  let gif = gifmap.get(gifKey);
+  addLoaderBar(gif);
+});
+
 self.port.on("transcodeSuccess", (transcodingJson, gifKey, loadingMessage) => {
   replaceGifWithVideo(transcodingJson, gifKey, loadingMessage);
 });
@@ -271,16 +276,14 @@ function addLoaderBar(gif) {
   
   let anchor = getGifAnchorNode(gif);
   anchor.parentNode.insertBefore(bar, anchor);
-  //imageViewerNode.appendChild(bar);
 }
 
 function fetchVideo(gif) {
-  // Add the loader bar.
-  addLoaderBar(gif);
-
   // Store reference to the gif  as the workers do not accept dom nodes.
   gifKey++;
   gifmap.set(gifKey, gif);
+
+  // gif.classList.remove("RESImageError");
 
   // Tell the add-on to fetch the info.
   self.port.emit("requestGfyTranscoder", gif.src, gifKey);

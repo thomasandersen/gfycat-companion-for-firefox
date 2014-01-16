@@ -53,6 +53,8 @@ function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
 
 function requestGfyTranscoder(gifUrl, gifKey, worker) {
   let url = properties.gfycat.transcodeEndpoint +  createPsudoRandomStr(5) + "?fetchUrl=" + gifUrl;
+  worker.port.emit("transcodeStart", gifUrl, gifKey);
+
   Request({
     url: url,
     onComplete: (response) => {
