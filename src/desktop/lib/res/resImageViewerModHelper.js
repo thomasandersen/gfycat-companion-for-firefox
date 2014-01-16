@@ -58,13 +58,13 @@ function requestGfyTranscoder(gifUrl, gifKey, worker) {
   Request({
     url: url,
     onComplete: (response) => {
-      resolveTranscodingResponse(response, gifUrl, gifKey, worker);
+      resolveTranscodeResponse(response, gifUrl, gifKey, worker);
     }
   }).get();
 }
 
-function resolveTranscodingResponse(response, requestedUrl, gifKey, worker) {
-  console.log("transcode response " + response.status, response.json);
+function resolveTranscodeResponse(response, requestedUrl, gifKey, worker) {
+  console.log("Transcode response " + response.status, response.json);
 
   if (response.status >= 400) {
     onTranscodeError(gifKey, worker, "Something went wrong. Server responded with: Status " + repsonse.status + ", " + response.statusText, false);

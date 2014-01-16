@@ -6,6 +6,9 @@ let Request = require("sdk/request").Request;
 let properties = require("packages/properties");
 let urlHelper = require("packages/urlHelper");
 
+var asyncHistory = Cc["@mozilla.org/browser/history;1"]
+                  .getService(Ci.mozIAsyncHistory);
+
 exports.enable = (enable) => {
   return doEnable(enable);
 };
@@ -57,10 +60,9 @@ function redirect(request, redirectUrl) {
 function requestListener(event) {
   let request = event.subject;
   let channel = request.QueryInterface(Ci.nsIHttpChannel);
-
   let url = request.URI.spec;
 
-  // Make sure redirects don't recurse.
+  // Do not modify requests to gfycat.
   if (url.contains(properties.gfycat.domain)) {
     return;
   }
@@ -75,16 +77,33 @@ function requestListener(event) {
 
   // Redirect direct gif requests.
   if (isInitialDocument && isImage) {
-    console.log("direct request");
+    console.log("Is direct request");
     
+    // Cancel the request.
     channel.cancel(Cr.NS_BINDING_ABORTED);
 
+    // Check if content type is gif/image and redirect.
+
     let isGifCallback = () => {
-      redirect(request, (properties.gfycat.fetchEndpoint + request.URI.spec));
+      // Since the request is aborted, make sure the url is updated in the browser history. 
+      // Automatically marks the url as visited etc.
+      asyncHistory.updatePlaces({
+        title: "Redirected by gfycat companion, " + url,
+        uri: request.URI,
+        visits: [{
+          transitionType: Ci.nsINavHistoryService.TRANSITION_LINK,
+          visitDate: (Date.now()) * 1000
+        }]
+      });
+
+      redirect(request, (properties.gfycat.fetchEndpoint + url));
     };
 
     let isGNotifCallback = () => {
-      redirect(request, urlHelper.addParameterToUrl("gccfxDoRequest", "1", request.URI.spec));
+      // Disable the listener before redirect so the listener does not loop.
+      doEnable(false);
+      redirect(request, request.URI.spec);
+      doEnable(true);
     };
 
     // Check if image is a gif by doing a head request.

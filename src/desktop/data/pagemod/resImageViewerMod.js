@@ -161,7 +161,7 @@ function onTranscodeError(gifKey, errorMessage, showErrorMessage) {
   cleanUp(gif);
 
   // Make sure that the gif is requested. 
-  // httpRequestListener will not block urls with gccfxDoRequest parameter
+  // The res image blocker will not block urls with gccfxDoRequest parameter
   let src = gif.getAttribute("src");
   let newSrc = !src.contains("?") ? src + "?" : src + "&";
   newSrc += "gccfxDoRequest=1";
