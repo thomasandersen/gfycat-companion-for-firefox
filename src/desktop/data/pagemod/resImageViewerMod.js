@@ -136,6 +136,15 @@ function initGalleryBrowse(resGalleryControls) {
     let browse = function() {
       let gif = resGalleryControls.nextSibling.querySelector(".RESImage");
 
+      let height = gif.style.maxHeight ? gif.style.maxHeight : 200;
+      gif.style.height = height;
+      gif.addEventListener("load", function gifLoaded() {
+        gif.style.height = "";
+        gif.removeEventListener("load", gifLoaded);
+        console.log("Loaded");
+      });
+
+
       videoLoaded = false;
       shim.style.pointerEvents = "none";
 

@@ -8,14 +8,7 @@ let clipboard = require("sdk/clipboard");
 let main = require("./main");
 let { wait, context } = require("./lib/testHelper");
 
-let testPage = system.staticArgs.testPage;
-
-if (!testPage) {
-  dump("\nCould not run test.\n");
-  dump("Test page not specified in --static-args\n");
-  dump("cExample: cfx test -f addon -p ~/retire-profile --static-args='{\"testPage\":\"http://mr-andersen.no/gfcycat-companion-test/index.html\"}' \n\n");
-  system.exit();
-}
+let testPage = "http://mr-andersen.no/gfcycat-companion-test/index.html";
 
 // ------------------------------------------------------------------------------
 // Tests

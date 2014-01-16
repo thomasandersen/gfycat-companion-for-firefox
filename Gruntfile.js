@@ -53,7 +53,7 @@ module.exports = function(grunt) {
           "extension_dir": DESKTOP_DIR,
           "command": "test",
           "pipe_output": true,
-          "arguments": "-p " + profile + " --static-args={\"testPage\":\"http://mr-andersen.no/gfcycat-companion-test/index.html\"}"
+          "arguments": "-p " + profile
         }
       },
 
