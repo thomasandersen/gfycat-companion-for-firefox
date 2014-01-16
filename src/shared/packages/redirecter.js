@@ -3,6 +3,7 @@ let system = require("sdk/system");
 let systemEvents = require("sdk/system/events");
 let windowUtils = require("sdk/window/utils");
 let Request = require("sdk/request").Request;
+let timers = require("sdk/timers");
 let properties = require("packages/properties");
 let urlHelper = require("packages/urlHelper");
 
@@ -46,12 +47,13 @@ function getWindowForRequest(request){
 }
 
 function redirect(request, redirectUrl) {
-  let browserWindow = windowUtils.getMostRecentWindow();
+  let browserWindow = windowUtils.getMostRecentBrowserWindow();
   if (system.platform == "android") {
     browserWindow.BrowserApp.loadURI(redirectUrl);
   } else {
     let gBrowser = browserWindow.gBrowser;
     let domWin = getWindowForRequest(request);
+    console.log("domWin", domWin);
     let browser = gBrowser.getBrowserForDocument(domWin.top.document);
     browser.loadURI(redirectUrl);
   }
@@ -102,11 +104,16 @@ function requestListener(event) {
     let isGNotifCallback = () => {
       // Disable the listener before redirect so the listener does not loop.
       doEnable(false);
-      redirect(request, request.URI.spec);
-      doEnable(true);
+      redirect(request, url);
+      timers.setTimeout(() => {
+        console.log("Enable");
+        doEnable(true);
+
+      }, 300);
     };
 
     // Check if image is a gif by doing a head request.
+    console.log("check content type");
     urlHelper.asyncIsContentTypeGif(url, isGifCallback, isGNotifCallback);
   }
 }
