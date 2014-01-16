@@ -26,6 +26,8 @@
 .gccfx-loader-bar-background { 
   background-repeat: no-repeat;
   padding-left: 23px;
+  margin-left: 2px;
+  margin-bottom: 3px;
 }
 
 .gccfx-gallery-controls-shim {
