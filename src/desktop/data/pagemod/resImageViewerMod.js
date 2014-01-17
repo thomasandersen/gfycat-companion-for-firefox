@@ -115,7 +115,6 @@ function cleanUp(gif) {
 }
 
 function gifLoaded(event) {
-  console.log("Node name: ", event.target.nodeName)
   let gif = event.target;
   gif.style.height = "";
   gif.removeEventListener("load", gifLoaded);
