@@ -75,10 +75,10 @@ function requestListener(event) {
   }
 
   let isInitialDocument = isChannelInitialDocument(channel);
-  let isImage = urlHelper.isImage(url);
+  let isImageFileExtension = urlHelper.isImageFileExtension(url);
 
   // Redirect direct gif requests.
-  if (isInitialDocument && isImage) {
+  if (isInitialDocument && isImageFileExtension) {
     console.log("Is direct request");
     
     // Cancel the request.
@@ -86,7 +86,7 @@ function requestListener(event) {
 
     // Check if content type is gif/image and redirect.
 
-    let isGifCallback = () => {
+    let isGifFileExtensionCallback = () => {
       // Since the request is aborted, make sure the url is updated in the browser history. 
       // Automatically marks the url as visited etc.
       asyncHistory.updatePlaces({
@@ -114,6 +114,6 @@ function requestListener(event) {
 
     // Check if image is a gif by doing a head request.
     console.log("check content type");
-    urlHelper.asyncIsContentTypeGif(url, isGifCallback, isGNotifCallback);
+    urlHelper.asyncIsContentTypeGif(url, isGifFileExtensionCallback, isGNotifCallback);
   }
 }

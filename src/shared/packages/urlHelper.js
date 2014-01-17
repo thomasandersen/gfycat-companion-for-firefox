@@ -1,6 +1,6 @@
 let Request = require("sdk/request").Request;
 
-exports.getDomainForHost = (host) => {
+exports.getDomainForHostName = (host) => {
   return host.split(".").slice(-2).join('.');
 };
 
@@ -8,11 +8,11 @@ exports.getFileExtension = (url) => {
   return url.split(".").pop().replace(/[#\?].*/gi, "");
 };
 
-exports.isGif = (url) => {
+exports.isGifFileExtension = (url) => {
   return /\.gif.*$/i.test(url);
 };
 
-exports.isImage = (url) => {
+exports.isImageFileExtension = (url) => {
   return /\.(gif|jpg|jpeg|png).*$/i.test(url);
 };
 
@@ -22,14 +22,14 @@ exports.addParameterToUrl = (paramName, paramValue, url) => {
   return urlWithParam;
 };  
 
-exports.asyncIsContentTypeGif = (url, isGifCallback, isNotGifCallback) => {
+exports.asyncIsContentTypeGif = (url, isGifFileExtensionCallback, isNotGifCallback) => {
   Request({
     url: url,
     onComplete: (response) => {
       let contentType = response.headers["Content-Type"];
       if (contentType.toLowerCase().contains("gif")) {
         console.log("Is gif content type, " + url);
-        isGifCallback();
+        isGifFileExtensionCallback();
       } else {
         console.log("Is not gif content type, " + url);
         isNotGifCallback();

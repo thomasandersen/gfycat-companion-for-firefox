@@ -2,11 +2,11 @@ let urlHelper = require("packages/urlHelper");
 let Url = require("sdk/url").URL;
 
 exports["test domain should be extractred from url"] = function(assert, done) {
-  assert.equal(urlHelper.getDomainForHost(new Url("http://cdn3.sbnation.com/").host), "sbnation.com", "Domain should be extractred from url");
-  assert.equal(urlHelper.getDomainForHost(new Url("http://i.imgur.com").host), "imgur.com", "Domain should be extractred from url");
-  assert.equal(urlHelper.getDomainForHost(new Url("http://24.media.tumblr.com/").host), "tumblr.com", "Domain should be extractred from url");
-  assert.equal(urlHelper.getDomainForHost(new Url("http://usatthebiglead.files.wordpress.com").host), "wordpress.com", "Domain should be extractred from url");
-  assert.equal(urlHelper.getDomainForHost(new Url("http://media2.giphy.com/media/FWbnuDAY0XrTq/giphy.gif").host), "giphy.com", "Domain should be extractred from url");
+  assert.equal(urlHelper.getDomainForHostName(new Url("http://cdn3.sbnation.com/").host), "sbnation.com", "Domain should be extractred from url");
+  assert.equal(urlHelper.getDomainForHostName(new Url("http://i.imgur.com").host), "imgur.com", "Domain should be extractred from url");
+  assert.equal(urlHelper.getDomainForHostName(new Url("http://24.media.tumblr.com/").host), "tumblr.com", "Domain should be extractred from url");
+  assert.equal(urlHelper.getDomainForHostName(new Url("http://usatthebiglead.files.wordpress.com").host), "wordpress.com", "Domain should be extractred from url");
+  assert.equal(urlHelper.getDomainForHostName(new Url("http://media2.giphy.com/media/FWbnuDAY0XrTq/giphy.gif").host), "giphy.com", "Domain should be extractred from url");
   done();
 };
 
@@ -21,22 +21,22 @@ exports["test get file extension from url"] = function(assert, done) {
 };
 
 exports["test file should be gif"] = function(assert, done) {
-  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.gif"), true, "File should be gif");
-  assert.equal(urlHelper.isGif("http://i.imgur.com/Ae1ehbK.png"), false, "File should not be gif");
-  assert.equal(urlHelper.isGif("http://i.imgur.com/Cc7fEMH.jpg"), false, "File should not be gif");
-  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.gif?param=1"), true, "File should be gif");
-  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.gif?param=1&ost=3#top"), true, "File should be gif");
-  assert.equal(urlHelper.isGif("http://i.minus.com/iJEuFMVd3l0AU.gif#goto=2"), true, "File should be gif");
+  assert.equal(urlHelper.isGifFileExtension("http://i.minus.com/iJEuFMVd3l0AU.gif"), true, "File should be gif");
+  assert.equal(urlHelper.isGifFileExtension("http://i.imgur.com/Ae1ehbK.png"), false, "File should not be gif");
+  assert.equal(urlHelper.isGifFileExtension("http://i.imgur.com/Cc7fEMH.jpg"), false, "File should not be gif");
+  assert.equal(urlHelper.isGifFileExtension("http://i.minus.com/iJEuFMVd3l0AU.gif?param=1"), true, "File should be gif");
+  assert.equal(urlHelper.isGifFileExtension("http://i.minus.com/iJEuFMVd3l0AU.gif?param=1&ost=3#top"), true, "File should be gif");
+  assert.equal(urlHelper.isGifFileExtension("http://i.minus.com/iJEuFMVd3l0AU.gif#goto=2"), true, "File should be gif");
   done();
 };
 
 exports["test file should be an image type"] = function(assert, done) {
-  assert.equal(urlHelper.isImage("http://i.minus.com/iJEuFMVd3l0AU.gif"), true, "File should be a image");
-  assert.equal(urlHelper.isImage("http://i.imgur.com/Ae1ehbK.png"), true, "File should be a image");
-  assert.equal(urlHelper.isImage("http://i.imgur.com/Cc7fEMH.jpg"), true, "File should be a image");
-  assert.equal(urlHelper.isImage("http://i.minus.com/iJEuFMVd3l0AU.gif?param=1"), true, "File should be a image");
-  assert.equal(urlHelper.isImage("http://i.minus.com/iJEuFMVd3l0AU.png?param=1&ost=3#top"), true, "File should be a image");
-  assert.equal(urlHelper.isImage("http://i.minus.com/iJEuFMVd3l0AU.jpg#goto=2"), true, "File should be a image");
+  assert.equal(urlHelper.isImageFileExtension("http://i.minus.com/iJEuFMVd3l0AU.gif"), true, "File should be a image");
+  assert.equal(urlHelper.isImageFileExtension("http://i.imgur.com/Ae1ehbK.png"), true, "File should be a image");
+  assert.equal(urlHelper.isImageFileExtension("http://i.imgur.com/Cc7fEMH.jpg"), true, "File should be a image");
+  assert.equal(urlHelper.isImageFileExtension("http://i.minus.com/iJEuFMVd3l0AU.gif?param=1"), true, "File should be a image");
+  assert.equal(urlHelper.isImageFileExtension("http://i.minus.com/iJEuFMVd3l0AU.png?param=1&ost=3#top"), true, "File should be a image");
+  assert.equal(urlHelper.isImageFileExtension("http://i.minus.com/iJEuFMVd3l0AU.jpg#goto=2"), true, "File should be a image");
   done();
 };
 

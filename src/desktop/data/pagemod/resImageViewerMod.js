@@ -110,6 +110,15 @@ function cleanUp(gif) {
   if (messageNode) {
     removeDomNode(messageNode);
   }
+
+  gif.removeEventListener("load", gifLoaded);
+}
+
+function gifLoaded(event) {
+  console.log("Node name: ", event.target.nodeName)
+  let gif = event.target;
+  gif.style.height = "";
+  gif.removeEventListener("load", gifLoaded);
 }
 
 function createGalleryControlsShim(resGalleryControls) {
@@ -138,12 +147,7 @@ function initGalleryBrowse(resGalleryControls) {
 
       let height = gif.style.maxHeight ? gif.style.maxHeight : 200;
       gif.style.height = height;
-      gif.addEventListener("load", function gifLoaded() {
-        gif.style.height = "";
-        gif.removeEventListener("load", gifLoaded);
-        console.log("Loaded");
-      });
-
+      gif.addEventListener("load", gifLoaded);
 
       videoLoaded = false;
       shim.style.pointerEvents = "none";

@@ -33,15 +33,15 @@ function requestListener(event) {
 
   let isInitialDocument = isChannelInitialDocument(channel);
 
-  let isImage = urlHelper.isImage(url);
+  let isImageFileExtension = urlHelper.isImageFileExtension(url);
   let isRequestedByReddit = request.referrer && request.referrer.host == "www.reddit.com";
 
-  if (isImage && isRequestedByReddit) {
+  if (isImageFileExtension && isRequestedByReddit) {
 
     // Must be one of the hosting services.
-    let domain = urlHelper.getDomainForHost(request.URI.host);
+    let domain = urlHelper.getDomainForHostName(request.URI.host);
     if (!isInitialDocument && properties.gifHostingServices.indexOf(domain) > -1) {
-      console.log("cancel request to " + domain + " gif");
+      console.log("Cancel request to " + domain + " gif");
       channel.cancel(Cr.NS_BINDING_ABORTED);
     }
   }

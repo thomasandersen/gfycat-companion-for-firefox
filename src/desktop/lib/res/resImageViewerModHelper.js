@@ -8,7 +8,7 @@ let PageMod = require("sdk/page-mod").PageMod;
 let Request = require("sdk/request").Request;
 let properties = require("packages/properties");
 let urlHelper = require("packages/urlHelper");
-let resImageBlocker = require("./resImageBlocker");
+let resImageRequestBlocker = require("./resImageRequestBlocker");
 
 Cu.import("resource://gre/modules/AddonManager.jsm");
 
@@ -20,7 +20,7 @@ let pageMod = null;
 let gWorker = null;
 
 function doEnable(enable) {
-  resImageBlocker.enable(enable);
+  resImageRequestBlocker.enable(enable);
   if (!enable) {
     try { 
       pageMod.destroy(); 
@@ -40,7 +40,7 @@ function doEnable(enable) {
 function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
   console.log("checking content type", gifUrl);
 
-  let isGifCallback = () => {
+  let isGifFileExtensionCallback = () => {
     requestGfyTranscoder(gifUrl, gifKey, worker);
   };
 
@@ -48,7 +48,7 @@ function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
     onTranscodeError(gifKey, worker, "Could not transform " + urlHelper.getFileExtension(gifUrl) + " to gfycat video. Displaying original image", false);
   };  
   
-  urlHelper.asyncIsContentTypeGif(gifUrl, isGifCallback, isNotGifCallback);
+  urlHelper.asyncIsContentTypeGif(gifUrl, isGifFileExtensionCallback, isNotGifCallback);
 }
 
 function requestGfyTranscoder(gifUrl, gifKey, worker) {
