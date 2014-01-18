@@ -20,7 +20,12 @@ self.port.on("resImageViewerSupportDisabled", () => {
 
 self.port.on("transcodeStart", (gifUrl, gifKey) => {
   let gif = gifmap.get(gifKey);
-  addLoaderBar(gif);
+  let statusBar = getStatusBarNode(gif);
+
+  statusBar.textContent = "gfycat is working"
+
+  statusBar.classList.add("gccfx-loader-bar-background");
+  statusBar.classList.add("gccfx-loader-animation");
 });
 
 self.port.on("transcodeSuccess", (transcodingJson, gifKey, loadingMessage) => {
@@ -39,8 +44,8 @@ function getGifAnchorNode(gif) {
   return gif.parentNode;
 }
 
-function getLoadingBarNode(gif) {
-  return getImageViewerNode(gif).querySelector(".gccfx-loader-bar");
+function getStatusBarNode(gif) {
+  return getImageViewerNode(gif).querySelector(".gccfx-status-bar");
 }
 
 function getMessageNode(gif) {
@@ -101,9 +106,9 @@ function cleanUp(gif) {
   gif.nextSibling.style.width = gif.width + "px";
   gif.nextSibling.style.height = gif.height + "px";
 
-  let loadingBarNode = getLoadingBarNode(gif);
-  if (loadingBarNode) {
-    removeDomNode(loadingBarNode);
+  let statusBar = getStatusBarNode(gif);
+  if (statusBar) {
+    removeDomNode(statusBar);
   }
 
   let messageNode = getMessageNode(gif);
@@ -151,7 +156,7 @@ function initGalleryBrowse(resGalleryControls) {
       videoLoaded = false;
       shim.style.pointerEvents = "none";
 
-      fetchVideo(gif);
+      tryFetchVideo(gif);
     };
     nextButton.addEventListener("click", browse);
     prevButton.addEventListener("click", browse);
@@ -233,9 +238,9 @@ function replaceGifWithVideo(transcodingJson, gifKey, loadingMessage) {
     videoLoaded = true;
 
     // Display loading message.
-    let loaderBar = getLoadingBarNode(gif);
-    if (loaderBar) {
-      removeDomNode(loaderBar);
+    let statusBar = getStatusBarNode(gif);
+    if (statusBar) {
+      removeDomNode(statusBar);
     }
 
     // Add message
@@ -275,27 +280,25 @@ function replaceGifWithVideo(transcodingJson, gifKey, loadingMessage) {
   imageViewerNode.appendChild(video);
 }
 
-function addLoaderBar(gif) {
-  let bar = getLoadingBarNode(gif);
+function addStatusBar(gif) {
+  let bar = getStatusBarNode(gif);
   if (bar) {
     removeDomNode(bar);
   }
   bar = document.createElement("div");
-  bar.setAttribute("class", "gccfx-loader-bar gccfx-loader-bar-background");
-  bar.style.backgroundImage = "url(" + self.options.spinnerFile + ")";
-  bar.textContent = "gfycat is working";
-  let imageViewerNode = getImageViewerNode(gif);
+  bar.setAttribute("class", "gccfx-status-bar");
+  bar.textContent = "Checking gif";
   
   let anchor = getGifAnchorNode(gif);
   anchor.parentNode.insertBefore(bar, anchor);
 }
 
-function fetchVideo(gif) {
+function tryFetchVideo(gif) {
   // Store reference to the gif  as the workers do not accept dom nodes.
   gifKey++;
   gifmap.set(gifKey, gif);
-
-  // gif.classList.remove("RESImageError");
+  
+  addStatusBar(gif);
 
   // Tell the add-on to fetch the info.
   self.port.emit("requestGfyTranscoder", gif.src, gifKey);
@@ -315,7 +318,7 @@ function onImageViewerExpanded(imageViewerNode) {
     initGalleryBrowse(resGalleryControls);
   }
 
-  fetchVideo(gif, null);
+  tryFetchVideo(gif, null);
 }
 
 function onImageViewerCollapsed(imageViewerNode) {

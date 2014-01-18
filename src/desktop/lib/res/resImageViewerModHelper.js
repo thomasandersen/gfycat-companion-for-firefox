@@ -104,10 +104,7 @@ function enableResPageMod() {
         checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker);
       });
     },
-    contentScriptWhen: "ready",
-    contentScriptOptions: {
-      spinnerFile: self.data.url("images/spinner.gif")
-    }
+    contentScriptWhen: "ready"
   });
 }
 
