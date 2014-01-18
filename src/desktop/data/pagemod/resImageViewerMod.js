@@ -22,7 +22,7 @@ self.port.on("transcodeStart", (gifUrl, gifKey) => {
   let gif = gifmap.get(gifKey);
   let statusBar = getStatusBarNode(gif);
 
-  statusBar.textContent = "gfycat is working"
+  statusBar.textContent = "gfycat is working";
 
   statusBar.classList.add("gccfx-loader-bar-background");
   statusBar.classList.add("gccfx-loader-animation");
@@ -287,7 +287,7 @@ function addStatusBar(gif) {
   }
   bar = document.createElement("div");
   bar.setAttribute("class", "gccfx-status-bar");
-  bar.textContent = "Checking gif";
+  bar.textContent = "Checking image";
   
   let anchor = getGifAnchorNode(gif);
   anchor.parentNode.insertBefore(bar, anchor);

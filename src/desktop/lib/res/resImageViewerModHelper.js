@@ -66,12 +66,13 @@ function requestGfyTranscoder(gifUrl, gifKey, worker) {
 function resolveTranscodeResponse(response, requestedUrl, gifKey, worker) {
   console.log("Transcode response " + response.status, response.json);
 
-  let gfyErrorMessage = response.json.error;
-
-  if (gfyErrorMessage) {
-    onTranscodeError(gifKey, worker, "Could not convert gif. " + gfyErrorMessage, gfyErrorMessage.length < 100);
+  if (!response.json) {
+    onTranscodeError(gifKey, worker, "Unknown error. There was no JSON in the response", false);
   } else if (response.status >= 400) {
-    onTranscodeError(gifKey, worker, "Something went wrong. Server responded with: Status " + repsonse.status + ", " + response.statusText, false);
+    onTranscodeError(gifKey, worker, "Server eroor. Status " + response.status + ", " + response.statusText, false);
+  } else if (response.json.error) {
+    let gfyErrorMessage = response.json.error;
+    onTranscodeError(gifKey, worker, "Could not convert gif. " + gfyErrorMessage, gfyErrorMessage.length < 100);
   } else {
     // Success
     let transcodingJson = response.json;
