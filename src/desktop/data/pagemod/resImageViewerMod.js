@@ -115,6 +115,12 @@ function cleanUp(gif) {
   if (messageNode) {
     removeDomNode(messageNode);
   }
+  /*
+  let dummy = anchor.querySelector(".gccfx-dummy");
+  if (dummy) {
+    removeDomNode(dummy);
+  }
+  */
 
   gif.removeEventListener("load", gifLoaded);
 }
@@ -308,15 +314,18 @@ function onImageViewerExpanded(imageViewerNode) {
   if (isResImageViewerSupportDisabled) {
     return;
   }
-
   let gif = imageViewerNode.querySelector(".RESImage");
-  // Modify RES elements.
+
   let anchor = getGifAnchorNode(gif);
   anchor.style.display = "none";
   let resGalleryControls = getResGalleryControlsNode(gif);
   if (resGalleryControls) {
     initGalleryBrowse(resGalleryControls);
   }
+
+  // Temporary fix for galleries. 
+  // Without this the gallery collapses each time a new image is loaded.
+  anchor.style.overflow = "auto";
 
   tryFetchVideo(gif, null);
 }
