@@ -90,8 +90,8 @@ module.exports = function(grunt) {
     "copy": {
       "shared": {
         "files": [
-          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/packages/*.js"], "dest": DESKTOP_DIR + "/lib/packages/" },
-          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/packages/*.js"], "dest": MOBILE_DIR + "/lib/packages/" },
+          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/shared-packages/*.js"], "dest": DESKTOP_DIR + "/lib/packages/" },
+          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/shared-packages/*.js"], "dest": MOBILE_DIR + "/lib/packages/" },
           { "expand": true, "flatten": true, "src": [SHARED_DIR + "/images/*.png"], "dest": DESKTOP_DIR + "/data/images/" },
           { "expand": true, "flatten": true, "src": [SHARED_DIR + "/images/*.png"], "dest": MOBILE_DIR + "/data/images/" },
           { "expand": true, "flatten": true, "src": [SHARED_DIR + "/test/lib/*.js"], "dest": DESKTOP_DIR + "/test/lib/" },
