@@ -5,13 +5,17 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-contrib-copy");
 
   var profile = grunt.option("profile") || "~/mozilla-profiles/gfycat-companion";
-  
-  var SHARED_DIR = "src/shared";
-  var DESKTOP_DIR = "src/desktop";
-  var MOBILE_DIR = "src/mobile";
-  var DIST_DIR = "dist";
 
   grunt.initConfig({
+    "desktopPkg": grunt.file.readJSON("src/desktop/package.json"),
+    "mobilePkg": grunt.file.readJSON("src/mobile/package.json"),
+    "dirs": {
+      "shared": "src/shared",
+      "desktop": "src/desktop",
+      "mobile": "src/mobile",
+      "dist": "dist"
+    },
+
     "mozilla-addon-sdk": {
       "1_15": {
         "options": {
@@ -30,7 +34,7 @@ module.exports = function(grunt) {
       "run_desktop": {
         "options": {
           "mozilla-addon-sdk": "1_15",
-          "extension_dir": DESKTOP_DIR,
+          "extension_dir": "<%= dirs.desktop %>",
           "command": "run",
           "pipe_output": true,
           "arguments": "-p " + profile
@@ -40,7 +44,7 @@ module.exports = function(grunt) {
       "run_mobile": {
         "options": {
           "mozilla-addon-sdk": "1_15",
-          "extension_dir": MOBILE_DIR,
+          "extension_dir": "<%= dirs.mobile %>",
           "command": "run",
           "pipe_output": true,
           "arguments": "-a fennec-on-device -b adb --mobile-app firefox --force-mobile"
@@ -50,7 +54,7 @@ module.exports = function(grunt) {
       "test_desktop": {
         "options": {
           "mozilla-addon-sdk": "1_15",
-          "extension_dir": DESKTOP_DIR,
+          "extension_dir": "<%= dirs.desktop %>",
           "command": "test",
           "pipe_output": true,
           "arguments": "-p " + profile
@@ -60,7 +64,7 @@ module.exports = function(grunt) {
       "test_mobile": {
         "options": {
           "mozilla-addon-sdk": "1_15",
-          "extension_dir": MOBILE_DIR,
+          "extension_dir": "<%= dirs.mobile %>",
           "command": "test",
           "pipe_output": true,
           "arguments": "-a fennec-on-device -b adb --mobile-app firefox --force-mobile"
@@ -72,15 +76,15 @@ module.exports = function(grunt) {
       "release_desktop": {
         "options": {
           "mozilla-addon-sdk": "1_15",
-          "extension_dir": DESKTOP_DIR,
-          "dist_dir": DIST_DIR + "/desktop"
+          "extension_dir": "<%= dirs.desktop %>",
+          "dist_dir": "<%= dirs.dist %>/desktop"
         }
       },
       "release_mobile": {
         "options": {
           "mozilla-addon-sdk": "1_15",
-          "extension_dir": MOBILE_DIR,
-          "dist_dir": DIST_DIR + "/mobile",
+          "extension_dir": "<%= dirs.mobile %>",
+          "dist_dir": "<%= dirs.dist %>/mobile",
           "arguments": "--force-mobile"
 
         }
@@ -90,12 +94,24 @@ module.exports = function(grunt) {
     "copy": {
       "shared": {
         "files": [
-          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/shared-packages/*.js"], "dest": DESKTOP_DIR + "/lib/packages/" },
-          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/shared-packages/*.js"], "dest": MOBILE_DIR + "/lib/packages/" },
-          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/images/*.png"], "dest": DESKTOP_DIR + "/data/images/" },
-          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/images/*.png"], "dest": MOBILE_DIR + "/data/images/" },
-          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/test/lib/*.js"], "dest": DESKTOP_DIR + "/test/lib/" },
-          { "expand": true, "flatten": true, "src": [SHARED_DIR + "/test/lib/*.js"], "dest": MOBILE_DIR + "/test/lib/" }
+          { "expand": true, "flatten": true, "src": "<%= dirs.shared %>/shared-packages/*.js", "dest": "<%= dirs.desktop %>/lib/packages/" },
+          { "expand": true, "flatten": true, "src": "<%= dirs.shared %>/shared-packages/*.js", "dest": "<%= dirs.mobile %>/lib/packages/" },
+          { "expand": true, "flatten": true, "src": "<%= dirs.shared %>/images/*.png", "dest": "<%= dirs.desktop %>/data/images/" },
+          { "expand": true, "flatten": true, "src": "<%= dirs.shared %>/images/*.png", "dest": "<%= dirs.mobile %>/data/images/" },
+          { "expand": true, "flatten": true, "src": "<%= dirs.shared %>/test/lib/*.js", "dest": "<%= dirs.desktop %>/test/lib/" },
+          { "expand": true, "flatten": true, "src": "<%= dirs.shared %>/test/lib/*.js", "dest": "<%= dirs.mobile %>/test/lib/" }
+        ]
+      },
+      "release": {
+        "files": [
+          {
+            "src": "<%= dirs.dist %>/desktop/<%= desktopPkg.name %>.xpi",
+            "dest": "<%= dirs.dist %>/desktop/<%= desktopPkg.name %>-<%= desktopPkg.version %>.xpi"
+          },
+          {
+            "src": "<%= dirs.dist %>/mobile/<%= mobilePkg.name %>.xpi",
+            "dest": "<%= dirs.dist %>/mobile/<%= mobilePkg.name %>-<%= mobilePkg.version %>.xpi"
+          },
         ]
       }
     },
@@ -110,7 +126,7 @@ module.exports = function(grunt) {
         "globals": {
         },
       },
-      "files": ["Gruntfile.js", DESKTOP_DIR + "/**/*.js", MOBILE_DIR + "/**/*.js"]
+      "files": ["Gruntfile.js", "<%= dirs.desktop %>/**/*.js", "<%= dirs.mobile %>/**/*.js"]
     }
 
   });
@@ -147,6 +163,7 @@ module.exports = function(grunt) {
     "jshint",
     "mozilla-cfx-xpi:release_desktop",
     "mozilla-cfx-xpi:release_mobile",
+    "copy:release"
   ]);
 
 };
