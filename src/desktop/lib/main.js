@@ -22,7 +22,7 @@ simplePrefs.on("resImageViewerSupport", () => {
 });
 
 // ------------------------------------------------------------------------------
-// Setup context menu
+// Setup context menu items
 // ------------------------------------------------------------------------------
 
 contextMenu.Item({
@@ -48,7 +48,7 @@ contextMenu.Item({
 });
 
 // ------------------------------------------------------------------------------
-// Start
+// Initialize
 // ------------------------------------------------------------------------------
 
 redirecter.enable(simplePrefs.prefs.redirectDirectGifRequests);

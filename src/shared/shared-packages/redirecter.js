@@ -53,7 +53,6 @@ function redirect(request, redirectUrl) {
   } else {
     let gBrowser = browserWindow.gBrowser;
     let domWin = getWindowForRequest(request);
-    console.log("domWin", domWin);
     let browser = gBrowser.getBrowserForDocument(domWin.top.document);
     browser.loadURI(redirectUrl);
   }
@@ -108,7 +107,6 @@ function requestListener(event) {
       timers.setTimeout(() => {
         console.log("Enable");
         doEnable(true);
-
       }, 300);
     };
 

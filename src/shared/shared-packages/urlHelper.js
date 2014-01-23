@@ -22,14 +22,14 @@ exports.addParameterToUrl = (paramName, paramValue, url) => {
   return urlWithParam;
 };  
 
-exports.asyncIsContentTypeGif = (url, isGifFileExtensionCallback, isNotGifCallback) => {
+exports.asyncIsContentTypeGif = (url, isGifCallback, isNotGifCallback) => {
   Request({
     url: url,
     onComplete: (response) => {
       let contentType = response.headers["Content-Type"];
       if (contentType.toLowerCase().contains("gif")) {
         console.log("Is gif content type, " + url);
-        isGifFileExtensionCallback();
+        isGifCallback();
       } else {
         console.log("Is not gif content type, " + url);
         isNotGifCallback();
