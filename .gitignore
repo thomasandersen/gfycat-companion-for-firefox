@@ -7,3 +7,5 @@
 # Copied by build
 src/desktop/lib/packages
 src/mobile/lib/packages
+src/desktop/data/packages
+src/mobile/lib/packages
