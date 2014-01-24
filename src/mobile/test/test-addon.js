@@ -3,13 +3,9 @@ let windowUtil = require("sdk/window/utils");
 let tabs = require("sdk/tabs");
 let tabUtil = require("sdk/tabs/utils");
 let main = require("./main");
-let { wait, context } = require("./lib/testUtil");
+let { wait, context } = require("./lib/sdkTestUtil");
 
-let testGif = "http://i.imgur.com/jqVmuPG.gif";
-
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
+const TEST_GIF = "http://i.imgur.com/jqVmuPG.gif";
 
 exports["test direct gif request should redirect to gfycat"] = function(assert, done) {
   loadTestPage(assert)
@@ -32,17 +28,13 @@ function test_gifRequestShouldBeRedirectedToGfycat(assert) {
   return deferred.promise;
 }
 
-// ------------------------------------------------------------------------------
-// Helper functions
-// ------------------------------------------------------------------------------
-
 function loadTestPage(assert) {
   let deferred = promise.defer();
   let allTabs = tabUtil.getTabs(windowUtil.getMostRecentBrowserWindow());
   let contentWindow = tabUtil.getTabContentWindow(allTabs[0]);
 
   let browserWindow = windowUtil.getMostRecentWindow();
-  browserWindow.BrowserApp.loadURI(testGif);
+  browserWindow.BrowserApp.loadURI(TEST_GIF);
 
   wait(4000).then(() => {
     deferred.resolve(assert);

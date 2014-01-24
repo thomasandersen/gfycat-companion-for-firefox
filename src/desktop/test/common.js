@@ -6,7 +6,7 @@ let tabs = require("sdk/tabs");
 let tabUtil = require("sdk/tabs/utils");
 let clipboard = require("sdk/clipboard");
 let main = require("./main");
-let { wait, context } = require("./lib/testUtil");
+let { wait, context } = require("./lib/sdkTestUtil");
 
 let testPage = "http://mr-andersen.no/gfcycat-companion-test/index.html";
 
@@ -14,8 +14,6 @@ exports.loadTestPage = loadTestPage;
 exports.getAnchorNode = getAnchorNode;
 exports.getImageNode = getImageNode;
 exports.getContentAreaContextMenu = getContentAreaContextMenu;
-exports.getOpenWithGfyCatMenuItem = getOpenWithGfyCatMenuItem;
-exports.getCopyAsGfyCatUrlMenuItem = getCopyAsGfyCatUrlMenuItem;
 
 function loadTestPage(assert) {
   let deferred = promise.defer();
@@ -40,12 +38,4 @@ function getImageNode() {
 
 function getContentAreaContextMenu() {
   return windowUtil.getMostRecentBrowserWindow().document.querySelector("#contentAreaContextMenu");
-}
-
-function getOpenWithGfyCatMenuItem(contextMenu) {
-  return contextMenu.querySelector("menuitem[value='gccfx-openWithGfyCat']");
-}
-
-function getCopyAsGfyCatUrlMenuItem(contextMenu) {
-  return contextMenu.querySelector("menuitem[value='gccfx-menuItemCopyAsGfycatUrl']");
 }

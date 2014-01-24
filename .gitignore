@@ -9,3 +9,5 @@ src/desktop/lib/packages
 src/mobile/lib/packages
 src/desktop/data/packages
 src/mobile/lib/packages
+src/desktop/test/lib
+src/mobile/test/lib

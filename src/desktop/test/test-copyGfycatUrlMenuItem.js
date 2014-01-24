@@ -4,37 +4,33 @@ let tabs = require("sdk/tabs");
 let tabUtil = require("sdk/tabs/utils");
 let clipboard = require("sdk/clipboard");
 let main = require("./main");
-let { wait, context } = require("./lib/testUtil");
-let helper = require("./helper");
+let common = require("./common");
+let { wait, context, loadPage } = require("./lib/sdkTestUtil");
 
 exports["test click menu item"] = function(assert, done) {
-  helper.loadTestPage(assert)
-  .then(() => {
-    let deferred = promise.defer();
-    test_clickMenuItem(assert, deferred);
-    return deferred.promise;
-  })
+  loadPage("http://mr-andersen.no/gfcycat-companion-test/index.html", assert)
+  .then(test_clickMenuItem)
   .then(done);
 };
 
-function test_clickMenuItem(assert, deferred) {
-  // Context click the node
-  context.simulateMouseEvent("contextmenu", helper.getImageNode());
+function test_clickMenuItem(assert) {
+  let deferred = promise.defer();
+
+  context.simulateMouseEvent("contextmenu", common.getImageNode());
 
   // Wait for context menu
   wait(500).then(() => {
-    let contextMenu = helper.getContentAreaContextMenu();
-    let menuItem = helper.getCopyAsGfyCatUrlMenuItem(contextMenu);
+    let contextMenu = common.getContentAreaContextMenu();
+    let menuItem = contextMenu.querySelector("menuitem[value='gccfx-menuItemCopyAsGfycatUrl']");
+    
+    assert.equal(menuItem.hidden, false, "'Copy as gfycat' menuitem is displayed");
 
-    assert.equal(menuItem.hidden, false, "Copy as gfycat menu item is shown");
-
-    // Execute menu item's command
     menuItem.doCommand();
-
     // Wait for clipboard
     wait(300).then(() => {
-      assert.ok(clipboard.get().contains("http://gfycat.com/fetch/"), "clipbard should contain gfycat endpoint");
-      assert.ok(clipboard.get().contains("1963.gif"), "clipbard should contain gif file");
+      assert.equal(clipboard.get(), "http://gfycat.com/fetch/http://awegif.com/gifs/1963.gif",
+       "Clipboard has the correct url.");
+
       deferred.resolve(assert);
     });
 
