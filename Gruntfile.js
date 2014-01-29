@@ -131,13 +131,17 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask("default", [
+  grunt.registerTask("default", "run_desktop");
+
+  grunt.registerTask("run_desktop", [
     "copy:shared",
+    "jshint",
     "mozilla-cfx:run_desktop"
   ]);
 
   grunt.registerTask("run_mobile", [
     "copy:shared",
+    "jshint",
     "mozilla-cfx:run_mobile"
   ]);
 

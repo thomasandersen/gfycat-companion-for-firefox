@@ -28,7 +28,9 @@ exports.gifHostingServices = [
   "imgflip.com",
   "abload.de",
   "sta.sh",
-  "reactiongifs.us"
+  "reactiongifs.us",
+  "lolgifs.net",
+  "fod4.com",
+  "randomgifs.net",
+  "giphy.com"
 ];
-
- 
