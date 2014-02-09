@@ -97,8 +97,16 @@ function enableResPageMod() {
   pageMod = PageMod({
     include: ["*.reddit.com"],
     attachTo: ["existing", "top"],
-    contentScriptFile: self.data.url("pagemod/resImageViewerMod.js"),
-    contentStyleFile: self.data.url("pagemod/resImageViewerMod.css"),
+    contentScriptFile: [
+      self.data.url("res/view/dom.js"),
+      self.data.url("res/view/video.js"),
+      self.data.url("res/view/slider.js"),
+      self.data.url("res/view/statusbar.js"),
+      self.data.url("res/view/message.js"),
+      self.data.url("res/view/imageviewer.js"),
+      self.data.url("res/pagemod.js")
+    ],
+    contentStyleFile: self.data.url("res/css/style.css"),
     onAttach: function(worker) {
       gWorker = worker;
       worker.port.on("requestGfyTranscoder", (gifUrl, gifKey) => {
