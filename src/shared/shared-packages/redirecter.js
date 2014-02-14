@@ -46,15 +46,16 @@ function getWindowForRequest(request){
   return null;
 }
 
-function redirect(request, redirectUrl) {
+function redirectToVideoPage(request, url) {
   let browserWindow = windowUtils.getMostRecentBrowserWindow();
+  let videoPage = "chrome://gfycat/content/video.html?s=" + url;
   if (system.platform == "android") {
-    browserWindow.BrowserApp.loadURI(redirectUrl);
+    browserWindow.BrowserApp.loadURI(videoPage);
   } else {
     let gBrowser = browserWindow.gBrowser;
     let domWin = getWindowForRequest(request);
     let browser = gBrowser.getBrowserForDocument(domWin.top.document);
-    browser.loadURI(redirectUrl);
+    browser.loadURI(videoPage);
   }
 }
 
@@ -97,7 +98,7 @@ function requestListener(event) {
         }]
       });
 
-      redirect(request, (properties.gfycat.fetchEndpoint + url));
+      redirectToVideoPage(request, url);
     };
 
     let isGNotifCallback = () => {
@@ -111,7 +112,7 @@ function requestListener(event) {
     };
 
     // Check if image is a gif by doing a head request.
-    console.log("check content type");
+    console.log("Check content type");
     urlHelper.asyncIsContentTypeGif(url, isGifFileExtensionCallback, isGNotifCallback);
   }
 }

@@ -1,0 +1,38 @@
+body {
+  font: 12px/1.4 "Lucida Grande";
+}
+
+video, img, #load-status {
+  text-align: center;
+  position: absolute;
+  margin: auto;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+#info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  cursor: pointer;
+}
+
+#info:hover ~ #info-box {
+  display: block;
+}
+
+#info-box {
+  position: absolute;
+  bottom: 30px;
+  left: 10px;
+  display: none;
+}
+
+#load-status {
+  background: url("HTML5_Multimedia_256.png") no-repeat;
+  width: 256px;
+  height: 256px;
+  text-align: center;
+}

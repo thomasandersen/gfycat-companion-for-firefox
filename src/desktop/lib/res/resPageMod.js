@@ -23,7 +23,7 @@ function doEnable(enable) {
   resImageRequestBlocker.enable(enable);
   if (!enable) {
     try { 
-      pageMod.destroy(); 
+      pageMod.destroy();
       gWorker.port.emit("resImageViewerSupportDisabled");
     } 
     catch(ex) {
@@ -38,7 +38,7 @@ function doEnable(enable) {
 }
 
 function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
-  console.log("checking content type", gifUrl);
+  console.log("Checking content type", gifUrl);
 
   let isGifFileExtensionCallback = () => {
     requestGfyTranscoder(gifUrl, gifKey, worker);

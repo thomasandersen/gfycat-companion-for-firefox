@@ -108,7 +108,7 @@ function onTranscodeError(gifKey, errorMessage, showErrorMessage) {
   if (showErrorMessage) {
     let messageNode = Message.getNode(gif);
     if (messageNode) {
-      dom.removeNode(messageNode);
+      Dom.removeNode(messageNode);
     }
     messageNode = Message.create(errorMessage);
     let anchor = ImageViewer.getGifAnchorNode(gif);
@@ -133,7 +133,7 @@ function replaceGifWithVideo(transcodeJson, gifKey, loadingMessage) {
   ImageViewer.getGifAnchorNode(gif).style.display = "none";
 
   if (video) {
-    dom.removeNode(video);
+    Dom.removeNode(video);
   }
 
   video = Video.create(transcodeJson.webmUrl, transcodeJson.gifWidth, () => {
@@ -142,13 +142,13 @@ function replaceGifWithVideo(transcodeJson, gifKey, loadingMessage) {
     // Display loading message.
     let statusBar = StatusBar.getNode(gif);
     if (statusBar) {
-      dom.removeNode(statusBar);
+      Dom.removeNode(statusBar);
     }
 
     // Add message
     let messageNode = Message.getNode(gif);
     if (messageNode) {
-      dom.removeNode(messageNode);
+      Dom.removeNode(messageNode);
     }
     messageNode = Message.create(loadingMessage);
     video.parentNode.insertBefore(messageNode, video);
@@ -161,7 +161,7 @@ function replaceGifWithVideo(transcodeJson, gifKey, loadingMessage) {
 
     let videoResizer = Slider.getNode(gif);
     if (videoResizer) {
-      dom.removeNode(videoResizer);
+      Dom.removeNode(videoResizer);
     }
 
     videoResizer = Slider.create((transcodeJson.gifWidth / 2), (transcodeJson.gifWidth * 2), onVideoResize);
@@ -181,15 +181,13 @@ function replaceGifWithVideo(transcodeJson, gifKey, loadingMessage) {
 function addStatusBar(gif) {
   let bar = StatusBar.getNode(gif);
   if (bar) {
-    dom.removeNode(bar);
+    Dom.removeNode(bar);
   }
   bar = StatusBar.create();
   
   let anchor = ImageViewer.getGifAnchorNode(gif);
   anchor.parentNode.insertBefore(bar, anchor);
 }
-
-
 
 function initGalleryBrowse(resGalleryControls) {
   if (resGalleryControls && !resGalleryControls.classList.contains("videoClick")) {
@@ -228,13 +226,13 @@ function gifLoaded(event) {
 function cleanUp(gif) {
   let video = Video.getNode(gif);
   if (video) {
-    dom.removeNode(video);
+    Dom.removeNode(video);
   }
 
   let resizeSlider = Slider.getNode(gif);
   if (resizeSlider) {
     resizeSlider.removeEventListener("change", onVideoResize);
-    dom.removeNode(resizeSlider);
+    Dom.removeNode(resizeSlider);
   }
 
   let shim = ImageViewer.getResGalleryControlsNodeShimNode(gif);
@@ -252,12 +250,12 @@ function cleanUp(gif) {
 
   let statusBar = StatusBar.getNode(gif);
   if (statusBar) {
-    dom.removeNode(statusBar);
+    Dom.removeNode(statusBar);
   }
 
   let messageNode = Message.getNode(gif);
   if (messageNode) {
-    dom.removeNode(messageNode);
+    Dom.removeNode(messageNode);
   }
 
   gif.removeEventListener("load", gifLoaded);

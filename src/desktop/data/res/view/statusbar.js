@@ -10,7 +10,7 @@ let StatusBar = {
 
   showLoading: (gif) => {
     let statusbar = ImageViewer.getImageViewerNode(gif).querySelector(".gccfx-status-bar");
-    statusbar.textContent = "gfycat is working";
+    statusbar.textContent = "Transcoding gif...";
     statusbar.classList.add("gccfx-loader-bar-background");
     statusbar.classList.add("gccfx-loader-animation");
   },

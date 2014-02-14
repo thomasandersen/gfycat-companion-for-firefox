@@ -28,10 +28,10 @@ exports.asyncIsContentTypeGif = (url, isGifCallback, isNotGifCallback) => {
     onComplete: (response) => {
       let contentType = response.headers["Content-Type"];
       if (contentType.toLowerCase().contains("gif")) {
-        console.log("Is gif content type, " + url);
+        console.log("Content type is gif, " + url);
         isGifCallback();
       } else {
-        console.log("Is not gif content type, " + url);
+        console.log("Content type is not gif, " + url);
         isNotGifCallback();
       }
     }
