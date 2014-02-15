@@ -23,6 +23,8 @@ function getLoadStatusEl() {
   return document.querySelector("#load-status");
 }
 
+console.log("self", self);
+
 function updateTitle(titleStr) {
   document.title = titleStr;
 }
@@ -46,7 +48,7 @@ function updateVideo(videoSrc, width) {
   });
 
   videoEl.addEventListener("play", function() {
-    updateTitle("▶ " + TITLE + ": " + videoSrc);
+    updateTitle("▶ " + TITLE + videoSrc);
   });
 }
 

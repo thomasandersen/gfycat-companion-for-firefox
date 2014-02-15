@@ -5,14 +5,14 @@ let tabs = require("sdk/tabs");
 let contextMenu = require("sdk/context-menu");
 let properties = require("packages/properties");
 let redirecter = require("packages/redirecter");
-let resPageMod = require("./res/resPageMod");
+let resPageMod = require("./pagemod/resPageMod");
 
 // ------------------------------------------------------------------------------
 // Setup listeners
 // ------------------------------------------------------------------------------
 
-simplePrefs.on("redirectDirectGifRequests", () => {
-  redirecter.enable(simplePrefs.prefs.redirectDirectGifRequests);
+simplePrefs.on("showVideoInsteadOfGif", () => {
+  redirecter.enable(simplePrefs.prefs.showVideoInsteadOfGif);
 });
 
 simplePrefs.on("resImageViewerSupport", () => {
@@ -26,24 +26,13 @@ simplePrefs.on("resImageViewerSupport", () => {
 // ------------------------------------------------------------------------------
 
 contextMenu.Item({
-  label: "Open with gfycat",
-  data: "gccfx-openWithGfyCat",
+  label: "View as HTML5 Video",
+  data: "gccfx-viewAsHtml5Video",
   context: contextMenu.SelectorContext("img[src*=\".gif\"]"),
   contentScriptFile: self.data.url("contextMenuClick.js"),
   image: self.data.url("images/icon-16.png"),
-  onMessage: function (link) {
-    tabs.open(properties.gfycat.fetchEndpoint + link);
-  }
-});
-
-contextMenu.Item({
-  label: "Copy as gfycat URL",
-  data: "gccfx-menuItemCopyAsGfycatUrl",
-  context: contextMenu.SelectorContext("img[src*=\".gif\"], a[href*=\".gif\"]"),
-  contentScriptFile: self.data.url("contextMenuClick.js"),
-  image: self.data.url("images/icon-16.png"),
-  onMessage: function (link) {
-    clipboard.set(properties.gfycat.fetchEndpoint + link);
+  onMessage: function (src) {
+    tabs.open(properties.addon.chromePageUrl + src);
   }
 });
 
@@ -51,5 +40,5 @@ contextMenu.Item({
 // Initialize
 // ------------------------------------------------------------------------------
 
-redirecter.enable(simplePrefs.prefs.redirectDirectGifRequests);
+redirecter.enable(simplePrefs.prefs.showVideoInsteadOfGif);
 resPageMod.enable(simplePrefs.prefs.resImageViewerSupport);

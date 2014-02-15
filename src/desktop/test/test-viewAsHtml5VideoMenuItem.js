@@ -19,7 +19,7 @@ function test_clickMenuItem(assert) {
   // Wait for context menu
   wait(500).then(() => {
     let contextMenu = common.getContentAreaContextMenu();
-    let menuItem = contextMenu.querySelector("menuitem[value='gccfx-openWithGfyCat']");
+    let menuItem = contextMenu.querySelector("menuitem[value='gccfx-viewAsHtml5Video']");
 
     assert.equal(menuItem.hidden, false, "'Upload to gfycat' menuitem is displayed");
 
@@ -31,7 +31,7 @@ function test_clickMenuItem(assert) {
       let tab = allTabs[allTabs.length-1];
       let contentWindow = tabUtil.getTabContentWindow(tab);
 
-      assert.ok(contentWindow.location.href.startsWith("http://gfycat.com"), "Clicking Upload to gfycat menu item should open new tab to gfycat service");
+      assert.ok(contentWindow.location.href.startsWith("chrome://gfycat/content/video.html"), "Clicking 'View as HTML5 Video' menu item should open new tab to video page");
 
       browserWindow.gBrowser.removeTab(tab);
       deferred.resolve(assert);

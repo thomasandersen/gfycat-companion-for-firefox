@@ -9,15 +9,15 @@
   "icon": "data/images/icon-128.png",
   "preferences": [
     {
-      "name": "redirectDirectGifRequests",
-      "title": "Redirect gif requests to gfycat",
-      "description": "Automatically redirect to gfycat when a gif is directly requested",
+      "name": "showVideoInsteadOfGif",
+      "title": "Show video instead of gif",
+      "description": "When requesting a gif link, show video instead of the gif",
       "type": "bool",
       "value": true
     },
     {
       "name": "resImageViewerSupport",
-      "title": "RES: Enable video conversion in image viewer",
+      "title": "RES: Enable video conversion in RES's image viewer",
       "description": "Replaces gifs in the RES image viewer with gfycat videos.",
       "type": "bool",
       "value": true

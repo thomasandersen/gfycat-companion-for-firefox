@@ -1,3 +1,7 @@
+exports.addon = {
+  chromePageUrl: "chrome://gfycat/content/video.html?s="
+};
+
 exports.gfycat = {
   domain: "gfycat.com",
   transcodeEndpoint: "http://upload.gfycat.com/transcode/",

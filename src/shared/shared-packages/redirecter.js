@@ -46,16 +46,15 @@ function getWindowForRequest(request){
   return null;
 }
 
-function redirectToVideoPage(request, url) {
+function redirectRequest(request, url) {
   let browserWindow = windowUtils.getMostRecentBrowserWindow();
-  let videoPage = "chrome://gfycat/content/video.html?s=" + url;
   if (system.platform == "android") {
-    browserWindow.BrowserApp.loadURI(videoPage);
+    browserWindow.BrowserApp.loadURI(url);
   } else {
     let gBrowser = browserWindow.gBrowser;
     let domWin = getWindowForRequest(request);
     let browser = gBrowser.getBrowserForDocument(domWin.top.document);
-    browser.loadURI(videoPage);
+    browser.loadURI(url);
   }
 }
 
@@ -89,6 +88,8 @@ function requestListener(event) {
     let isGifFileExtensionCallback = () => {
       // Since the request is aborted, make sure the url is updated in the browser history. 
       // Automatically marks the url as visited etc.
+      let videoPage = properties.addon.chromePageUrl + url;
+
       asyncHistory.updatePlaces({
         title: "Redirected by gfycat companion, " + url,
         uri: request.URI,
@@ -98,13 +99,13 @@ function requestListener(event) {
         }]
       });
 
-      redirectToVideoPage(request, url);
+      redirectRequest(request, videoPage);
     };
 
     let isGNotifCallback = () => {
       // Disable the listener before redirect so the listener does not loop.
       doEnable(false);
-      redirect(request, url);
+      redirectRequest(request, url);
       timers.setTimeout(() => {
         console.log("Enable");
         doEnable(true);

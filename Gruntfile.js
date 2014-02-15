@@ -126,7 +126,11 @@ module.exports = function(grunt) {
         "globals": {
         },
       },
-      "files": ["Gruntfile.js", "<%= dirs.desktop %>/**/*.js", "<%= dirs.mobile %>/**/*.js"]
+      "files": [
+        "Gruntfile.js", 
+        "<%= dirs.desktop %>/**/*.js", 
+        "<%= dirs.mobile %>/**/*.js"
+      ]
     }
 
   });

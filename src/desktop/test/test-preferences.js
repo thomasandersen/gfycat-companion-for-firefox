@@ -1,8 +1,8 @@
 let simplePrefs = require("sdk/simple-prefs");
 
 exports["test that preferences exists"] = function(assert, done) {
-  console.log("PREF: " + simplePrefs.prefs.redirectDirectGifRequests);
-  assert.ok(simplePrefs.prefs.redirectDirectGifRequests != null, "preference .redirectDirectGifRequests should exist");
+  console.log("PREF: " + simplePrefs.prefs.showVideoInsteadOfGif);
+  assert.ok(simplePrefs.prefs.showVideoInsteadOfGif != null, "preference .showVideoInsteadOfGif should exist");
   assert.ok(simplePrefs.prefs.resImageViewerSupport != null, "preference .resImageViewerSupport should exist");
 
   done();

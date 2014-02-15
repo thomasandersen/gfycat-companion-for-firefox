@@ -14,11 +14,10 @@ function test_gifRequestShouldBeRedirectedToGfycat(assert) {
   let deferred = promise.defer();
   common.getAnchorNode().click();
 
-  // Wait for response from gfycat service.
   wait(10000).then(() => {
-    assert.ok(tabs.activeTab.url.startsWith("http://gfycat.com/"), "gif request should be redirected to gfycat");
+    assert.ok(tabs.activeTab.url.startsWith("chrome://gfycat/content/video.html"), "gif request should be redirected to gfycat");
     deferred.resolve(assert);
-  }, 10000);
+  });
   return deferred.promise;
 }
 

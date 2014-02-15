@@ -31,7 +31,7 @@ video, img, #load-status {
 }
 
 #load-status {
-  background: url("HTML5_Multimedia_256.png") no-repeat;
+  background: url("../images/HTML5_Multimedia_256.png") no-repeat;
   width: 256px;
   height: 256px;
   text-align: center;
