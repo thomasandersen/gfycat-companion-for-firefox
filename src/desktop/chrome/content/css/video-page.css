@@ -1,10 +1,11 @@
 body {
   font: 12px/1.4 "Lucida Grande";
   text-align: center;
+  background-image: url("chrome://global/skin/media/imagedoc-darknoise.png");
 }
 
 body, a {
-  color: #f3f3f3;
+  color: #eee;
 }
 
 video, img#fallback, #load-status {
@@ -61,6 +62,17 @@ video, img#fallback, #load-status {
   bottom: 0;
   padding: 10px;
   transition: opacity 300ms;
+}
+
+#info-box #gfycat-logo {
+  width: 22px;
+  height: 22px;
+  padding-right: 5px;
+  vertical-align: middle;
+}
+
+#info-box #bytes-saved {
+  font-size: 120%;
 }
 
 #info-box:hover {

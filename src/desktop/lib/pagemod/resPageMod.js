@@ -77,7 +77,7 @@ function resolveTranscodeResponse(response, requestedUrl, gifKey, worker) {
     // Success
     let transcodingJson = response.json;
     let bytesSaved = getBandwidthSavedInMB(transcodingJson);
-    let message = "About " + bytesSaved.toPrecision(2) + " MB of bandwidth was saved";
+    let message = "About " + bytesSaved.toPrecision(2) + " MB of internet bandwidth was saved";
     if (bytesSaved < 0) {
       message = "The gfycat video file size (" + transcodingJson.gfysize + " Bytes) is actually larger than the gif (" + transcodingJson.gifSize + " Bytes)";
     }
