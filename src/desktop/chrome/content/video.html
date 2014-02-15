@@ -12,17 +12,16 @@
   <script type="text/javascript" src="js/video-page.js"></script>
 </head>
 <body>
-  <div id="load-status"></div>
-  <video width="128" loop="true" style="display:none">
-  </video>
-  <div id="info" style="display:none">
-    Info
+  <div id="load-status">
+    <div id="loading-bar"></div>
   </div>
-  <div id="info-box">
+  <video width="128" loop="true" style="display:none"></video>
+  <div id="info-box" style="display:none">
+    <span>About <span id="bytes-saved"><!-- --></span> of bandwidth was saved.</span>
     <span>Original Image: </span>
-    <a>http://i.imgur.com/senGFZJ.gif</a>
-    <span>Size Saved: </span>
-    <span>4.6 MB</span>
+    <a id="original-image" href="#"><!-- --></a>, 
+    <span>Gfycat URL: </span>
+    <a id="gfy-url" href="#"><!-- --></a>
   </div>
 </body>
 </html>

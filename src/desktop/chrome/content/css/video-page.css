@@ -1,8 +1,13 @@
 body {
   font: 12px/1.4 "Lucida Grande";
+  text-align: center;
 }
 
-video, img, #load-status {
+body, a {
+  color: #f3f3f3;
+}
+
+video, img#fallback, #load-status {
   text-align: center;
   position: absolute;
   margin: auto;
@@ -12,27 +17,52 @@ video, img, #load-status {
   left: 0px;
 }
 
-#info {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  cursor: pointer;
-}
-
-#info:hover ~ #info-box {
-  display: block;
-}
-
-#info-box {
-  position: absolute;
-  bottom: 30px;
-  left: 10px;
-  display: none;
-}
-
 #load-status {
   background: url("../images/HTML5_Multimedia_256.png") no-repeat;
   width: 256px;
   height: 256px;
   text-align: center;
+}
+
+@keyframes loadingAnimation { 
+  0% { 
+    background-size: 0 20px;
+    opacity: 1;
+  } 
+  90% { 
+    background-size: 197px 20px;
+    opacity: 1;
+  }
+  100% {
+    background-size: 197px 20px;
+    opacity: 0;
+  }
+}
+
+#loading-bar {
+  width: 197px;
+  height: 20px;
+  background-image:  linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 100%);
+  background-size: 0 20px;
+  background-repeat: no-repeat;
+  position: absolute;
+  bottom: 20px;
+  left: 15px;
+  animation-name: loadingAnimation;
+  animation-iteration-count: infinite;
+  animation-duration: 3s;
+}
+
+#info-box {
+  opacity: .2;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 10px;
+  transition: opacity 300ms;
+}
+
+#info-box:hover {
+  opacity: 1;
 }
