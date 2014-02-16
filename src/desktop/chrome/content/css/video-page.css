@@ -78,3 +78,16 @@ video, img#fallback, #load-status {
 #info-box:hover {
   opacity: 1;
 }
+
+#back {
+  opacity: .2;
+  cursor: pointer;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  transition: opacity 300ms;
+}
+
+#back:hover {
+  opacity: 1;
+}

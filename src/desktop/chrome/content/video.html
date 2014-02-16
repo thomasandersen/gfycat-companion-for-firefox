@@ -9,13 +9,14 @@
   <script type="text/javascript" src="js/video-page.js"></script>
 </head>
 <body>
+  <div id="back" onclick="javascript:window.history.back()">Back</div>
   <div id="load-status">
     <div id="loading-bar"></div>
   </div>
   <video width="128" loop="true" style="display:none"></video>
   <div id="info-box" style="display:none">
     <img id="gfycat-logo" src="images/icon-128.png"/>Powered by Gfycat / 
-    <span>About <span id="bytes-saved"><!-- --></span> of internet bandwidth was saved</span>
+    <span>About <span id="megabytes-saved"><!-- --></span> of internet bandwidth was saved</span>
     / <span>Original Image: </span>
     <a id="original-image" href="#"><!-- --></a>, 
     <span>Gfycat URL: </span>

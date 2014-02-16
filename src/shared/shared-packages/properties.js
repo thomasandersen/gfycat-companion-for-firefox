@@ -36,5 +36,8 @@ exports.gifHostingServices = [
   "lolgifs.net",
   "fod4.com",
   "randomgifs.net",
-  "giphy.com"
+  "giphy.com",
+  "sbnation.com",
+  "sta.sh",
+  "gifply.com"
 ];

@@ -30,7 +30,7 @@
   background-repeat: no-repeat;
   padding-left: 3px;
   background-size: 1px 30px;
-  background-image:  linear-gradient(to right, rgba(206,227,248,0.3) 0%,rgba(206,227,248,1) 100%);
+  background-image:  linear-gradient(to right, rgba(206,227,248,1) 0%,rgba(206,227,248,1) 100%);
 }
 
 .gccfx-gallery-controls-shim {

@@ -6,11 +6,13 @@ let { Cu } = require("chrome");
 let self = require("sdk/self");
 let PageMod = require("sdk/page-mod").PageMod;
 let Request = require("sdk/request").Request;
+let preferencesService = require("sdk/preferences/service");
 let properties = require("packages/properties");
 let urlHelper = require("packages/urlHelper");
 let resImageRequestBlocker = require("./resImageRequestBlocker");
 
 Cu.import("resource://gre/modules/AddonManager.jsm");
+Cu.import("chrome://gfycat/content/jsm/bytesSaved.jsm");
 
 exports.enable = (enable) => {
   return doEnable(enable);
@@ -76,11 +78,14 @@ function resolveTranscodeResponse(response, requestedUrl, gifKey, worker) {
   } else {
     // Success
     let transcodingJson = response.json;
-    let bytesSaved = getBandwidthSavedInMB(transcodingJson);
-    let message = "About " + bytesSaved.toPrecision(2) + " MB of internet bandwidth was saved";
-    if (bytesSaved < 0) {
+    let mbSaved = getBandwidthSavedInMB(transcodingJson);
+    let message = "About " + mbSaved.toPrecision(2) + " MB of internet bandwidth was saved";
+    if (mbSaved < 0) {
       message = "The gfycat video file size (" + transcodingJson.gfysize + " Bytes) is actually larger than the gif (" + transcodingJson.gifSize + " Bytes)";
     }
+
+    saveBandwidthSaved(transcodingJson);
+
     onTranscodeSuccess(response, gifKey, worker, message);
   }
 }
@@ -125,9 +130,10 @@ function createPsudoRandomStr(stringLength) {
   }
   return text;
 }
-
+/*
 function getBandwidthSavedInMB(gfyInfo) {
   let gifSize = gfyInfo.gifSize;
   let gfySize = gfyInfo.gfysize;
   return (gifSize - gfySize) / 1024 / 1024;
 }
+*/

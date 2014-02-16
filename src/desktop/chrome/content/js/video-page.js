@@ -1,3 +1,5 @@
+Components.utils.import("chrome://gfycat/content/jsm/bytesSaved.jsm");
+
 var TITLE = "Gfycat Companion: ";
 
 function getURLParameter(name) {
@@ -27,8 +29,8 @@ function getInfoBoxEl() {
   return document.querySelector("#info-box");
 }
 
-function getBytesSavedEl() {
-  return document.querySelector("#bytes-saved");
+function getMegaBytesSavedEl() {
+  return document.querySelector("#megabytes-saved");
 }
 
 function getOriginalImageEl() {
@@ -59,13 +61,13 @@ function getBandwidthSavedInMB(json) {
 
 function updateAndShowInfoBox(json) {
   var infoBox = getInfoBoxEl();
-  var bytesSavedEl = getBytesSavedEl();
+  var mbSavedEl = getMegaBytesSavedEl();
   var originalImageEl = getOriginalImageEl();
   var gfyUrlEl = getGfyUrlEl();
   var imageSrc = getURLParameter("s");
 
-  bytesSavedEl.textContent = getBandwidthSavedInMB(json).toPrecision(2) + " MB";
-  
+  mbSavedEl.textContent = getBandwidthSavedInMB(json).toPrecision(2) + " MB";
+
   originalImageEl.textContent = imageSrc;
   originalImageEl.setAttribute("href", imageSrc);
   
@@ -73,6 +75,8 @@ function updateAndShowInfoBox(json) {
   gfyUrlEl.setAttribute("href", "http://gfycat.com/" + json.gfyName);
 
   infoBox.style.display = "block";
+
+  saveBandwidthSaved(json);
 }
 
 function transcode() {
