@@ -4,7 +4,7 @@ body {
   background-image: url("chrome://global/skin/media/imagedoc-darknoise.png");
 }
 
-body, a {
+body, a, button {
   color: #eee;
 }
 
@@ -18,6 +18,49 @@ video, img#fallback, #load-status {
   left: 0px;
 }
 
+video {
+  transition: width 300ms;
+}
+
+button, #screenshot-output-controls a {
+  cursor: pointer;
+  background: none;
+  border: none;
+  width: 32px;
+}
+
+button[disabled=true] {
+  opacity: .2;
+}
+
+@keyframes loadingAnimation { 
+  0% { 
+    background-size: 0 15px;
+    opacity: 1;
+  } 
+  90% { 
+    background-size: 197px 15px;
+    opacity: 1;
+  }
+  100% {
+    background-size: 197px 15px;
+    opacity: 0;
+  }
+}
+
+#controls {
+  position: fixed;
+  top: 35px;
+  left: 5px;
+  text-align: left;
+  opacity: .2;
+  transition: opacity 300ms;
+}
+
+#controls:hover {
+  opacity: 1;
+}
+
 #load-status {
   background: url("../images/HTML5_Multimedia_256.png") no-repeat;
   width: 256px;
@@ -25,26 +68,11 @@ video, img#fallback, #load-status {
   text-align: center;
 }
 
-@keyframes loadingAnimation { 
-  0% { 
-    background-size: 0 20px;
-    opacity: 1;
-  } 
-  90% { 
-    background-size: 197px 20px;
-    opacity: 1;
-  }
-  100% {
-    background-size: 197px 20px;
-    opacity: 0;
-  }
-}
-
 #loading-bar {
   width: 197px;
   height: 20px;
   background-image:  linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 100%);
-  background-size: 0 20px;
+  background-size: 0 15px;
   background-repeat: no-repeat;
   position: absolute;
   bottom: 20px;
@@ -67,7 +95,8 @@ video, img#fallback, #load-status {
 #info-box #gfycat-logo {
   width: 22px;
   height: 22px;
-  padding-right: 5px;
+  padding-bottom: 3px;
+  padding-right: 8px;
   vertical-align: middle;
 }
 
@@ -84,10 +113,34 @@ video, img#fallback, #load-status {
   cursor: pointer;
   position: fixed;
   top: 10px;
-  left: 10px;
+  left: 15px;
   transition: opacity 300ms;
 }
 
 #back:hover {
   opacity: 1;
+}
+
+.disable-selection {
+  -moz-user-select: none;
+  user-select: none;
+}
+
+#screenshot-output-container {
+  position: fixed;
+  top: 10px;
+  right: 15px;
+}
+
+#screenshot-output-container #screenshot-output-controls {
+  background: #000;
+  display: none;
+  position: absolute;
+  padding: 5px;
+  top: 0;
+  right: 0;
+}
+
+#screenshot-output-container:hover #screenshot-output-controls {
+  display: block;
 }

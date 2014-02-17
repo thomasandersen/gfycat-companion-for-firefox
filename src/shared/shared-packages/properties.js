@@ -39,5 +39,6 @@ exports.gifHostingServices = [
   "giphy.com",
   "sbnation.com",
   "sta.sh",
-  "gifply.com"
+  "gifply.com",
+  "ning.com"
 ];

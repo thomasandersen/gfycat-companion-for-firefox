@@ -111,7 +111,7 @@ function enableResPageMod() {
       self.data.url("pagemod/components/imageviewer.js"),
       self.data.url("pagemod/pagemod.js")
     ],
-    contentStyleFile: self.data.url("pagemod/css/style.css"),
+    contentStyleFile: self.data.url("pagemod/style/pagemod.css"),
     onAttach: function(worker) {
       gWorker = worker;
       worker.port.on("requestGfyTranscoder", (gifUrl, gifKey) => {
