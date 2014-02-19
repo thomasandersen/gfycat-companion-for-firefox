@@ -78,26 +78,45 @@ function onVideoLoaded(json) {
   updateControls(json);
   updateResizer(json);
   updateInfo(json);
+  updateLinks(json);
   saveBandwidthSaved(json);
 }
 
 function updateInfo(json) {
   var infoBox = getInfoBoxEl();
   var mbSavedEl = getMegaBytesSavedEl();
+
+  mbSavedEl.textContent = getBandwidthSavedInMB(json).toPrecision(2) + " MB";
+
+  infoBox.style.display = "block";
+}
+
+function updateLinks(json) {
+  var linkButton = getLinkButtonEl();
+  var linksPanel = getLinksPanelEl();
   var originalImageEl = getOriginalImageEl();
   var gfycatUrlEl = getGfycatUrlEl();
+  var gfycatVideoUrlEl = getGfycatVideoUrlEl();
   var imageSrc = getURLParameter("s");
   var gfycatSrc = "http://gfycat.com/" + json.gfyName;
 
-  mbSavedEl.textContent = getBandwidthSavedInMB(json).toPrecision(2) + " MB";
-  originalImageEl.textContent = truncateString(imageSrc, 50) + "\u2026";
-  originalImageEl.setAttribute("title", imageSrc);
-  originalImageEl.setAttribute("href", imageSrc);
-  gfycatUrlEl.textContent = gfycatSrc;
-  gfycatUrlEl.setAttribute("title", gfycatSrc);
-  gfycatUrlEl.setAttribute("href", "http://gfycat.com/" + json.gfyName);
+  originalImageEl.value = imageSrc;
+  gfycatUrlEl.value = gfycatSrc;
+  gfycatVideoUrlEl.value = json.webmUrl;
 
-  infoBox.style.display = "block";
+  linkButton.addEventListener("click", function() {
+    linksPanel.style.top = (linkButton.offsetTop + linkButton.offsetHeight + 10) + "px";
+    linksPanel.style.left = linkButton.offsetLeft + "px";
+    linksPanel.style.display = "block";
+  });
+
+  document.addEventListener("click", function(evt) {
+    var target = evt.target;
+    var close = !(target.id == "link" || target.id == "link-panel" || target.parentNode.id == "link-panel");
+    if (close) {
+      linksPanel.style.display = "none";
+    }
+  });
 }
 
 function updateResizer(json) {

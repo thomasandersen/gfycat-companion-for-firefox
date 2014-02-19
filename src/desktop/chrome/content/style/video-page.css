@@ -4,7 +4,7 @@ body {
   background-image: url("chrome://global/skin/media/imagedoc-darknoise.png");
 }
 
-body, a, button {
+body, a, button, input[type=text] {
   color: #eee;
 }
 
@@ -33,6 +33,12 @@ button[disabled=true] {
   opacity: .2;
 }
 
+input[type=text] {
+  box-sizing: border-box;
+  background: none;
+  border: none;
+}
+
 @keyframes loadingAnimation { 
   0% { 
     background-size: 0 15px;
@@ -46,6 +52,11 @@ button[disabled=true] {
     background-size: 197px 15px;
     opacity: 0;
   }
+}
+
+.disable-selection {
+  -moz-user-select: none;
+  user-select: none;
 }
 
 #controls {
@@ -108,7 +119,7 @@ button[disabled=true] {
   opacity: 1;
 }
 
-#back {
+#nav {
   opacity: .2;
   cursor: pointer;
   position: fixed;
@@ -117,13 +128,21 @@ button[disabled=true] {
   transition: opacity 300ms;
 }
 
-#back:hover {
+#nav:hover {
   opacity: 1;
 }
 
-.disable-selection {
-  -moz-user-select: none;
-  user-select: none;
+#link-panel {
+  position: absolute;
+  background-color: #000;
+  width: 270px;
+  padding: 10px 15px;
+  text-align: left;
+}
+
+#link-panel label {
+  display: inline-block;
+  width: 110px;
 }
 
 #screenshot-output-container {

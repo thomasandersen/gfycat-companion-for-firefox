@@ -86,10 +86,10 @@ function updateControls(json) {
   var videoEl = getVideoEl();
   var playPauseButton = getPlayPauseButtonEl();
   var fullscreenButton = getFullscreenButtonEl();
-  var increaseSpeedButton = getIncreaseSpeedButton();
-  var decreaseSpeedButton = getDecreaseSpeedButton();
-  var nextFrameButton = getNextFrameButton();
-  var previousFrameButton = getPreviousFrameButton();
+  var increaseSpeedButton = getIncreaseSpeedButtonEl();
+  var decreaseSpeedButton = getDecreaseSpeedButtonEl();
+  var nextFrameButton = getNextFrameButtonEl();
+  var previousFrameButton = getPreviousFrameButtonEl();
   var screenshotButtonEl = getScreenshotButtonEl();
 
   playPauseButton.addEventListener("click", onPlayPause);

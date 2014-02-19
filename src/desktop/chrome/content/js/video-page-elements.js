@@ -15,11 +15,15 @@ function getMegaBytesSavedEl() {
 }
 
 function getOriginalImageEl() {
-  return document.querySelector("#original-image");
+  return document.querySelector("#link-panel #original-image");
 }
 
 function getGfycatUrlEl() {
-  return document.querySelector("#gfycat-url");
+  return document.querySelector("#link-panel #gfycat-url");
+}
+
+function getGfycatVideoUrlEl() {
+  return document.querySelector("#link-panel #gfycat-video-url");
 }
 
 function getResizerEl() {
@@ -38,24 +42,28 @@ function getFullscreenButtonEl() {
   return document.querySelector("#fullscreen");
 }
 
-function getDecreaseSpeedButton() {
+function getDecreaseSpeedButtonEl() {
   return document.querySelector("#decrease-speed");
 }
 
-function getIncreaseSpeedButton() {
+function getIncreaseSpeedButtonEl() {
   return document.querySelector("#increase-speed");
 }
 
-function getPreviousFrameButton() {
+function getPreviousFrameButtonEl() {
   return document.querySelector("#previous-frame");
 }
 
-function getNextFrameButton() {
+function getNextFrameButtonEl() {
   return document.querySelector("#next-frame");
 }
 
 function getScreenshotButtonEl() {
   return document.querySelector("#screenshot");
+}
+
+function getLinkButtonEl() {
+  return document.querySelector("#link");
 }
 
 function getScreenshotCanvasContainerEl() {
@@ -74,4 +82,6 @@ function getScreenshotDownloadButtonEl() {
   return document.querySelector("#screenshot-output-container #download");
 }
 
-
+function getLinksPanelEl() {
+  return document.querySelector("#link-panel");
+}

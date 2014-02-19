@@ -14,7 +14,11 @@
   <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
-  <div id="back" class="disable-selection" onclick="javascript:window.history.back()">Back</div>
+  <div id="nav" class="disable-selection">
+    <button onclick="javascript:window.history.back()">Back</button>
+    <button id="link" class="fa fa-link" title="Share"></button>
+  </div>
+
   <div id="controls" class="disable-selection" style="display:none">
     <button id="play-pause" class="fa fa-pause" title="Play/Pause"></button>
     <button id="previous-frame" class="fa fa-step-backward" title="Step forward"></button>
@@ -27,9 +31,11 @@
       <input id="resizer" type="range" disabled="true" title="Reisze video"/>
     </div>
   </div>
+
   <div id="load-status">
     <div id="loading-bar"></div>
   </div>
+
   <video width="128" loop="true" autoplay="true" style="display:none"></video>
 
   <div id="screenshot-output-container" style="display:none">
@@ -39,14 +45,20 @@
     </div>
     <canvas id="screenshot-output"></canvas>
   </div>
-  
-  <div id="info-box" style="display:none">
-    <img id="gfycat-logo" src="images/icon-128.png"/>Powered by Gfycat / 
-    <span>About <span id="megabytes-saved"><!-- --></span> of internet bandwidth was saved</span>
-    / <span>Original Image: </span>
-    <a id="original-image" href="#"><!-- --></a>, 
-    <span>Gfycat URL: </span>
-    <a id="gfycat-url" href="#"><!-- --></a>
+
+  <div id="link-panel" style="display:none">
+    <label for="original-image">Original image:</label>
+    <input id="original-image" type="text" readonly="true"><br>
+    <label for="gfycat-url">Gfycat link:</label>
+    <input id="gfycat-url" type="text" readonly="true"><br>
+    <label for="gfycat-video-url">Gfycat video link:</label>
+    <input id="gfycat-video-url" type="text" readonly="true">
   </div>
+
+  <div id="info-box" style="display:none">
+    <img id="gfycat-logo" src="images/icon-128.png"/>Powered by Gfycat<span> - </span>
+    <span>About <span id="megabytes-saved"><!-- --></span> of internet bandwidth was saved</span>
+  </div>
+
 </body>
 </html>
