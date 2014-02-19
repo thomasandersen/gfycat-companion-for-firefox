@@ -1,14 +1,9 @@
 function onPlayPause() {
   var playPauseButton = getPlayPauseButtonEl();
   var videoEl = getVideoEl();
-  var paused = videoEl.paused;
-  if (paused) {
-    playPauseButton.classList.add("fa-pause");
-    playPauseButton.classList.remove("fa-play");
+  if (videoEl.paused) {
     videoEl.play();
   } else {
-    playPauseButton.classList.add("fa-play");
-    playPauseButton.classList.remove("fa-pause");
     videoEl.pause();
   }
 }
@@ -91,6 +86,16 @@ function updateControls(json) {
   var nextFrameButton = getNextFrameButtonEl();
   var previousFrameButton = getPreviousFrameButtonEl();
   var screenshotButtonEl = getScreenshotButtonEl();
+
+  videoEl.addEventListener("play", function() {
+    playPauseButton.classList.add("fa-pause");
+    playPauseButton.classList.remove("fa-play");
+  });
+
+  videoEl.addEventListener("pause", function() {
+    playPauseButton.classList.add("fa-play");
+    playPauseButton.classList.remove("fa-pause");
+  });
 
   playPauseButton.addEventListener("click", onPlayPause);
 

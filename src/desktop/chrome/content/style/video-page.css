@@ -1,6 +1,5 @@
 body {
   font: 12px/1.4 "Lucida Grande";
-  text-align: center;
   background-image: url("chrome://global/skin/media/imagedoc-darknoise.png");
 }
 
@@ -59,10 +58,23 @@ input[type=text] {
   user-select: none;
 }
 
+#nav {
+  opacity: .2;
+  cursor: pointer;
+  position: fixed;
+  top: 15px;
+  left: 25px;
+  transition: opacity 300ms;
+}
+
+#nav:hover {
+  opacity: 1;
+}
+
 #controls {
   position: fixed;
-  top: 35px;
-  left: 5px;
+  top: 40px;
+  left: 20px;
   text-align: left;
   opacity: .2;
   transition: opacity 300ms;
@@ -97,9 +109,8 @@ input[type=text] {
   opacity: .2;
   width: 100%;
   position: fixed;
-  left: 0;
-  bottom: 0;
-  padding: 10px;
+  left: 10px;
+  bottom: 10px;
   transition: opacity 300ms;
 }
 
@@ -116,19 +127,6 @@ input[type=text] {
 }
 
 #info-box:hover {
-  opacity: 1;
-}
-
-#nav {
-  opacity: .2;
-  cursor: pointer;
-  position: fixed;
-  top: 10px;
-  left: 15px;
-  transition: opacity 300ms;
-}
-
-#nav:hover {
   opacity: 1;
 }
 
