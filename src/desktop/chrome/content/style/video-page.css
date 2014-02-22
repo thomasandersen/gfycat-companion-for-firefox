@@ -7,7 +7,7 @@ body, a, button, input[type=text] {
   color: #eee;
 }
 
-video, img#fallback, #load-status {
+video, img#fallback, #loading-splash {
   text-align: center;
   position: absolute;
   margin: auto;
@@ -19,6 +19,7 @@ video, img#fallback, #load-status {
 
 video {
   transition: width 300ms;
+  z-index: 100;
 }
 
 button, #screenshot-output-controls a {
@@ -29,7 +30,7 @@ button, #screenshot-output-controls a {
 }
 
 button[disabled=true] {
-  opacity: .2;
+  opacity: .2 !important;
 }
 
 input[type=text] {
@@ -40,15 +41,15 @@ input[type=text] {
 
 @keyframes loadingAnimation { 
   0% { 
-    background-size: 0 15px;
+    background-size: 0 25px;
     opacity: 1;
   } 
   90% { 
-    background-size: 197px 15px;
+    background-size: 197px 25px;
     opacity: 1;
   }
   100% {
-    background-size: 197px 15px;
+    background-size: 197px 25px;
     opacity: 0;
   }
 }
@@ -59,32 +60,37 @@ input[type=text] {
 }
 
 #nav {
-  opacity: .2;
-  cursor: pointer;
   position: fixed;
   top: 15px;
-  left: 25px;
+  left: 20px;
+  z-index: 200;
+}
+
+#nav button {
+  opacity: .2;
   transition: opacity 300ms;
 }
 
-#nav:hover {
+#nav button:hover {
   opacity: 1;
 }
 
 #controls {
   position: fixed;
   top: 40px;
-  left: 20px;
+  left: 15px;
   text-align: left;
   opacity: .2;
   transition: opacity 300ms;
+  z-index: 300;
+
 }
 
 #controls:hover {
   opacity: 1;
 }
 
-#load-status {
+#loading-splash {
   background: url("../images/HTML5_Multimedia_256.png") no-repeat;
   width: 256px;
   height: 256px;
@@ -93,12 +99,12 @@ input[type=text] {
 
 #loading-bar {
   width: 197px;
-  height: 20px;
-  background-image:  linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 100%);
-  background-size: 0 15px;
+  height: 30px;
+  background-image: linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 100%);
+  background-size: 0 25px;
   background-repeat: no-repeat;
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   left: 15px;
   animation-name: loadingAnimation;
   animation-iteration-count: infinite;
@@ -109,9 +115,10 @@ input[type=text] {
   opacity: .2;
   width: 100%;
   position: fixed;
-  left: 10px;
+  left: 20px;
   bottom: 10px;
   transition: opacity 300ms;
+  z-index: 400;
 }
 
 #info-box #gfycat-logo {
@@ -136,6 +143,7 @@ input[type=text] {
   width: 270px;
   padding: 10px 15px;
   text-align: left;
+  z-index: 500;
 }
 
 #link-panel label {
@@ -143,21 +151,39 @@ input[type=text] {
   width: 110px;
 }
 
-#screenshot-output-container {
+#screenshots-bar {
   position: fixed;
-  top: 10px;
-  right: 15px;
-}
-
-#screenshot-output-container #screenshot-output-controls {
-  background: #000;
-  display: none;
-  position: absolute;
-  padding: 5px;
+  width: 1px;
+  background-color: #000;
   top: 0;
-  right: 0;
+  right: -1080px;
+  bottom: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  transition: right 260ms;
+  z-index: 600;
 }
 
-#screenshot-output-container:hover #screenshot-output-controls {
+/*
+#screenshots-bar:hover {
+  right: 0 !important;
+  opacity: 1 !important;
+}
+*/
+
+.screenshot-container {
+  position: relative;
+  margin: 10px;
+}
+
+.screenshot-container canvas {
   display: block;
 }
+
+.screenshot-container .screenshot-info {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: #000;
+}
+

@@ -127,6 +127,8 @@ function onVideoResize(event) {
 function replaceGifWithVideo(transcodeJson, gifKey, loadingMessage) {
   let gif = gifmap.get(gifKey);
   let imageViewerNode = ImageViewer.getImageViewerNode(gif);
+  let anchor = ImageViewer.getGifAnchorNode(gif);
+
   let video = imageViewerNode.querySelector("video");
 
   // Hide image.
@@ -150,7 +152,9 @@ function replaceGifWithVideo(transcodeJson, gifKey, loadingMessage) {
     if (messageNode) {
       Dom.removeNode(messageNode);
     }
-    messageNode = Message.create(loadingMessage);
+
+    let message = loadingMessage + " <a href=\""+ anchor.getAttribute("href") +"\">Open in video viewer</a>";
+    messageNode = Message.create(message);
     video.parentNode.insertBefore(messageNode, video);
     
     // Make sure the gallery controls are enabled.

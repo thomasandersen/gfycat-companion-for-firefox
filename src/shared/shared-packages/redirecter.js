@@ -102,7 +102,7 @@ function requestListener(event) {
       redirectRequest(request, videoPage);
     };
 
-    let isGNotifCallback = () => {
+    let isNotGifFileExtensionCallback = () => {
       // Disable the listener before redirect so the listener does not loop.
       doEnable(false);
       redirectRequest(request, url);
@@ -114,6 +114,6 @@ function requestListener(event) {
 
     // Check if image is a gif by doing a head request.
     console.log("Check content type");
-    urlHelper.asyncIsContentTypeGif(url, isGifFileExtensionCallback, isGNotifCallback);
+    urlHelper.asyncIsContentTypeGif(url, isGifFileExtensionCallback, isNotGifFileExtensionCallback);
   }
 }

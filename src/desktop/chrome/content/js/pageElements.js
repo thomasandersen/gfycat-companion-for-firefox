@@ -2,8 +2,8 @@ function getVideoEl() {
   return document.querySelector("video");
 }
 
-function getLoadStatusEl() {
-  return document.querySelector("#load-status");
+function getLoadingSplashEl() {
+  return document.querySelector("#loading-splash");
 }
 
 function getInfoBoxEl() {
@@ -62,26 +62,18 @@ function getScreenshotButtonEl() {
   return document.querySelector("#screenshot");
 }
 
+function getBackButtonEl() {
+  return document.querySelector("#back");
+}
+
 function getLinkButtonEl() {
   return document.querySelector("#link");
 }
 
-function getScreenshotCanvasContainerEl() {
-  return document.querySelector("#screenshot-output-container");
-}
-
-function getScreenshotCanvasEl() {
-  return document.querySelector("#screenshot-output");
-}
-
-function getScreenshotCloseButtonEl() {
-  return document.querySelector("#screenshot-output-container #close");
-}
-
-function getScreenshotDownloadButtonEl() {
-  return document.querySelector("#screenshot-output-container #download");
-}
-
 function getLinksPanelEl() {
   return document.querySelector("#link-panel");
+}
+
+function getScreenshotsBarEl() {
+  return document.querySelector("#screenshots-bar");
 }

@@ -1,8 +1,8 @@
 let Message = {
-  create: (message) => {
+  create: (messageHtml) => {
     let node = Dom.create("div");
     node.classList.add("gccfx-message");
-    node.textContent = message;
+    node.innerHTML = messageHtml;
     
     return node;
   },

@@ -6,16 +6,11 @@
   <title>...</title>
   <meta content="width=device-width; height=device-height;" name="viewport">
   <link rel="stylesheet" href="style/video-page.css">
-
   <link rel="stylesheet" href="style/font-awesome/css/font-awesome.min.css">
-
-  <script type="text/javascript" src="js/video-page-elements.js"></script>
-  <script type="text/javascript" src="js/video-control.js"></script>
-  <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
   <div id="nav" class="disable-selection">
-    <button onclick="javascript:window.history.back()">Back</button>
+    <button id="back" onclick="javascript:window.history.back()" disabled="true">Back</button>
     <button id="link" class="fa fa-link" title="Share"></button>
   </div>
 
@@ -32,19 +27,11 @@
     </div>
   </div>
 
-  <div id="load-status">
+  <div id="loading-splash">
     <div id="loading-bar"></div>
   </div>
 
   <video width="128" loop="true" autoplay="true" style="display:none"></video>
-
-  <div id="screenshot-output-container" style="display:none">
-    <div id="screenshot-output-controls">
-      <button id="download" class="fa fa-download" title="Download image"></button>
-      <button id="close" class="fa fa-times" title="Close"></button>
-    </div>
-    <canvas id="screenshot-output"></canvas>
-  </div>
 
   <div id="link-panel" style="display:none">
     <label for="original-image">Original image:</label>
@@ -59,6 +46,14 @@
     <img id="gfycat-logo" src="images/icon-128.png"/>Powered by Gfycat<span> - </span>
     <span>About <span id="megabytes-saved"><!-- --></span> of internet bandwidth was saved</span>
   </div>
+
+  <div id="screenshots-bar" class="screenshots-bar" style="display:none">
+  </div>
+
+  <script type="text/javascript" src="js/helper.js"></script>
+  <script type="text/javascript" src="js/pageElements.js"></script>
+  <script type="text/javascript" src="js/videoControl.js"></script>
+  <script type="text/javascript" src="js/main.js"></script>
 
 </body>
 </html>

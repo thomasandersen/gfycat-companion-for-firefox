@@ -1,3 +1,5 @@
+// fixme: namespace
+
 function onPlayPause() {
   var playPauseButton = getPlayPauseButtonEl();
   var videoEl = getVideoEl();
@@ -45,38 +47,49 @@ function onNextFrame(json) {
 
 function onCaptureScreenshot() {
   var videoEl = getVideoEl();
-  var canvasEl = getScreenshotCanvasEl();
-  var container = getScreenshotCanvasContainerEl();
+  var time = videoEl.currentTime;
+  var screenshotsBar = getScreenshotsBarEl();
+  var containerEl = document.createElement("div");
+  var canvasEl = document.createElement("canvas");
+  var screenshotInfoEl = document.createElement("div");
   var w = videoEl.videoWidth;
   var h = videoEl.videoHeight;
 
+  containerEl.classList.add("screenshot-container");
+  screenshotInfoEl.classList.add("screenshot-info");
+  screenshotInfoEl.textContent = time.toPrecision(3) + "s";
+
+  canvasEl.classList.add("screenshot-canvas");
   canvasEl.width  = w;
   canvasEl.height = h;
 
   var context = canvasEl.getContext("2d");
   context.drawImage(videoEl, 0, 0, w, h);
 
-  container.style.display = "block";
+  containerEl.appendChild(canvasEl);
+  containerEl.appendChild(screenshotInfoEl);
+
+  screenshotsBar.appendChild(containerEl);
+  screenshotsBar.style.display = "block";
+
+  if (screenshotsBar.querySelectorAll("canvas").length == 1) {
+    revealScreenshotBarForTheFirstTime();
+  }
 }
 
-function onDownloadScreenshot() {
-  var link = document.createElement("a");
-  link.href = getScreenshotCanvasEl().toDataURL();
-  link.download = "screenshot.png";
-  link.style.display = "none";
-  document.body.appendChild(link);
-  var e = document.createEvent("MouseEvents");
-  e.initEvent("click" ,true ,true);
-  link.dispatchEvent(e);
-  document.body.removeChild(link);
-  return true;
+function revealScreenshotBarForTheFirstTime() {
+  var screenshotsBar = getScreenshotsBarEl();
+  var currentStyleRightProperty = screenshotsBar.style.right;
+  // fixme: use css class.  
+  screenshotsBar.style.right = "0";
+  screenshotsBar.style.opacity = "1";
+  setTimeout(function() {
+    screenshotsBar.style.right = currentStyleRightProperty;
+    screenshotsBar.style.opacity = "0.3";
+  }, 1000);
 }
 
-function closeScreenshot() {
-  getScreenshotCanvasContainerEl().style.display = "none";
-}
-
-function updateControls(json) {
+function initVideoControls(json) {
   var controlsEl = getControlsEl();
   var videoEl = getVideoEl();
   var playPauseButton = getPlayPauseButtonEl();
@@ -114,10 +127,6 @@ function updateControls(json) {
   });
 
   screenshotButtonEl.addEventListener("click", onCaptureScreenshot);
-
-  getScreenshotCloseButtonEl().addEventListener("click", closeScreenshot);
-
-  getScreenshotDownloadButtonEl().addEventListener("click", onDownloadScreenshot);
 
   controlsEl.style.display = "block";
 }
