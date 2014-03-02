@@ -172,6 +172,8 @@ function initScreenshotBar(json) {
   }
 
   getOriginalImageEl().value = imageSrc;
+  getGfycatUrlEl().value = "transcoding gif...";
+  getGfycatVideoUrlEl().value = "transcoding gif...";
 
   linkButton.addEventListener("click", function() {
     linksPanel.style.top = (linkButton.offsetTop + linkButton.offsetHeight + 10) + "px";
