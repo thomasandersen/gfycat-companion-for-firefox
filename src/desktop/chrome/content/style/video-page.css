@@ -39,12 +39,12 @@ input[type=text] {
   border: none;
 }
 
-@keyframes loadingAnimation { 
-  0% { 
+@keyframes loadingAnimation {
+  0% {
     background-size: 0 25px;
     opacity: 1;
-  } 
-  90% { 
+  }
+  90% {
     background-size: 197px 25px;
     opacity: 1;
   }

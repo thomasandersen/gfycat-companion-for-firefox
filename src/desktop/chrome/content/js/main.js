@@ -90,10 +90,23 @@ function initInfoBox(json) {
 
 function initLinkPanel(json) {
   var linksPanel = getLinksPanelEl();
+  var allInputs = linksPanel.querySelectorAll("input");
   var gfycatSrc = "http://gfycat.com/" + json.gfyName;
 
   getGfycatUrlEl().value = gfycatSrc;
   getGfycatVideoUrlEl().value = json.webmUrl;
+
+  for (var key in allInputs) {
+    if (allInputs[key].type == "text") {
+      addClickEventForLinkInput(allInputs[key]);
+    }
+  }
+}
+
+function addClickEventForLinkInput(input) {
+  input.addEventListener("click", function() {
+    input.select();
+  });
 }
 
 function initResizer(json) {
@@ -174,5 +187,5 @@ function initScreenshotBar(json) {
     }
   });
 
-  doTranscode();  
+  doTranscode();
 }());
