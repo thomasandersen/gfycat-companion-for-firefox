@@ -118,8 +118,19 @@ function initResizer(json) {
   resizerEl.setAttribute("max", json.gifWidth * 2);
   resizerEl.setAttribute("step", "1");
   resizerEl.setAttribute("value", json.gifWidth);
-  resizerEl.addEventListener("change", function() {
+  resizerEl.addEventListener("input", function() {
     videoEl.setAttribute("width", resizerEl.value);
+  });
+
+  document.addEventListener("DOMMouseScroll", function(event) {
+    var up = event.detail < 0;
+    var currentValue = parseInt(resizerEl.value, 10);
+    var step = 20;
+    resizerEl.value = (up ? currentValue + step : currentValue - step);
+    
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent("input", false, true);
+    resizerEl.dispatchEvent(evt);
   });
 }
 

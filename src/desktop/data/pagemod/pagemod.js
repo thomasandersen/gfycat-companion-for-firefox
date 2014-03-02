@@ -118,7 +118,7 @@ function onTranscodeError(gifKey, errorMessage, showErrorMessage) {
   gifmap.delete(gifKey);
 }
 
-function onVideoResize(event) {
+function onVideoInput(event) {
   let resizer = event.target;
   let video = resizer.nextSibling;
   video.setAttribute("width", resizer.value);
@@ -168,7 +168,18 @@ function replaceGifWithVideo(transcodeJson, gifKey, loadingMessage) {
       Dom.removeNode(videoResizer);
     }
 
-    videoResizer = Slider.create((transcodeJson.gifWidth / 2), (transcodeJson.gifWidth * 2), onVideoResize);
+    videoResizer = Slider.create((transcodeJson.gifWidth / 2), (transcodeJson.gifWidth * 2), onVideoInput, function(event) {
+      event.preventDefault();
+      var up = event.detail < 0;
+      var currentValue = parseInt(videoResizer.value, 10);
+      var step = 20;
+      videoResizer.value = (up ? currentValue + step : currentValue - step);
+      
+      var evt = document.createEvent("HTMLEvents");
+      evt.initEvent("input", false, true);
+      videoResizer.dispatchEvent(evt);
+
+    });
     video.parentNode.insertBefore(videoResizer, video);
     videoResizer.setAttribute("value", transcodeJson.gifWidth);
 
@@ -235,7 +246,8 @@ function cleanUp(gif) {
 
   let resizeSlider = Slider.getNode(gif);
   if (resizeSlider) {
-    resizeSlider.removeEventListener("change", onVideoResize);
+    resizeSlider.removeEventListener("input", onVideoInput);
+    // Fixme: remove mousewheel event.
     Dom.removeNode(resizeSlider);
   }
 
