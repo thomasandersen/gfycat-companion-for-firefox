@@ -8,20 +8,23 @@ var mainWindow = window.QueryInterface(Ci.nsIInterfaceRequestor)
                    .QueryInterface(Ci.nsIInterfaceRequestor)
                    .getInterface(Ci.nsIDOMWindow);
 
-var TITLE = "Gfycat Companion: ";
+var TITLE_TEXT_PREFIX = "Gfycat Companion: ";
 
 function onTranscodeSucces(json) {
   loadHtml5Video(json);
 }
 
 function onTranscodeError(json) {
-  loadFallbackImage(json);
+  loadFallbackImage();
+  if (json.error) {
+    showInfoBox("Showing original image. " + json.error);
+  }
 }
 
 function doTranscode() {
   var request = new XMLHttpRequest();
-  var random = createPsudoRandomStr(6);
-  var imageSrc = getURLParameter("s");
+  var random = Helper.createPsudoRandomStr(6);
+  var imageSrc = Helper.getURLParameter("s");
   var url = "http://upload.gfycat.com/transcode/" + random + "?fetchUrl=" + imageSrc;
 
   request.open("GET", url, true);
@@ -29,15 +32,15 @@ function doTranscode() {
     try {
       var json = JSON.parse(request.responseText);
       if (json.error) {
-        onTranscodeError();
+        onTranscodeError(json);
       } else {
         onTranscodeSucces(json);
       }
     } catch(ex) {
-      onTranscodeError();
+      onTranscodeError(null);
     }
   };
-  updateTitle(TITLE + "transcoding gif...");
+  document.title = TITLE_TEXT_PREFIX + "transcoding gif...";
   request.send();
 }
 
@@ -57,34 +60,40 @@ function loadHtml5Video(json) {
   });
 
   videoEl.addEventListener("pause", function() {
-    updateTitle(TITLE + videoSrc);
+    document.title = TITLE_TEXT_PREFIX + videoSrc;
   });
 
   videoEl.addEventListener("play", function() {
-    updateTitle("▶ " + TITLE + videoSrc);
+    document.title = "▶ " + TITLE_TEXT_PREFIX + videoSrc;
   });
 }
 
 function onVideoLoaded(json) {
   initVideoControls(json);
   initResizer(json);
-  initInfoBox(json);
+  showInfoBox("About " + getBandwidthSavedInMB(json).toPrecision(2) + " MB of internet bandwidth was saved");
   initLinkPanel(json);
   initScreenshotBar(json);
 
-  getLoadingSplashEl().style.display = "none";
+  removeLoadingSplash();
   getVideoEl().style.display = "block";
 
   saveBandwidthSaved(json);
 }
 
-function loadFallbackImage(json) {
-  // todo
-  console.log("show image");
+function loadFallbackImage() {
+  var video = getVideoEl();
+  var img = document.createElement("img");
+  img.setAttribute("id", "fallback");
+  img.setAttribute("src", Helper.getURLParameter("s"));
+
+  removeLoadingSplash();
+
+  video.parentNode.insertBefore(img, video);
 }
 
-function initInfoBox(json) {
-  getMegaBytesSavedEl().textContent = getBandwidthSavedInMB(json).toPrecision(2) + " MB";
+function showInfoBox(text) {
+  getGfyInfoEl().textContent = text;
   getInfoBoxEl().style.display = "block";
 }
 
@@ -123,9 +132,14 @@ function initResizer(json) {
   });
 
   document.addEventListener("DOMMouseScroll", function(event) {
+    var target = event.target;
+    if (DomHelper.findParentBySelector(target, "#screenshots-bar")) {
+      return;
+    }
+
     var up = event.detail < 0;
     var currentValue = parseInt(resizerEl.value, 10);
-    var step = 20;
+    var step = 25;
     resizerEl.value = (up ? currentValue + step : currentValue - step);
     
     var evt = document.createEvent("HTMLEvents");
@@ -167,10 +181,15 @@ function initScreenshotBar(json) {
   });
 }
 
+function removeLoadingSplash() {
+  var splash = getLoadingSplashEl();
+  splash.parentNode.removeChild(splash);
+}
+
 (function() {
   var linkButton = getLinkButtonEl();
   var linksPanel = getLinksPanelEl();
-  var imageSrc = getURLParameter("s");
+  var imageSrc = Helper.getURLParameter("s");
 
   if (imageSrc.contains("?")) {
     imageSrc += "&gccfxDoRequest=1";

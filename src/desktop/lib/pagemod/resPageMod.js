@@ -1,7 +1,3 @@
-/**
- * Issue: http://i.imgur.com/5LEb4IH.jpg, Could not convert gif. Key already in use.  Please choose unique key or do not specify
- */
-
 let { Cu } = require("chrome");
 let self = require("sdk/self");
 let PageMod = require("sdk/page-mod").PageMod;

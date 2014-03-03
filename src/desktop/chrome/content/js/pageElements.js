@@ -10,8 +10,8 @@ function getInfoBoxEl() {
   return document.querySelector("#info-box");
 }
 
-function getMegaBytesSavedEl() {
-  return document.querySelector("#megabytes-saved");
+function getGfyInfoEl() {
+  return document.querySelector("#gfyinfo");
 }
 
 function getOriginalImageEl() {
