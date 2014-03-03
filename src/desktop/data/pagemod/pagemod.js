@@ -44,8 +44,11 @@ document.addEventListener("click", (event) => {
     }
 
     let collapse = target.classList.contains("expanded");
+    let loaded = imageViewerNode.classList.contains("gccfx-loaded");
     if (collapse) {
-      onImageViewerExpand(imageViewerNode);
+      if (!loaded) {
+        onImageViewerExpand(imageViewerNode);
+      }
     } else {
       onImageViewerCollapse(imageViewerNode);
     }
@@ -71,13 +74,17 @@ function onImageViewerExpand(imageViewerNode) {
   anchor.style.overflow = "auto";
 
   tryFetchVideo(gif, null);
+
+  imageViewerNode.classList.add("gccfx-loaded");
 }
 
 function onImageViewerCollapse(imageViewerNode) {
+  /*
   let gif = imageViewerNode.querySelector(".RESImage");
   if (gif) {
     cleanUp(gif);
   }
+  */
 }
 
 function tryFetchVideo(gif) {
