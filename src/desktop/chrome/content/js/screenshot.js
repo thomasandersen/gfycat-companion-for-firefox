@@ -2,13 +2,14 @@ var Screenshot = {
 
   initScreenshotBar: function(json) {
     var screenshotsBar = getScreenshotsBarEl();
+
     var height = getVideoEl().videoHeight;
 
     var originalBottomStyle = "-" + (height - 10) + "px";
     var originalOpacityStyle = "0.3";
 
     screenshotsBar.style.opacity = originalOpacityStyle;
-    screenshotsBar.style.height = (height + 35) + "px";
+    screenshotsBar.style.height = (height + 24) + "px";
     screenshotsBar.style.bottom = originalBottomStyle;
 
     var contextMenu = mainWindow.document.querySelector("#contentAreaContextMenu");
@@ -27,12 +28,25 @@ var Screenshot = {
       screenshotsBar.style.bottom = "0";
     });
 
-    screenshotsBar.addEventListener("mouseleave", function() {
+    screenshotsBar.addEventListener("mouseleave", function(event) {
+      console.log(event);
+      if (event.pageY > screenshotsBar.offsetTop) {
+        return;
+      }
+
       if (contextMenuIsHidden) {
         screenshotsBar.style.opacity = originalOpacityStyle;
         screenshotsBar.style.bottom = originalBottomStyle;
       }
     });
+
+    $(screenshotsBar).niceScroll({
+      autohidemode:false,
+      cursorborder: "",
+      railhoffset: {top: -5},
+      background: "#000"
+    });
+
   },
 
   create: function() {
@@ -65,6 +79,7 @@ var Screenshot = {
     if (screenshotsBar.querySelectorAll("canvas").length == 1) {
       Screenshot.revealScreenshotBar();
     }
+
   },
 
   revealScreenshotBar: function() {
