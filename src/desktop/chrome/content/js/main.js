@@ -73,11 +73,11 @@ function onVideoLoaded(json) {
   initResizer(json);
   showInfoBox("About " + getBandwidthSavedInMB(json).toPrecision(2) + " MB of internet bandwidth was saved");
   initLinkPanel(json);
-  initScreenshotBar(json);
-
+  
   removeLoadingSplash();
   getVideoEl().style.display = "block";
 
+  Screenshot.initScreenshotBar(json);
   saveBandwidthSaved(json);
 }
 
@@ -93,8 +93,10 @@ function loadFallbackImage() {
 }
 
 function showInfoBox(text) {
+  /*
   getGfyInfoEl().textContent = text;
   getInfoBoxEl().style.display = "block";
+  */
 }
 
 function initLinkPanel(json) {
@@ -145,39 +147,6 @@ function initResizer(json) {
     var evt = document.createEvent("HTMLEvents");
     evt.initEvent("input", false, true);
     resizerEl.dispatchEvent(evt);
-  });
-}
-
-function initScreenshotBar(json) {
-  var screenshotsBar = getScreenshotsBarEl();
-  var originalRightStyle = "-" + (json.gifWidth - 10) + "px";
-  var originalOpacityStyle = "0.3";
-
-  screenshotsBar.style.opacity = originalOpacityStyle;
-  screenshotsBar.style.width = (json.gifWidth + 20) + "px";
-  screenshotsBar.style.right = originalRightStyle;
-
-  var contextMenu = mainWindow.document.querySelector("#contentAreaContextMenu");
-  var contextMenuIsHidden = true;
-
-  contextMenu.addEventListener("popupshowing", function() {
-    contextMenuIsHidden = false;
-  });
-
-  contextMenu.addEventListener("popuphiding", function() {
-    contextMenuIsHidden = true;
-  });
-
-  screenshotsBar.addEventListener("mouseenter", function() {
-    screenshotsBar.style.opacity = "1";
-    screenshotsBar.style.right = "0";
-  });
-
-  screenshotsBar.addEventListener("mouseleave", function() {
-    if (contextMenuIsHidden) {
-      screenshotsBar.style.opacity = originalOpacityStyle;
-      screenshotsBar.style.right = originalRightStyle;
-    }
   });
 }
 

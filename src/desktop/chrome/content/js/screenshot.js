@@ -1,4 +1,40 @@
 var Screenshot = {
+
+  initScreenshotBar: function(json) {
+    var screenshotsBar = getScreenshotsBarEl();
+    var height = getVideoEl().videoHeight;
+
+    var originalBottomStyle = "-" + (height - 10) + "px";
+    var originalOpacityStyle = "0.3";
+
+    screenshotsBar.style.opacity = originalOpacityStyle;
+    screenshotsBar.style.height = (height + 35) + "px";
+    screenshotsBar.style.bottom = originalBottomStyle;
+
+    var contextMenu = mainWindow.document.querySelector("#contentAreaContextMenu");
+    var contextMenuIsHidden = true;
+
+    contextMenu.addEventListener("popupshowing", function() {
+      contextMenuIsHidden = false;
+    });
+
+    contextMenu.addEventListener("popuphiding", function() {
+      contextMenuIsHidden = true;
+    });
+
+    screenshotsBar.addEventListener("mouseenter", function() {
+      screenshotsBar.style.opacity = "1";
+      screenshotsBar.style.bottom = "0";
+    });
+
+    screenshotsBar.addEventListener("mouseleave", function() {
+      if (contextMenuIsHidden) {
+        screenshotsBar.style.opacity = originalOpacityStyle;
+        screenshotsBar.style.bottom = originalBottomStyle;
+      }
+    });
+  },
+
   create: function() {
     var videoEl = getVideoEl();
     var time = videoEl.currentTime;
@@ -33,12 +69,12 @@ var Screenshot = {
 
   revealScreenshotBar: function() {
     var screenshotsBar = getScreenshotsBarEl();
-    var currentStyleRightProperty = screenshotsBar.style.right;
+    var currentStyleBottomProperty = screenshotsBar.style.bottom;
     // fixme: use css class.  
-    screenshotsBar.style.right = "0";
+    screenshotsBar.style.bottom = "0";
     screenshotsBar.style.opacity = "1";
     setTimeout(function() {
-      screenshotsBar.style.right = currentStyleRightProperty;
+      screenshotsBar.style.bottom = currentStyleBottomProperty;
       screenshotsBar.style.opacity = "0.3";
     }, 1000);
   }

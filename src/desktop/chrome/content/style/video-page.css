@@ -154,27 +154,23 @@ input[type=text] {
 
 #screenshots-bar {
   position: fixed;
-  width: 1px;
+  height: 1px;
   background-color: #000;
-  top: 0;
-  right: -1080px;
-  bottom: 0;
-  overflow-x: hidden;
-  overflow-y: auto;
-  transition: right 260ms;
+  bottom: -1000px;
+  left: 0;
+  right: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
   z-index: 600;
-}
+  white-space: nowrap;
+  transition: bottom 200ms;
 
-/*
-#screenshots-bar:hover {
-  right: 0 !important;
-  opacity: 1 !important;
 }
-*/
 
 .screenshot-container {
   position: relative;
-  margin: 10px;
+  display: inline-block;
+  margin: 10px 0 10px 10px;
 }
 
 .screenshot-container canvas {
@@ -187,4 +183,3 @@ input[type=text] {
   bottom: 0;
   background-color: #000;
 }
-
