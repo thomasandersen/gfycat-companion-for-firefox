@@ -10,7 +10,6 @@
 </head>
 <body>
   <div id="nav" class="disable-selection">
-    <button id="back" onclick="javascript:window.history.back()" disabled="true">Back</button>
     <button id="link" class="fa fa-link" title="Share"></button>
   </div>
 
@@ -21,10 +20,12 @@
     <button id="decrease-speed" class="fa fa-minus" title="Decrease speed"></button>
     <button id="increase-speed" class="fa fa-plus" title="Increase speed"></button>
     <button id="fullscreen" class="fa fa-arrows-alt" title="Fullscreen"></button>
+    <button id="resize" class="fa fa-expand" title="Resize"></button>
     <button id="screenshot" class="fa fa-camera" title="Capture current frame"></button>
-    <div>
-      <input id="resizer" type="range" disabled="true" title="Resize video"/>
+    <div id="resize-panel" style="display:none">
+      <input id="resizer" type="range" disabled="true"/> <button id="reset-size" title="Reset to original size">Reset</button>
     </div>
+    <button id="info" class="fa fa-info-circle" title="Info"></button>
   </div>
 
   <div id="loading-splash">
@@ -50,8 +51,8 @@
   <div id="screenshots-bar" class="screenshots-bar disable-selection" style="display:none">
   </div>
 
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.js"></script>
-  <script src="js/jquery.nicescroll.min.js"></script>
+  <script src="lib/jquery.js"></script>
+  <script src="lib/jquery.nicescroll.min.js"></script>
   <script src="js/helper.js"></script>
   <script src="js/pageElements.js"></script>
   <script src="js/screenshot.js"></script>

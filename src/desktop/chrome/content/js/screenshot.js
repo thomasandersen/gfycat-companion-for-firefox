@@ -1,16 +1,16 @@
 var Screenshot = {
 
   initScreenshotBar: function(json) {
-    var screenshotsBar = getScreenshotsBarEl();
+    var bar = getScreenshotsBarEl();
 
     var height = getVideoEl().videoHeight;
 
     var originalBottomStyle = "-" + (height - 10) + "px";
     var originalOpacityStyle = "0.3";
 
-    screenshotsBar.style.opacity = originalOpacityStyle;
-    screenshotsBar.style.height = (height + 24) + "px";
-    screenshotsBar.style.bottom = originalBottomStyle;
+    bar.style.opacity = originalOpacityStyle;
+    bar.style.height = (height + 24) + "px";
+    bar.style.bottom = originalBottomStyle;
 
     var contextMenu = mainWindow.document.querySelector("#contentAreaContextMenu");
     var contextMenuIsHidden = true;
@@ -23,27 +23,29 @@ var Screenshot = {
       contextMenuIsHidden = true;
     });
 
-    screenshotsBar.addEventListener("mouseenter", function() {
-      screenshotsBar.style.opacity = "1";
-      screenshotsBar.style.bottom = "0";
+    bar.addEventListener("mouseenter", function() {
+      getVideoEl().style.opacity = 0.3;
+      bar.style.opacity = "1";
+      bar.style.bottom = "0";
     });
 
-    screenshotsBar.addEventListener("mouseleave", function(event) {
+    bar.addEventListener("mouseleave", function(event) {
       console.log(event);
-      if (event.pageY > screenshotsBar.offsetTop) {
+      if (event.pageY > bar.offsetTop) {
         return;
       }
 
       if (contextMenuIsHidden) {
-        screenshotsBar.style.opacity = originalOpacityStyle;
-        screenshotsBar.style.bottom = originalBottomStyle;
+        getVideoEl().style.opacity = 1;
+        bar.style.opacity = originalOpacityStyle;
+        bar.style.bottom = originalBottomStyle;
       }
     });
 
-    $(screenshotsBar).niceScroll({
+    $(bar).niceScroll({
       autohidemode:false,
       cursorborder: "",
-      railhoffset: {top: -5},
+      railhoffset: {top: -4},
       background: "#000"
     });
 

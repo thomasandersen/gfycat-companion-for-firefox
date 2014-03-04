@@ -62,8 +62,12 @@ function getScreenshotButtonEl() {
   return document.querySelector("#screenshot");
 }
 
-function getBackButtonEl() {
-  return document.querySelector("#back");
+function getResizeButtonEl() {
+  return document.querySelector("#resize");
+}
+
+function getResetResizeButtonEl() {
+  return document.querySelector("#reset-size");
 }
 
 function getLinkButtonEl() {
@@ -76,4 +80,8 @@ function getLinksPanelEl() {
 
 function getScreenshotsBarEl() {
   return document.querySelector("#screenshots-bar");
+}
+
+function getResizePanelEl() {
+  return document.querySelector("#resize-panel");
 }

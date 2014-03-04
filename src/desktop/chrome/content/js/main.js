@@ -70,7 +70,6 @@ function loadHtml5Video(json) {
 
 function onVideoLoaded(json) {
   initVideoControls(json);
-  initResizer(json);
   showInfoBox("About " + getBandwidthSavedInMB(json).toPrecision(2) + " MB of internet bandwidth was saved");
   initLinkPanel(json);
   
@@ -120,36 +119,6 @@ function addClickEventForLinkInput(input) {
   });
 }
 
-function initResizer(json) {
-  var resizerEl = getResizerEl();
-  var videoEl = getVideoEl();
-
-  resizerEl.removeAttribute("disabled");
-  resizerEl.setAttribute("min", json.gifWidth / 2);
-  resizerEl.setAttribute("max", json.gifWidth * 2);
-  resizerEl.setAttribute("step", "1");
-  resizerEl.setAttribute("value", json.gifWidth);
-  resizerEl.addEventListener("input", function() {
-    videoEl.setAttribute("width", resizerEl.value);
-  });
-
-  document.addEventListener("DOMMouseScroll", function(event) {
-    var target = event.target;
-    if (DomHelper.findParentBySelector(target, "#screenshots-bar")) {
-      return;
-    }
-
-    var up = event.detail < 0;
-    var currentValue = parseInt(resizerEl.value, 10);
-    var step = 25;
-    resizerEl.value = (up ? currentValue + step : currentValue - step);
-    
-    var evt = document.createEvent("HTMLEvents");
-    evt.initEvent("input", false, true);
-    resizerEl.dispatchEvent(evt);
-  });
-}
-
 function removeLoadingSplash() {
   var splash = getLoadingSplashEl();
   splash.parentNode.removeChild(splash);
@@ -164,10 +133,6 @@ function removeLoadingSplash() {
     imageSrc += "&gccfxDoRequest=1";
   } else {
     imageSrc += "?gccfxDoRequest=1";
-  }
-
-  if (window.history.length > 1) {
-    getBackButtonEl().removeAttribute("disabled");
   }
 
   getOriginalImageEl().value = imageSrc;

@@ -130,7 +130,7 @@ module.exports = function(grunt) {
         "Gruntfile.js", 
         "<%= dirs.desktop %>/**/*.js", 
         "<%= dirs.mobile %>/**/*.js",
-        "!<%= dirs.desktop %>/chrome/**/*.js"
+        "!<%= dirs.desktop %>/chrome/content/lib/**/*.js"
       ]
     }
 
