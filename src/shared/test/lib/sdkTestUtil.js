@@ -12,7 +12,8 @@ exports.context = {
   getWindow: getPageWindow,
   getDocument: getPageDocument,
   simulateMouseEvent: simulateMouseEvent,
-  simulateChangeEvent: simulateChangeEvent
+  simulateChangeEvent: simulateChangeEvent,
+  simulateInputEvent: simulateInputEvent
 };
 
 exports.createMouseEvent = (mouseEventType, doc) => {
@@ -59,6 +60,13 @@ function simulateChangeEvent(node, value) {
   node.setAttribute("value", value);
   let htmlEvents = node.ownerDocument.createEvent("HTMLEvents");
   htmlEvents.initEvent("change", false, true);
+  node.dispatchEvent(htmlEvents);
+}
+
+function simulateInputEvent(node, value) {
+  node.setAttribute("value", value);
+  let htmlEvents = node.ownerDocument.createEvent("HTMLEvents");
+  htmlEvents.initEvent("input", false, true);
   node.dispatchEvent(htmlEvents);
 }
 
