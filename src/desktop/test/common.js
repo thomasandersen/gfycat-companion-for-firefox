@@ -8,6 +8,9 @@ let clipboard = require("sdk/clipboard");
 let main = require("./main");
 let { wait, context } = require("./lib/sdkTestUtil");
 
+// Make sure the console is not flooded with consle logs.
+require("sdk/preferences/service").set("extensions.sdk.console.logLevel", "off");
+
 let testPage = "http://mr-andersen.no/gfcycat-companion-test/index.html";
 
 exports.loadTestPage = loadTestPage;

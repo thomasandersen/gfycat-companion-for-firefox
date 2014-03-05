@@ -19,7 +19,7 @@ video, img#fallback, #loading-splash {
 
 video {
   transition: width,opacity 300ms;
-  z-index: 100;
+  findex: 100;
   box-shadow: 0 5px 35px rgba(0, 0, 0, 0.65);
 }
 
@@ -35,30 +35,26 @@ button, #screenshot-output-controls a {
 }
 
 button[disabled=true] {
-  opacity: .2 !important;
-}
-
-button#info {
-  float: right;
+  opacity: 0.2 !important;
 }
 
 input[type=text] {
   box-sizing: border-box;
-  background: none;
+  background: #333;
   border: none;
 }
 
 @keyframes loadingAnimation {
   0% {
-    background-size: 0 25px;
+    background-size: 0 15px;
     opacity: 1;
   }
   90% {
-    background-size: 197px 25px;
+    background-size: 197px 15px;
     opacity: 1;
   }
   100% {
-    background-size: 197px 25px;
+    background-size: 197px 15px;
     opacity: 0;
   }
 }
@@ -72,11 +68,10 @@ input[type=text] {
   position: fixed;
   top: 15px;
   left: -100px;
-  z-index: 200;
 }
 
 #nav button {
-  opacity: .2;
+  opacity: 0.2;
   transition: opacity 300ms;
 }
 
@@ -85,21 +80,34 @@ input[type=text] {
 }
 
 #controls {
+  width: 300px;
   text-align: center;
   position: absolute;
-  top: 0;
+  top: 10px;
   right: 0px;
   left: 0px;
-  z-index: 300;
   margin: auto;
-  padding: 15px 10px;
+  padding: 12px;
   background-color: #000;
-  opacity: .7;
+  opacity: 0.5;
   box-shadow: 0px 5px 35px rgba(0, 0, 0, 0.65);
   transition: opacity 300ms;
+  border-radius: 10px;
 }
 
 #controls:hover {
+  opacity: 1;
+}
+
+#info {
+  position: absolute;
+  top: 15px;
+  right: 10px;
+  opacity: 0.4;
+  transition: opacity 300ms;
+}
+
+#info:hover {
   opacity: 1;
 }
 
@@ -114,7 +122,7 @@ input[type=text] {
   width: 197px;
   height: 30px;
   background-image: linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 100%);
-  background-size: 0 25px;
+  background-size: 0 15px;
   background-repeat: no-repeat;
   position: absolute;
   bottom: 10px;
@@ -125,13 +133,12 @@ input[type=text] {
 }
 
 #info-box {
-  opacity: .2;
+  opacity: 0.2;
   width: 100%;
   position: fixed;
   left: 20px;
   bottom: 10px;
   transition: opacity 300ms;
-  z-index: 400;
 }
 
 #info-box #gfycat-logo {
@@ -150,16 +157,15 @@ input[type=text] {
   opacity: 1;
 }
 
-#link-panel {
+#info-panel {
   position: absolute;
   background-color: #000;
   width: 270px;
   padding: 10px 15px;
   text-align: left;
-  z-index: 500;
 }
 
-#link-panel label {
+#info-panel label {
   display: inline-block;
   width: 110px;
 }
@@ -173,7 +179,6 @@ input[type=text] {
   right: 0;
   overflow-x: auto;
   overflow-y: hidden;
-  z-index: 600;
   white-space: nowrap;
   transition: bottom 200ms;
 }

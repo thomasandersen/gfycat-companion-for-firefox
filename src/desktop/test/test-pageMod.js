@@ -2,6 +2,8 @@ let promise = require("sdk/core/promise");
 let main = require("./main");
 let { wait, context, loadPage, waitForElement } = require("./lib/sdkTestUtil");
 
+require("sdk/preferences/service").set("extensions.sdk.console.logLevel", "error");
+
 exports["test RES image viewer mod"] = function(assert, done) {
   loadPage("http://www.reddit.com/r/gifs/comments/1ugfm4/almost_done_hhdyduzhakdufhhe/", assert)
   .then(test_onResImageViewerExpand)

@@ -49,8 +49,6 @@ document.addEventListener("click", (event) => {
       if (!loaded) {
         onImageViewerExpand(imageViewerNode);
       }
-    } else {
-      onImageViewerCollapse(imageViewerNode);
     }
   }
 });
@@ -76,15 +74,6 @@ function onImageViewerExpand(imageViewerNode) {
   tryFetchVideo(gif, null);
 
   imageViewerNode.classList.add("gccfx-loaded");
-}
-
-function onImageViewerCollapse(imageViewerNode) {
-  /*
-  let gif = imageViewerNode.querySelector(".RESImage");
-  if (gif) {
-    cleanUp(gif);
-  }
-  */
 }
 
 function tryFetchVideo(gif) {
@@ -131,6 +120,18 @@ function onVideoInput(event) {
   video.setAttribute("width", resizer.value);
 }
 
+function mouseScrollCallback(event, videoResizer) {
+  event.preventDefault();
+  var up = event.detail < 0;
+  var currentValue = parseInt(videoResizer.value, 10);
+  var step = 20;
+  videoResizer.value = (up ? currentValue + step : currentValue - step);
+  
+  var evt = document.createEvent("HTMLEvents");
+  evt.initEvent("input", false, true);
+  videoResizer.dispatchEvent(evt);
+}
+
 function replaceGifWithVideo(transcodeJson, gifKey, loadingMessage) {
   let gif = gifmap.get(gifKey);
   let imageViewerNode = ImageViewer.getImageViewerNode(gif);
@@ -175,18 +176,15 @@ function replaceGifWithVideo(transcodeJson, gifKey, loadingMessage) {
       Dom.removeNode(videoResizer);
     }
 
-    videoResizer = Slider.create((transcodeJson.gifWidth / 2), (transcodeJson.gifWidth * 2), onVideoInput, function(event) {
-      event.preventDefault();
-      var up = event.detail < 0;
-      var currentValue = parseInt(videoResizer.value, 10);
-      var step = 20;
-      videoResizer.value = (up ? currentValue + step : currentValue - step);
-      
-      var evt = document.createEvent("HTMLEvents");
-      evt.initEvent("input", false, true);
-      videoResizer.dispatchEvent(evt);
-
+    videoResizer = Slider.create((transcodeJson.gifWidth / 2), (transcodeJson.gifWidth * 2), onVideoInput);
+    videoResizer.addEventListener("DOMMouseScroll", function(event) {
+      mouseScrollCallback(event, videoResizer);
     });
+
+    video.addEventListener("DOMMouseScroll", function(event) {
+      mouseScrollCallback(event, videoResizer);
+    });
+
     video.parentNode.insertBefore(videoResizer, video);
     videoResizer.setAttribute("value", transcodeJson.gifWidth);
 

@@ -2,7 +2,6 @@ let promise = require("sdk/core/promise");
 let windowUtil = require("sdk/window/utils");
 let tabUtil = require("sdk/tabs/utils");
 let main = require("./main");
-let common = require("./common");
 let { wait, context, loadPage } = require("./lib/sdkTestUtil");
 
 exports["test click menu item"] = function(assert, done) {
@@ -14,11 +13,11 @@ exports["test click menu item"] = function(assert, done) {
 function test_clickMenuItem(assert) {
   let deferred = promise.defer();
 
-  context.simulateMouseEvent("contextmenu", common.getImageNode());
+  context.simulateMouseEvent("contextmenu", getImageNode());
   
   // Wait for context menu
   wait(500).then(() => {
-    let contextMenu = common.getContentAreaContextMenu();
+    let contextMenu = getContentAreaContextMenu();
     let menuItem = contextMenu.querySelector("menuitem[value='gccfx-viewAsHtml5Video']");
 
     assert.equal(menuItem.hidden, false, "'Upload to gfycat' menuitem is displayed");
@@ -41,6 +40,20 @@ function test_clickMenuItem(assert) {
   });
 
   return deferred.promise;
+}
+
+function getContentAreaContextMenu() {
+  return windowUtil.getMostRecentBrowserWindow().document.querySelector("#contentAreaContextMenu");
+}
+
+function getImageNode() {
+  let doc = context.getDocument();
+  return getAnchorNode().querySelector("img");
+}
+
+function getAnchorNode() {
+  let doc = context.getDocument();
+  return doc.querySelector("#gif-link");
 }
 
 require("sdk/test").run(exports);

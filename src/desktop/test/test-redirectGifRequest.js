@@ -1,7 +1,6 @@
 let promise = require("sdk/core/promise");
 let tabs = require("sdk/tabs");
 let main = require("./main");
-let common = require("./common");
 let { wait, context, loadPage } = require("./lib/sdkTestUtil");
 
 exports["test browser should redirect to gfycat service when a gif is directly requested"] = function(assert, done) {
@@ -12,13 +11,18 @@ exports["test browser should redirect to gfycat service when a gif is directly r
 
 function test_gifRequestShouldBeRedirectedToGfycat(assert) {
   let deferred = promise.defer();
-  common.getAnchorNode().click();
+  getAnchorNode().click();
 
   wait(10000).then(() => {
     assert.ok(tabs.activeTab.url.startsWith("chrome://gfycat/content/video.html"), "gif request should be redirected to gfycat");
     deferred.resolve(assert);
   });
   return deferred.promise;
+}
+
+function getAnchorNode() {
+  let doc = context.getDocument();
+  return doc.querySelector("#gif-link");
 }
 
 require("sdk/test").run(exports);

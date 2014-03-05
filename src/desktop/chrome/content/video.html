@@ -9,8 +9,16 @@
   <link rel="stylesheet" href="style/video-page.css">
 </head>
 <body>
-  <div id="nav" class="disable-selection">
-    <button id="link" class="fa fa-link" title="Share"></button>
+
+  <div id="loading-splash">
+    <div id="loading-bar"></div>
+  </div>
+
+  <video width="128" loop="true" autoplay="true" style="display:none"></video>
+
+  <div id="info-box" style="display:none">
+    <img id="gfycat-logo" src="images/icon-128.png"/>Powered by Gfycat<span> - </span>
+    <span id="gfyinfo"><!-- --></span>
   </div>
 
   <div id="controls" class="disable-selection" style="display:none">
@@ -25,30 +33,21 @@
     <div id="resize-panel" style="display:none">
       <input id="resizer" type="range" disabled="true"/> <button id="reset-size" title="Reset to original size">Reset</button>
     </div>
-    <button id="info" class="fa fa-info-circle" title="Info"></button>
   </div>
 
-  <div id="loading-splash">
-    <div id="loading-bar"></div>
+  <button id="info" class="fa fa-info-circle fa-2x" title="Info"></button>
+
+  <div id="screenshots-bar" class="screenshots-bar disable-selection" style="display:none">
   </div>
 
-  <video width="128" loop="true" autoplay="true" style="display:none"></video>
-
-  <div id="link-panel" style="display:none">
+  <div id="info-panel" style="display:none">
+    <div><img src="images/icon-128.png" width="32" height="32"/> Powered by Gfycat</div>
     <label for="original-image">Original image:</label>
     <input id="original-image" type="text" readonly="true"><br>
     <label for="gfycat-url">Gfycat link:</label>
     <input id="gfycat-url" type="text" readonly="true"><br>
     <label for="gfycat-video-url">Gfycat video link:</label>
     <input id="gfycat-video-url" type="text" readonly="true">
-  </div>
-
-  <div id="info-box" style="display:none">
-    <img id="gfycat-logo" src="images/icon-128.png"/>Powered by Gfycat<span> - </span>
-    <span id="gfyinfo"><!-- --></span>
-  </div>
-
-  <div id="screenshots-bar" class="screenshots-bar disable-selection" style="display:none">
   </div>
 
   <script src="lib/jquery.js"></script>

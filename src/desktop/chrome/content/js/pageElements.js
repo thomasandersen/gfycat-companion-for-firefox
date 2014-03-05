@@ -15,15 +15,15 @@ function getGfyInfoEl() {
 }
 
 function getOriginalImageEl() {
-  return document.querySelector("#link-panel #original-image");
+  return document.querySelector("#info-panel #original-image");
 }
 
 function getGfycatUrlEl() {
-  return document.querySelector("#link-panel #gfycat-url");
+  return document.querySelector("#info-panel #gfycat-url");
 }
 
 function getGfycatVideoUrlEl() {
-  return document.querySelector("#link-panel #gfycat-video-url");
+  return document.querySelector("#info-panel #gfycat-video-url");
 }
 
 function getResizerEl() {
@@ -70,12 +70,12 @@ function getResetResizeButtonEl() {
   return document.querySelector("#reset-size");
 }
 
-function getLinkButtonEl() {
-  return document.querySelector("#link");
+function getInfoButtonEl() {
+  return document.querySelector("#info");
 }
 
-function getLinksPanelEl() {
-  return document.querySelector("#link-panel");
+function getInfoPanelEl() {
+  return document.querySelector("#info-panel");
 }
 
 function getScreenshotsBarEl() {

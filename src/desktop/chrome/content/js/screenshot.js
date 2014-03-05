@@ -42,13 +42,16 @@ var Screenshot = {
       }
     });
 
-    $(bar).niceScroll({
-      autohidemode:false,
-      cursorborder: "",
-      railhoffset: {top: -4},
-      background: "#000"
-    });
-
+    // Add nice scroll to the bar.
+    // Set timeout in order to avoid flickering.
+    setTimeout(function() {
+      $(bar).niceScroll({
+        autohidemode:false,
+        cursorborder: "",
+        railhoffset: {top: -4},
+        background: "#000"
+      });
+    }, 10);
   },
 
   create: function() {

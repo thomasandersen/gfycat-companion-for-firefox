@@ -1,5 +1,5 @@
 let Slider = {
-  create: (min, max, inputCallback, scrollCallback) => {
+  create: (min, max, inputCallback) => {
     let el = Dom.create("input", {
       "type": "range",
       "min": min,
@@ -8,8 +8,7 @@ let Slider = {
     });
     el.classList.add("gccfx-video-size-slider");
     el.addEventListener("input", inputCallback);
-    el.addEventListener("DOMMouseScroll", scrollCallback);
-
+    
     return el;
   },
 

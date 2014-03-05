@@ -40,7 +40,7 @@ function doTranscode() {
       onTranscodeError(null);
     }
   };
-  document.title = TITLE_TEXT_PREFIX + "transcoding gif...";
+  document.title = TITLE_TEXT_PREFIX + "transcoding in progress...";
   request.send();
 }
 
@@ -70,12 +70,9 @@ function loadHtml5Video(json) {
 
 function onVideoLoaded(json) {
   initVideoControls(json);
-  showInfoBox("About " + getBandwidthSavedInMB(json).toPrecision(2) + " MB of internet bandwidth was saved");
-  initLinkPanel(json);
-  
+  initInfoPanel(json);
   removeLoadingSplash();
   getVideoEl().style.display = "block";
-
   Screenshot.initScreenshotBar(json);
   saveBandwidthSaved(json);
 }
@@ -91,16 +88,9 @@ function loadFallbackImage() {
   video.parentNode.insertBefore(img, video);
 }
 
-function showInfoBox(text) {
-  /*
-  getGfyInfoEl().textContent = text;
-  getInfoBoxEl().style.display = "block";
-  */
-}
-
-function initLinkPanel(json) {
-  var linksPanel = getLinksPanelEl();
-  var allInputs = linksPanel.querySelectorAll("input");
+function initInfoPanel(json) {
+  var panel = getInfoPanelEl();
+  var allInputs = panel.querySelectorAll("input");
   var gfycatSrc = "http://gfycat.com/" + json.gfyName;
 
   getGfycatUrlEl().value = gfycatSrc;
@@ -125,8 +115,8 @@ function removeLoadingSplash() {
 }
 
 (function() {
-  var linkButton = getLinkButtonEl();
-  var linksPanel = getLinksPanelEl();
+  var infoButton = getInfoButtonEl();
+  var infoPanel = getInfoPanelEl();
   var imageSrc = Helper.getURLParameter("s");
 
   if (imageSrc.contains("?")) {
@@ -136,20 +126,20 @@ function removeLoadingSplash() {
   }
 
   getOriginalImageEl().value = imageSrc;
-  getGfycatUrlEl().value = "transcoding gif...";
-  getGfycatVideoUrlEl().value = "transcoding gif...";
+  getGfycatUrlEl().value = "transcoding in progress...";
+  getGfycatVideoUrlEl().value = "transcoding in progress...";
 
-  linkButton.addEventListener("click", function() {
-    linksPanel.style.top = (linkButton.offsetTop + linkButton.offsetHeight + 10) + "px";
-    linksPanel.style.left = linkButton.offsetLeft + "px";
-    linksPanel.style.display = "block";
+  infoButton.addEventListener("click", function() {
+    infoPanel.style.top = (infoButton.offsetTop + infoButton.offsetHeight + 5) + "px";
+    infoPanel.style.right = "10px";
+    infoPanel.style.display = "block";
   });
 
   document.addEventListener("click", function(evt) {
     var target = evt.target;
-    var close = !(target.id == "link" || target.id == "link-panel" || target.parentNode.id == "link-panel");
+    var close = !(target.id == "info" || target.id == "info-panel" || target.parentNode.id == "info-panel");
     if (close) {
-      linksPanel.style.display = "none";
+      infoPanel.style.display = "none";
     }
   });
 
