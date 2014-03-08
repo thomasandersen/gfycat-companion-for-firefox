@@ -93,3 +93,7 @@ function getScreenshotsBarEl() {
 function getResizePanelEl() {
   return document.querySelector("#resize-panel");
 }
+
+function getErrorMessageEl() {
+  return document.querySelector("#error-message");
+}

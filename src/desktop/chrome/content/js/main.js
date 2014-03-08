@@ -16,9 +16,9 @@ function onTranscodeSucces(json) {
 
 function onTranscodeError(json) {
   loadFallbackImage();
-  if (json.error) {
-    showInfoBox("Showing original image. " + json.error);
-  }
+  removeLoadingSplash();
+  clearInfoBox();
+  showErrorMessage(json);
 }
 
 function doTranscode() {
@@ -82,9 +82,6 @@ function loadFallbackImage() {
   var img = document.createElement("img");
   img.setAttribute("id", "fallback");
   img.setAttribute("src", Helper.getURLParameter("s"));
-
-  removeLoadingSplash();
-
   video.parentNode.insertBefore(img, video);
 }
 
@@ -121,7 +118,24 @@ function addClickEventForLinkInput(input) {
 
 function removeLoadingSplash() {
   var splash = getLoadingSplashEl();
-  splash.parentNode.removeChild(splash);
+  if (splash) {
+    splash.parentNode.removeChild(splash);
+  }
+}
+
+function showErrorMessage(json) {
+  var errorMessageEl = getErrorMessageEl();
+  var text = "Showing original image.";
+  if (json && json.error) {
+    text += (" " + json.error);
+  }
+  errorMessageEl.textContent = text;
+  errorMessageEl.style.display = "block";
+}
+
+function clearInfoBox() {
+  getGfycatUrlEl().value = "";
+  getGfycatVideoUrlEl().value = "";
 }
 
 (function() {
