@@ -1,5 +1,5 @@
 body {
-  font: 12px/1.4 "Lucida Grande";
+  font: 11px/1.4 "Lucida Grande";
   background-image: url("chrome://global/skin/media/imagedoc-darknoise.png");
 }
 
@@ -41,7 +41,9 @@ button[disabled=true] {
 input[type=text] {
   box-sizing: border-box;
   background: #333;
+  color: #969696;
   border: none;
+  width: 100%;
 }
 
 @keyframes loadingAnimation {
@@ -135,14 +137,40 @@ input[type=text] {
 #info-panel {
   position: absolute;
   background-color: #000;
-  width: 270px;
+  width: 300px;
   padding: 10px 15px;
   text-align: left;
 }
 
 #info-panel label {
   display: inline-block;
-  width: 110px;
+  width: 170px;
+}
+
+#info-panel .link-container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 3px;
+}
+
+#info-panel #gfy-info {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
+
+#info-panel #gfy-info img {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+#bytes-saved-info,
+#total-bytes-saved-info {
+  display: block;
+}
+
+#total-bytes-saved-info {
+  color: #676767;
 }
 
 #screenshots-bar {

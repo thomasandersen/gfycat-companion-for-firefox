@@ -51,7 +51,7 @@ var Screenshot = {
         railhoffset: {top: -4},
         background: "#000"
       });
-    }, 10);
+    }, 300);
   },
 
   create: function() {

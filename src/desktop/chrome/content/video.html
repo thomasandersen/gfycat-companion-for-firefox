@@ -36,13 +36,27 @@
   </div>
 
   <div id="info-panel" style="display:none">
-    <div><img src="images/icon-128.png" width="32" height="32"/> Powered by Gfycat</div>
-    <label for="original-image">Original image:</label>
-    <input id="original-image" type="text" readonly="true"><br>
-    <label for="gfycat-url">Gfycat link:</label>
-    <input id="gfycat-url" type="text" readonly="true"><br>
-    <label for="gfycat-video-url">Gfycat video link:</label>
-    <input id="gfycat-video-url" type="text" readonly="true">
+    <div id="gfy-info">
+      <img src="images/icon-128.png" width="32" height="32"/>
+      <div>
+        Powered by Gfycat
+        <span id="bytes-saved-info"></span>
+        <span id="total-bytes-saved-info"></span>
+
+      </div>
+    </div>
+    <div class="link-container">
+      <label for="original-image">Original image:</label>
+      <input id="original-image" type="text" readonly="true"><br>
+    </div>
+    <div class="link-container">
+      <label for="gfycat-url">Gfycat link:</label>
+      <input id="gfycat-url" type="text" readonly="true"><br>
+    </div>
+    <div class="link-container">
+      <label for="gfycat-video-url">Gfycat video link:</label>
+      <input id="gfycat-video-url" type="text" readonly="true">
+    </div>
   </div>
 
   <script src="lib/jquery.js"></script>

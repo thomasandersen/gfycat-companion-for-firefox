@@ -78,6 +78,14 @@ function getInfoPanelEl() {
   return document.querySelector("#info-panel");
 }
 
+function getBytesSavedEl() {
+  return document.querySelector("#bytes-saved-info");
+}
+
+function getTotalBytesSavedEl() {
+  return document.querySelector("#total-bytes-saved-info");
+}
+
 function getScreenshotsBarEl() {
   return document.querySelector("#screenshots-bar");
 }

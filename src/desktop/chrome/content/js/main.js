@@ -91,10 +91,20 @@ function loadFallbackImage() {
 function initInfoPanel(json) {
   var panel = getInfoPanelEl();
   var allInputs = panel.querySelectorAll("input");
+  var bytesSavedEl = getBytesSavedEl();
+  var totalBytesSavedEl = getTotalBytesSavedEl();
   var gfycatSrc = "http://gfycat.com/" + json.gfyName;
 
   getGfycatUrlEl().value = gfycatSrc;
   getGfycatVideoUrlEl().value = json.webmUrl;
+
+  var bytesSaved = getBandwidthSavedInMB(json).toFixed(2);
+  bytesSavedEl.textContent = "About " + bytesSaved + " MB of bandwidth was saved";
+
+  var totalBytesSaved = getTotalBandwidthSavedInMB().toFixed(2);
+  if (totalBytesSaved != null) {
+    totalBytesSavedEl.textContent = "Total bandwith saved: " + totalBytesSaved + " MB";
+  }
 
   for (var key in allInputs) {
     if (allInputs[key].type == "text") {
@@ -137,7 +147,8 @@ function removeLoadingSplash() {
 
   document.addEventListener("click", function(evt) {
     var target = evt.target;
-    var close = !(target.id == "info" || target.id == "info-panel" || target.parentNode.id == "info-panel");
+    var isPanel = DomHelper.findParentBySelector(target, "#info-panel") != null;
+    var close = !(isPanel || target.id == "info");
     if (close) {
       infoPanel.style.display = "none";
     }
