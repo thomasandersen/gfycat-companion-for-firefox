@@ -132,31 +132,6 @@ input[type=text] {
   animation-duration: 3s;
 }
 
-#info-box {
-  opacity: 0.2;
-  width: 100%;
-  position: fixed;
-  left: 20px;
-  bottom: 10px;
-  transition: opacity 300ms;
-}
-
-#info-box #gfycat-logo {
-  width: 22px;
-  height: 22px;
-  padding-bottom: 3px;
-  padding-right: 8px;
-  vertical-align: middle;
-}
-
-#info-box #bytes-saved {
-  font-size: 120%;
-}
-
-#info-box:hover {
-  opacity: 1;
-}
-
 #info-panel {
   position: absolute;
   background-color: #000;
