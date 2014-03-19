@@ -30,7 +30,7 @@ var Screenshot = {
     });
 
     bar.addEventListener("mouseleave", function(event) {
-      console.log(event);
+      console.log(event.pageY);
       if (event.pageY > bar.offsetTop) {
         return;
       }
@@ -61,12 +61,19 @@ var Screenshot = {
     var containerEl = document.createElement("div");
     var canvasEl = document.createElement("canvas");
     var screenshotInfoEl = document.createElement("div");
+    var removeButtonEl = document.createElement("div");
     var w = videoEl.videoWidth;
     var h = videoEl.videoHeight;
 
     containerEl.classList.add("screenshot-container");
     screenshotInfoEl.classList.add("screenshot-info");
     screenshotInfoEl.textContent = time.toPrecision(3) + "s";
+    removeButtonEl.classList.add("screenshot-remove-button");
+    removeButtonEl.classList.add("fa");
+    removeButtonEl.classList.add("fa-times");
+    removeButtonEl.addEventListener("click", function() {
+      containerEl.parentNode.removeChild(containerEl);
+    });
 
     canvasEl.classList.add("screenshot-canvas");
     canvasEl.width  = w;
@@ -77,6 +84,7 @@ var Screenshot = {
 
     containerEl.appendChild(canvasEl);
     containerEl.appendChild(screenshotInfoEl);
+    containerEl.appendChild(removeButtonEl);
 
     screenshotsBar.appendChild(containerEl);
     screenshotsBar.style.display = "block";

@@ -203,6 +203,21 @@ input[type=text] {
   background-color: #000;
 }
 
+.screenshot-remove-button {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 5px;
+  color: #fff;
+  background-color: #000;
+  cursor: pointer;
+}
+
+.screenshot-container:hover .screenshot-remove-button {
+  display: block;
+}
+
 #resize-panel {
   position: absolute;
   width: 195px;
