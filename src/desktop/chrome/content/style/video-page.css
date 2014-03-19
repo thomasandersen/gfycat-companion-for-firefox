@@ -46,21 +46,6 @@ input[type=text] {
   width: 100%;
 }
 
-@keyframes loadingAnimation {
-  0% {
-    background-size: 0 15px;
-    opacity: 1;
-  }
-  90% {
-    background-size: 197px 15px;
-    opacity: 1;
-  }
-  100% {
-    background-size: 197px 15px;
-    opacity: 0;
-  }
-}
-
 .disable-selection {
   -moz-user-select: none;
   user-select: none;
@@ -120,11 +105,26 @@ input[type=text] {
   text-align: center;
 }
 
+@keyframes loadingAnimation {
+  0% {
+    background-size: 0 20px;
+    opacity: 1;
+  }
+  90% {
+    background-size: 197px 20px;
+    opacity: 1;
+  }
+  100% {
+    background-size: 197px 20px;
+    opacity: 0;
+  }
+}
+
 #loading-bar {
   width: 197px;
   height: 30px;
   background-image: linear-gradient(to right, rgba(0,0,0,1) 0%,rgba(0,0,0,1) 100%);
-  background-size: 0 15px;
+  background-size: 0 20px;
   background-repeat: no-repeat;
   position: absolute;
   bottom: 10px;
