@@ -55,7 +55,7 @@ function loadHtml5Video(json) {
   sourceEl.setAttribute("src", videoSrc);
   videoEl.appendChild(sourceEl);
 
-  videoEl.addEventListener("canplay", function() {
+  videoEl.addEventListener("loadeddata", function() {
     onVideoLoaded(json);
   });
 

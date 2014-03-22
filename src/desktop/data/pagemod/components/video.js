@@ -1,5 +1,5 @@
 let Video = {
-  create: (src, width, canPlayCallback) => {
+  create: (src, width, loadedDataCallback) => {
     let video = Dom.create("video", {
       "loop": "true",
       "autoplay": "true",
@@ -8,7 +8,7 @@ let Video = {
       "style": "display: block",
       "class": "gccfx-video",
     });
-    video.addEventListener("canplay", canPlayCallback);
+    video.addEventListener("loadeddata", loadedDataCallback);
 
     let source = Dom.create("source", {
       "type": "video/webm",
