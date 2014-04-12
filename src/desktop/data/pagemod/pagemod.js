@@ -161,10 +161,10 @@ function replaceGifWithVideo(transcodeJson, gifKey, loadingMessage) {
       Dom.removeNode(messageNode);
     }
 
-    let message = loadingMessage + " <a href=\""+ anchor.getAttribute("href") +"\">Open in video viewer</a>";
+    let message = loadingMessage + " <a class=\"gccfx-open-in-viewer\" href=\""+ anchor.getAttribute("href") +"\" target=\"_blank\">Open in video viewer</a>";
     messageNode = Message.create(message);
     video.parentNode.insertBefore(messageNode, video);
-    
+
     // Make sure the gallery controls are enabled.
     let shim = ImageViewer.getResGalleryControlsNodeShimNode(gif);
     if (shim) {

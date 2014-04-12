@@ -1,9 +1,9 @@
-@keyframes gccfxLoaderAnimation { 
-  0% { 
+@keyframes gccfxLoaderAnimation {
+  0% {
     background-size: 0 30px;
     opacity: 1;
-  } 
-  90% { 
+  }
+  90% {
     background-size: 100% 30px;
     opacity: 1;
   }
@@ -17,12 +17,12 @@
   transition: width 300ms;
 }
 
-.gccfx-status-bar, 
+.gccfx-status-bar,
 .gccfx-message {
   font-size: x-small;
 }
 
-.gccfx-loader-animation { 
+.gccfx-loader-animation {
   animation-duration: 3s; animation-name: gccfxLoaderAnimation; animation-iteration-count: infinite;
 }
 
@@ -34,11 +34,24 @@
 }
 
 .gccfx-gallery-controls-shim {
-  position: absolute; 
-  top: 0; left: 0; 
-  cursor: default;  
+  position: absolute;
+  top: 0; left: 0;
+  cursor: default;
 }
 
 .RESImage.RESImageError:after {
   content:"";
+}
+
+a.gccfx-open-in-viewer {
+  background-color: #FA8072;
+  border-radius: 2px;
+  color: #FFFFFF !important;
+  display: inline-block !important;
+  margin-left: 6px;
+  padding: 2px 8px;
+}
+
+a.gccfx-open-in-viewer:hover {
+  text-decoration: none !important;
 }
