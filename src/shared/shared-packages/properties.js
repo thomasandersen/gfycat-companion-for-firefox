@@ -17,7 +17,7 @@ exports.gifHostingServices = [
   "deviantart.net",
   "tumblr.com",
   "mrwgifs.com",
-  "forgifs.com", 
+  "forgifs.com",
   "minus.com",
   "gifsoup.com",
   "ebaumsworld.com",

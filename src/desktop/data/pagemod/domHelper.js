@@ -10,8 +10,8 @@ let Dom = {
     return el;
   },
 
-  removeNode: (node) => {
-    node.parentNode.removeChild(node);
+  removeElem: (aElem) => {
+    aElem.parentNode.removeChild(aElem);
   }
 
 };

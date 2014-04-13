@@ -79,14 +79,14 @@ function requestListener(event) {
   // Redirect direct gif requests.
   if (isInitialDocument && isImageFileExtension) {
     console.log("Is direct request");
-    
+
     // Cancel the request.
     channel.cancel(Cr.NS_BINDING_ABORTED);
 
     // Check if content type is gif/image and redirect.
 
     let isGifFileExtensionCallback = () => {
-      // Since the request is aborted, make sure the url is updated in the browser history. 
+      // Since the request is aborted, make sure the url is updated in the browser history.
       // Automatically marks the url as visited etc.
       let videoPage = properties.addon.chromePageUrl + url;
 

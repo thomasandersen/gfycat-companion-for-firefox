@@ -20,7 +20,7 @@ exports.addParameterToUrl = (paramName, paramValue, url) => {
   let urlWithParam = !url.contains("?") ? url + "?" : url + "&";
   urlWithParam += (paramName + "=" + String(paramValue));
   return urlWithParam;
-};  
+};
 
 exports.asyncIsContentTypeGif = (url, isGifCallback, isNotGifCallback) => {
   Request({
