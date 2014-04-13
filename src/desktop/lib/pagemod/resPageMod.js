@@ -20,10 +20,10 @@ let gWorker = null;
 function doEnable(enable) {
   resImageRequestBlocker.enable(enable);
   if (!enable) {
-    try { 
+    try {
       pageMod.destroy();
       gWorker.port.emit("resImageViewerSupportDisabled");
-    } 
+    }
     catch(ex) {
     }
     return;
@@ -44,14 +44,14 @@ function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
 
   let isNotGifCallback = () => {
     onTranscodeError(gifKey, worker, "Could not transform " + urlHelper.getFileExtension(gifUrl) + " to gfycat video. Displaying original image", false);
-  };  
-  
+  };
+
   urlHelper.asyncIsContentTypeGif(gifUrl, isGifFileExtensionCallback, isNotGifCallback);
 }
 
 function requestGfyTranscoder(gifUrl, gifKey, worker) {
   let url = properties.gfycat.transcodeEndpoint +  createPsudoRandomStr(5) + "?fetchUrl=" + gifUrl;
-  worker.port.emit("transcodeStart", gifUrl, gifKey);
+  worker.port.emit("transcodeRequestStart", gifUrl, gifKey);
 
   Request({
     url: url,
@@ -62,7 +62,8 @@ function requestGfyTranscoder(gifUrl, gifKey, worker) {
 }
 
 function resolveTranscodeResponse(response, requestedUrl, gifKey, worker) {
-  console.log("Transcode response " + response.status, response.json);
+  console.log("Transcode response ", response);
+  console.log("Transcode response gifKey ", gifKey);
 
   if (!response.json) {
     onTranscodeError(gifKey, worker, "Unknown error. There was no JSON in the response", false);
@@ -87,11 +88,11 @@ function resolveTranscodeResponse(response, requestedUrl, gifKey, worker) {
 }
 
 function onTranscodeSuccess(response, gifKey, worker, loadingMessage) {
-  worker.port.emit("transcodeSuccess", response.json, gifKey, loadingMessage);
+  worker.port.emit("transcodeRequestSuccess", response.json, gifKey, loadingMessage);
 }
 
 function onTranscodeError(gifKey, worker, errorMessage, showErrorMessage) {
-  worker.port.emit("transcodeError", gifKey, errorMessage, showErrorMessage);
+  worker.port.emit("transcodeRequestError", gifKey, errorMessage, showErrorMessage);
 }
 
 function enableResPageMod() {
@@ -99,18 +100,17 @@ function enableResPageMod() {
     include: ["*.reddit.com"],
     attachTo: ["existing", "top"],
     contentScriptFile: [
-      self.data.url("pagemod/components/dom.js"),
-      self.data.url("pagemod/components/video.js"),
-      self.data.url("pagemod/components/slider.js"),
-      self.data.url("pagemod/components/statusbar.js"),
-      self.data.url("pagemod/components/message.js"),
-      self.data.url("pagemod/components/imageviewer.js"),
-      self.data.url("pagemod/pagemod.js")
+      self.data.url("pagemod/global.js"),
+      self.data.url("pagemod/domHelper.js"),
+      self.data.url("pagemod/RES.js"),
+      self.data.url("pagemod/companion.js"),
+      self.data.url("pagemod/resPageMod.js")
     ],
     contentStyleFile: self.data.url("pagemod/style/pagemod.css"),
     onAttach: function(worker) {
       gWorker = worker;
-      worker.port.on("requestGfyTranscoder", (gifUrl, gifKey) => {
+      worker.port.on("requestTranscoder", (gifUrl, gifKey) => {
+        console.log("requestTranscoder", gifKey);
         checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker);
       });
     },
@@ -126,10 +126,3 @@ function createPsudoRandomStr(stringLength) {
   }
   return text;
 }
-/*
-function getBandwidthSavedInMB(gfyInfo) {
-  let gifSize = gfyInfo.gifSize;
-  let gfySize = gfyInfo.gfysize;
-  return (gifSize - gfySize) / 1024 / 1024;
-}
-*/

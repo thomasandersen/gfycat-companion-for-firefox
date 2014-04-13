@@ -1,4 +1,4 @@
-let ImageViewer = {
+let RES = {
 
   getImageViewerNode: (gif) => {
     return gif.parentNode.parentNode.parentNode;
@@ -10,14 +10,14 @@ let ImageViewer = {
 
   getResGalleryControlsNode: (gif) => {
     try {
-      return ImageViewer.getGifAnchorNode(gif).parentNode.parentNode.querySelector(".RESGalleryControls");
+      return RES.getGifAnchorNode(gif).parentNode.parentNode.querySelector(".RESGalleryControls");
     } catch(ex) {
     }
     return null;
   },
 
   getResGalleryControlsNodeShimNode: (gif) => {
-    let galleryControls = ImageViewer.getResGalleryControlsNode(gif);
+    let galleryControls = RES.getResGalleryControlsNode(gif);
     try {
       return galleryControls.querySelector(".gccfx-gallery-controls-shim");
     } catch(ex) {
