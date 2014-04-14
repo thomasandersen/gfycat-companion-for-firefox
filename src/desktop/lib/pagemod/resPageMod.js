@@ -10,18 +10,18 @@ let resImageRequestBlocker = require("./resImageRequestBlocker");
 Cu.import("resource://gre/modules/AddonManager.jsm");
 Cu.import("chrome://gfycat/content/jsm/bytesSaved.jsm");
 
-exports.enable = (enable) => {
-  return doEnable(enable);
+exports.enable = (aEnable) => {
+  return doEnable(aEnable);
 };
 
-let pageMod = null;
+let gPageMod = null;
 let gWorker = null;
 
-function doEnable(enable) {
-  resImageRequestBlocker.enable(enable);
-  if (!enable) {
+function doEnable(aEnable) {
+  resImageRequestBlocker.enable(aEnable);
+  if (!aEnable) {
     try {
-      pageMod.destroy();
+      gPageMod.destroy();
       gWorker.port.emit("resImageViewerSupportDisabled");
     }
     catch(ex) {
@@ -92,11 +92,12 @@ function onTranscodeSuccess(response, gifKey, worker, loadingMessage) {
 }
 
 function onTranscodeError(gifKey, worker, errorMessage, showErrorMessage) {
+  resImageRequestBlocker.enable(false);
   worker.port.emit("transcodeRequestError", gifKey, errorMessage, showErrorMessage);
 }
 
 function enableResPageMod() {
-  pageMod = PageMod({
+  gPageMod = PageMod({
     include: ["*.reddit.com"],
     attachTo: ["existing", "top"],
     contentScriptFile: [
@@ -112,7 +113,11 @@ function enableResPageMod() {
       worker.port.on("requestTranscoder", (gifUrl, gifKey) => {
         console.log("requestTranscoder", gifKey);
         //checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker);
+        resImageRequestBlocker.enable(true);
         requestGfyTranscoder(gifUrl, gifKey, worker);
+      });
+      worker.port.on("enableImageRequestBlocker", () => {
+        resImageRequestBlocker.enable(true);
       });
     },
     contentScriptWhen: "ready"

@@ -112,7 +112,11 @@ let PageMod = {
     let src = image.getAttribute("src");
     let newSrc = !src.contains("?") ? src + "?" : src + "&";
     newSrc += "gccfxDoRequest=1";
-    //image.setAttribute("src", newSrc);
+    image.setAttribute("src", newSrc);
+    image.setAttribute("src", src);
+
+    self.port.emit("enableImageRequestBlocker");
+
 
     if (aShowErrorMessage) {
       let messageNode = Companion.getMessageElem(image);
