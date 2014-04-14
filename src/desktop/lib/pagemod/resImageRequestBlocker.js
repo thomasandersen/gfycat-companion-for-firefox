@@ -9,8 +9,10 @@ exports.enable = (enable) => {
 
 function doEnable(enable) {
   if (enable) {
+    console.log("Enable request blocker");
     systemEvents.on("http-on-modify-request", requestListener);
   } else {
+    console.log("Disable request blocker");
     systemEvents.off("http-on-modify-request", requestListener);
   }
 }
@@ -20,7 +22,7 @@ function isChannelInitialDocument(httpChannel) {
 }
 
 // Make sure inline requests to gif hosting services requested by reddit.com is canceled.
-// RES image viewer will create a video request instead. 
+// RES image viewer will create a video request instead.
 // fixme: should listen for preference: resImageViewerSupport
 function requestListener(event) {
   let request = event.subject;

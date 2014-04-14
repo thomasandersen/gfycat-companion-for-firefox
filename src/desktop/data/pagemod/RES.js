@@ -1,23 +1,23 @@
 let RES = {
 
-  getImageViewerNode: (gif) => {
+  getImageContainerElem: (gif) => {
     return gif.parentNode.parentNode.parentNode;
   },
 
-  getGifAnchorNode: (gif) => {
+  getImageAnchorElem: (gif) => {
     return gif.parentNode;
   },
 
-  getResGalleryControlsNode: (gif) => {
+  getGalleryControlsElem: (gif) => {
     try {
-      return RES.getGifAnchorNode(gif).parentNode.parentNode.querySelector(".RESGalleryControls");
+      return RES.getImageAnchorElem(gif).parentNode.parentNode.querySelector(".RESGalleryControls");
     } catch(ex) {
     }
     return null;
   },
 
   getResGalleryControlsNodeShimNode: (gif) => {
-    let galleryControls = RES.getResGalleryControlsNode(gif);
+    let galleryControls = RES.getGalleryControlsElem(gif);
     try {
       return galleryControls.querySelector(".gccfx-gallery-controls-shim");
     } catch(ex) {

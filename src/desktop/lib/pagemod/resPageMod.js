@@ -104,14 +104,15 @@ function enableResPageMod() {
       self.data.url("pagemod/domHelper.js"),
       self.data.url("pagemod/RES.js"),
       self.data.url("pagemod/companion.js"),
-      self.data.url("pagemod/resPageMod.js")
+      self.data.url("pagemod/pageMod.js")
     ],
     contentStyleFile: self.data.url("pagemod/style/pagemod.css"),
     onAttach: function(worker) {
       gWorker = worker;
       worker.port.on("requestTranscoder", (gifUrl, gifKey) => {
         console.log("requestTranscoder", gifKey);
-        checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker);
+        //checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker);
+        requestGfyTranscoder(gifUrl, gifKey, worker);
       });
     },
     contentScriptWhen: "ready"

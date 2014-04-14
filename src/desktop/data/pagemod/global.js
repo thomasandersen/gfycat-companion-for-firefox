@@ -1,5 +1,3 @@
-let gIsResImageViewerSupportDisabled = false;
-
 document.addEventListener("click", (event) => {
   let target = event.target;
   if (target.classList.contains("toggleImage")) {

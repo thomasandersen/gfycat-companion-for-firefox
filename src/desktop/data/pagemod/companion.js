@@ -21,7 +21,7 @@ let Companion = {
   },
 
   getVideoElem: (aImage) => {
-    return RES.getImageViewerNode(aImage).querySelector(".gccfx-video");
+    return RES.getImageContainerElem(aImage).querySelector(".gccfx-video");
   },
 
   createMessageElem: (aMessageHtml) => {
@@ -33,7 +33,7 @@ let Companion = {
   },
 
   getMessageElem: (aImage) => {
-    return RES.getImageViewerNode(aImage).querySelector(".gccfx-message");
+    return RES.getImageContainerElem(aImage).querySelector(".gccfx-message");
   },
 
   createResizeSliderElem: (aMinValue, aMaxValue, aInputCallback) => {
@@ -50,7 +50,7 @@ let Companion = {
   },
 
   getResizeSliderElem: (aImage) => {
-    return RES.getImageViewerNode(aImage).querySelector(".gccfx-video-size-slider");
+    return RES.getImageContainerElem(aImage).querySelector(".gccfx-video-size-slider");
   },
 
   createStatusBarElem: () => {
@@ -63,11 +63,11 @@ let Companion = {
   },
 
   getStatusBarElem: (aImage) => {
-    return RES.getImageViewerNode(aImage).querySelector(".gccfx-status-bar");
+    return RES.getImageContainerElem(aImage).querySelector(".gccfx-status-bar");
   },
 
   showLoadingBar: (aImage) => {
-    let statusbarElem = RES.getImageViewerNode(aImage).querySelector(".gccfx-status-bar");
+    let statusbarElem = RES.getImageContainerElem(aImage).querySelector(".gccfx-status-bar");
     statusbarElem.textContent = "transcoding in progress...";
     statusbarElem.classList.add("gccfx-loader-bar-background");
     statusbarElem.classList.add("gccfx-loader-animation");

@@ -1,3 +1,5 @@
+let gIsResImageViewerSupportDisabled = false;
+
 let ImageElements = {
   counter: 0,
   map: new Map(),
@@ -46,19 +48,18 @@ let PageMod = {
     }
 
     let image = aContainer.querySelector(".RESImage");
-    let anchor = RES.getGifAnchorNode(image);
-    let resGalleryControls = RES.getResGalleryControlsNode(image);
+    let anchor = RES.getImageAnchorElem(image);
+    let resGalleryControls = RES.getGalleryControlsElem(image);
 
     anchor.style.display = "none";
 
-    // If the container contains an image gallery, init the gallery controls.
     if (resGalleryControls) {
       this.initGalleryBrowse(resGalleryControls);
       // Temporary fix for galleries. Without this the gallery collapses
       // each time a new image is loaded.
       anchor.style.overflow = "auto";
     }
-    this.requestGfyTranscoder(image, null);
+    this.onRequestTranscoderService(image, null);
     // Mark the container as loaded.
     aContainer.classList.add("gccfx-loaded");
   },
@@ -69,10 +70,25 @@ let PageMod = {
    * @param element aImg
    *        The gif we are trying to convert into a video.
    */
-  requestGfyTranscoder: function(aImg) {
+  onRequestTranscoderService: function(aImg) {
     this.addStatusBar(aImg);
     let key = ImageElements.add(aImg);
     self.port.emit("requestTranscoder", aImg.src, key);
+  },
+
+  /**
+   * Adds status bar before the image.
+   *
+   * @param element aImg
+   *        The image we are trying to convert into a video.
+   */
+  addStatusBar: function(aImg) {
+    let bar = Companion.getStatusBarElem(aImg);
+    if (bar) {
+      Dom.removeElem(bar);
+    }
+    bar = Companion.createStatusBarElem();
+    Dom.insertBefore(bar, RES.getImageAnchorElem(aImg));
   },
 
   /**
@@ -96,7 +112,7 @@ let PageMod = {
     let src = image.getAttribute("src");
     let newSrc = !src.contains("?") ? src + "?" : src + "&";
     newSrc += "gccfxDoRequest=1";
-    image.setAttribute("src", newSrc);
+    //image.setAttribute("src", newSrc);
 
     if (aShowErrorMessage) {
       let messageNode = Companion.getMessageElem(image);
@@ -104,34 +120,10 @@ let PageMod = {
         Dom.removeElem(messageNode);
       }
       messageNode = Companion.createMessageElem(aErrorMessage);
-      let anchor = RES.getGifAnchorNode(image);
+      let anchor = RES.getImageAnchorElem(image);
       anchor.parentNode.insertBefore(messageNode, anchor);
     }
     ImageElements.deleteByKey(aImageKey);
-  },
-
-  /**
-   *
-   */
-  onVideoInput: function(aEvent) {
-    let resizerElem = aEvent.target;
-    let videoElem = resizerElem.nextSibling;
-    videoElem.setAttribute("width", resizerElem.value);
-  },
-
-  /**
-   *
-   */
-  mouseScrollCallback: function(aEvent, aVideoResizer) {
-    aEvent.preventDefault();
-    var up = aEvent.detail < 0;
-    var currentValue = parseInt(aVideoResizer.value, 10);
-    var step = 20;
-    aVideoResizer.value = (up ? currentValue + step : currentValue - step);
-
-    var evt = document.createEvent("HTMLEvents");
-    evt.initEvent("input", false, true);
-    aVideoResizer.dispatchEvent(evt);
   },
 
   /**
@@ -146,18 +138,18 @@ let PageMod = {
    */
   replaceImageWithVideo: function(aTranscodeJson, aImageKey, aMessage) {
     let image = ImageElements.getByKey(aImageKey);
-    let imageViewerNode = RES.getImageViewerNode(image);
-    let anchor = RES.getGifAnchorNode(image);
+    let imageContainer = RES.getImageContainerElem(image);
+    let anchor = RES.getImageAnchorElem(image);
 
     // Hide image.
-    RES.getGifAnchorNode(image).style.display = "none";
+    RES.getImageAnchorElem(image).style.display = "none";
 
-    let video = imageViewerNode.querySelector("video");
+    let video = imageContainer.querySelector("video");
     if (video) {
       Dom.removeElem(video);
     }
 
-    video = Companion.createVideoElem(aTranscodeJson.webmUrl, aTranscodeJson.gifWidth, () => {
+    let onVideoDataLoaded = () => {
       // Display loading message.
       let statusBar = Companion.getStatusBarElem(image);
       if (statusBar) {
@@ -188,13 +180,13 @@ let PageMod = {
       let resizerMinValue = aTranscodeJson.gifWidth / 2;
       let resizerMaxValue = aTranscodeJson.gifWidth * 2;
 
-      videoResizer = Companion.createResizeSliderElem(resizerMinValue, resizerMaxValue, PageMod.onVideoInput);
+      videoResizer = Companion.createResizeSliderElem(resizerMinValue, resizerMaxValue, PageMod.onResizerInput);
       videoResizer.addEventListener("DOMMouseScroll", function(event) {
-        PageMod.mouseScrollCallback(event, videoResizer);
+        PageMod.onMouseScroll(event, videoResizer);
       });
 
       video.addEventListener("DOMMouseScroll", function(event) {
-        PageMod.mouseScrollCallback(event, videoResizer);
+        PageMod.onMouseScroll(event, videoResizer);
       });
 
       video.parentNode.insertBefore(videoResizer, video);
@@ -205,23 +197,43 @@ let PageMod = {
       console.log("Converted: " + image.getAttribute("src"));
       console.log("shim", shim);
       console.log("---------------------------------------------");
-    });
+    };
 
-    imageViewerNode.appendChild(video);
+    video = Companion.createVideoElem(aTranscodeJson.webmUrl, aTranscodeJson.gifWidth, onVideoDataLoaded);
+
+    imageContainer.appendChild(video);
   },
 
   /**
+   * Called when the image resizer changes
    *
+   * @param object aEvent
+   *        The input event object.
    */
-  addStatusBar: function(aImg) {
-    let bar = Companion.getStatusBarElem(aImg);
-    if (bar) {
-      Dom.removeElem(bar);
-    }
-    bar = Companion.createStatusBarElem();
+  onResizerInput: function(aEvent) {
+    let resizerElem = aEvent.target;
+    let videoElem = resizerElem.nextSibling;
+    videoElem.setAttribute("width", resizerElem.value);
+  },
 
-    let anchor = RES.getGifAnchorNode(aImg);
-    anchor.parentNode.insertBefore(bar, anchor);
+  /**
+   * Called when the mouse scroll wheel is used.
+   *
+   * @param object aEvent
+   *        The event object.
+   * @param element aVideoResizer
+   *        The video resizer element.
+   */
+  onMouseScroll: function(aEvent, aVideoResizer) {
+    aEvent.preventDefault();
+    var up = aEvent.detail < 0;
+    var currentValue = parseInt(aVideoResizer.value, 10);
+    var step = 20;
+    aVideoResizer.value = (up ? currentValue + step : currentValue - step);
+
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent("input", false, true);
+    aVideoResizer.dispatchEvent(evt);
   },
 
   /**
@@ -242,15 +254,15 @@ let PageMod = {
       let prevButton = aResGalleryControls.querySelector(".previous");
 
       let browse = function() {
-        let gif = aResGalleryControls.nextSibling.querySelector(".RESImage");
+        let image = aResGalleryControls.nextSibling.querySelector(".RESImage");
 
-        let height = gif.style.maxHeight ? gif.style.maxHeight : 200;
-        gif.style.height = height;
-        gif.addEventListener("load", PageMod.gifLoaded);
+        let height = image.style.maxHeight ? image.style.maxHeight : 200;
+        image.style.height = height;
+        image.addEventListener("load", PageMod.onGalleryImageLoaded);
 
         shim.style.pointerEvents = "none";
 
-        PageMod.requestGfyTranscoder(gif);
+        PageMod.onRequestTranscoderService(image);
       };
       nextButton.addEventListener("click", browse);
       prevButton.addEventListener("click", browse);
@@ -258,12 +270,15 @@ let PageMod = {
   },
 
   /**
+   * Called when the image is loaded.
    *
+   * @param object aEvent
+   *        The input event object.
    */
-  gifLoaded: function(aEvent) {
-    let img = aEvent.target;
-    img.style.height = "";
-    img.removeEventListener("load", PageMod.gifLoaded);
+  onGalleryImageLoaded: function(aEvent) {
+    let image = aEvent.target;
+    image.style.height = "";
+    image.removeEventListener("load", PageMod.onGalleryImageLoaded);
   },
 
   /**
@@ -280,7 +295,7 @@ let PageMod = {
 
     let resizeSlider = Companion.getResizeSliderElem(aImg);
     if (resizeSlider) {
-      resizeSlider.removeEventListener("input", PageMod.onVideoInput);
+      resizeSlider.removeEventListener("input", PageMod.onResizerInput);
       // Fixme: remove mousewheel event.
       Dom.removeElem(resizeSlider);
     }
@@ -290,7 +305,7 @@ let PageMod = {
       shim.style.pointerEvents = "none";
     }
 
-    let anchor = RES.getGifAnchorNode(aImg);
+    let anchor = RES.getImageAnchorElem(aImg);
     if (anchor) {
       anchor.style.display = "";
     }
@@ -308,18 +323,7 @@ let PageMod = {
       Dom.removeElem(messageNode);
     }
 
-    aImg.removeEventListener("load", PageMod.gifLoaded);
+    aImg.removeEventListener("load", PageMod.onGalleryImageLoaded);
   }
 
 };
-
-
-
-
-
-
-
-
-
-
-

@@ -12,6 +12,10 @@ let Dom = {
 
   removeElem: (aElem) => {
     aElem.parentNode.removeChild(aElem);
+  },
+
+  insertBefore: (aElem, aReferenceElem) => {
+    aReferenceElem.parentNode.insertBefore(aElem, aReferenceElem);
   }
 
 };
