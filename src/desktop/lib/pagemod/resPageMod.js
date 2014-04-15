@@ -101,7 +101,6 @@ function enableResPageMod() {
     include: ["*.reddit.com"],
     attachTo: ["existing", "top"],
     contentScriptFile: [
-      self.data.url("pagemod/global.js"),
       self.data.url("pagemod/domHelper.js"),
       self.data.url("pagemod/RES.js"),
       self.data.url("pagemod/companion.js"),

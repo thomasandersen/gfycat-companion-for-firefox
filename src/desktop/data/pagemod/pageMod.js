@@ -35,33 +35,57 @@ self.port.on("resImageViewerSupportDisabled", () => {
   gIsResImageViewerSupportDisabled = true;
 });
 
+document.addEventListener("click", (event) => {
+  let target = event.target;
+  if (target.classList.contains("toggleImage")) {
+    let currentNode = target;
+    let imageViewerNode = null;
+    while (!currentNode.classList.contains("madeVisible")) {
+      currentNode = currentNode.nextSibling;
+      imageViewerNode = currentNode;
+    }
+    if (!imageViewerNode) {
+      return;
+    }
+
+    let collapse = target.classList.contains("expanded");
+    let loaded = imageViewerNode.classList.contains("gccfx-loaded");
+    if (collapse) {
+      if (!loaded) {
+        let image = imageViewerNode.querySelector(".RESImage");
+        PageMod.onExpandImageViewer(image);
+      }
+    }
+  }
+});
+
 let PageMod = {
   /**
    * Called when the image viewer expando button is called.
    *
-   * @param element aContainer
-   *        The container element for the image.
+   * @param element aImage
+   *        The image that we will try to convert to video.
    */
-  onExpandImageViewer: function(aContainer) {
+  onExpandImageViewer: function(aImage) {
     if (gIsResImageViewerSupportDisabled) {
       return;
     }
+    let viewer = RES.getViewer(aImage);
 
-    let image = aContainer.querySelector(".RESImage");
-    let anchor = RES.getImageAnchorElem(image);
-    let resGalleryControls = RES.getGalleryControlsElem(image);
-
+    let anchor = viewer.container.anchor.getElement();
     anchor.style.display = "none";
 
-    if (resGalleryControls) {
-      this.initGalleryBrowse(resGalleryControls);
+    let galleryControls = viewer.container.gallerycontrols;
+    if (galleryControls.getElement()) {
+      this.initGalleryBrowse(galleryControls);
       // Temporary fix for galleries. Without this the gallery collapses
       // each time a new image is loaded.
       anchor.style.overflow = "auto";
     }
-    this.onRequestTranscoderService(image, null);
+
+    this.onRequestTranscoderService(aImage, null);
     // Mark the container as loaded.
-    aContainer.classList.add("gccfx-loaded");
+    RES.getViewer(aImage).container.getElement().classList.add("gccfx-loaded");
   },
 
   /**
@@ -70,10 +94,10 @@ let PageMod = {
    * @param element aImg
    *        The gif we are trying to convert into a video.
    */
-  onRequestTranscoderService: function(aImg) {
-    this.addStatusBar(aImg);
-    let key = ImageElements.add(aImg);
-    self.port.emit("requestTranscoder", aImg.src, key);
+  onRequestTranscoderService: function(aImage) {
+    this.addStatusBar(aImage);
+    let key = ImageElements.add(aImage);
+    self.port.emit("requestTranscoder", aImage.src, key);
   },
 
   /**
@@ -88,7 +112,8 @@ let PageMod = {
       Dom.removeElem(bar);
     }
     bar = Companion.createStatusBarElem();
-    Dom.insertBefore(bar, RES.getImageAnchorElem(aImg));
+    let anchor = RES.getViewer(aImg).container.anchor.getElement();
+    Dom.insertBefore(bar, anchor);
   },
 
   /**
@@ -108,15 +133,16 @@ let PageMod = {
     this.cleanUp(image);
 
     // Make sure that the gif is requested.
-    // The res image blocker will not block urls with gccfxDoRequest parameter
+    // Set the source twice in order to properly load the image from the server.
     let src = image.getAttribute("src");
     let newSrc = !src.contains("?") ? src + "?" : src + "&";
     newSrc += "gccfxDoRequest=1";
     image.setAttribute("src", newSrc);
     image.setAttribute("src", src);
 
+    // The image request blocker has been disabled in order to load the image.
+    // Enable it again
     self.port.emit("enableImageRequestBlocker");
-
 
     if (aShowErrorMessage) {
       let messageNode = Companion.getMessageElem(image);
@@ -124,7 +150,7 @@ let PageMod = {
         Dom.removeElem(messageNode);
       }
       messageNode = Companion.createMessageElem(aErrorMessage);
-      let anchor = RES.getImageAnchorElem(image);
+      let anchor = RES.getViewer(image).container.anchor.getElement();
       anchor.parentNode.insertBefore(messageNode, anchor);
     }
     ImageElements.deleteByKey(aImageKey);
@@ -141,12 +167,13 @@ let PageMod = {
    *               The message to display next to the video.
    */
   replaceImageWithVideo: function(aTranscodeJson, aImageKey, aMessage) {
-    let image = ImageElements.getByKey(aImageKey);
-    let imageContainer = RES.getImageContainerElem(image);
-    let anchor = RES.getImageAnchorElem(image);
+    let viewer = RES.getViewer(ImageElements.getByKey(aImageKey));
+    let imageContainer = viewer.container.getElement();
+    let anchor = viewer.container.anchor.getElement();
+    let image = viewer.container.anchor.image.getElement();
 
     // Hide image.
-    RES.getImageAnchorElem(image).style.display = "none";
+    anchor.style.display = "none";
 
     let video = imageContainer.querySelector("video");
     if (video) {
@@ -169,12 +196,6 @@ let PageMod = {
       let message = aMessage + " <a class=\"gccfx-open-in-viewer\" href=\""+ anchor.getAttribute("href") +"\" target=\"_blank\">Open in video viewer</a>";
       messageNode = Companion.createMessageElem(message);
       video.parentNode.insertBefore(messageNode, video);
-
-      // Make sure the gallery controls are enabled.
-      let shim = RES.getResGalleryControlsNodeShimNode(image);
-      if (shim) {
-        shim.style.pointerEvents = "none";
-      }
 
       let videoResizer = Companion.getResizeSliderElem(image);
       if (videoResizer) {
@@ -199,7 +220,6 @@ let PageMod = {
       ImageElements.deleteByKey(aImageKey);
 
       console.log("Converted: " + image.getAttribute("src"));
-      console.log("shim", shim);
       console.log("---------------------------------------------");
     };
 
@@ -243,28 +263,25 @@ let PageMod = {
   /**
    * Adds listeners to the back/forward buttons for galleries.
    *
-   * @param element aResGalleryControls
-   *        The container for the back and forward buttons.
+   * @param object aGalleryControls
+   *        The gallery controls in the RES markup structure.
    */
-  initGalleryBrowse: function(aResGalleryControls) {
-    if (aResGalleryControls && !aResGalleryControls.classList.contains("videoClick")) {
-      aResGalleryControls.style.position = "relative";
-      aResGalleryControls.classList.add("videoClick");
+  initGalleryBrowse: function(aGalleryControls) {
+    let resGalleryControls = aGalleryControls.getElement();
+    if (resGalleryControls && !resGalleryControls.classList.contains("videoClick")) {
+      resGalleryControls.style.position = "relative";
+      resGalleryControls.classList.add("videoClick");
 
-      let shim = RES.createShimForControls(aResGalleryControls);
-      aResGalleryControls.appendChild(shim);
-
-      let nextButton = aResGalleryControls.querySelector(".next");
-      let prevButton = aResGalleryControls.querySelector(".previous");
+      let nextButton = resGalleryControls.querySelector(".next");
+      let prevButton = resGalleryControls.querySelector(".previous");
 
       let browse = function() {
-        let image = aResGalleryControls.nextSibling.querySelector(".RESImage");
-
+        let image = resGalleryControls.nextSibling.querySelector(".RESImage");
+        let anchor = RES.getViewer(image).container.anchor.getElement();
+        anchor.style.display = "none";
         let height = image.style.maxHeight ? image.style.maxHeight : 200;
         image.style.height = height;
         image.addEventListener("load", PageMod.onGalleryImageLoaded);
-
-        shim.style.pointerEvents = "none";
 
         PageMod.onRequestTranscoderService(image);
       };
@@ -292,6 +309,7 @@ let PageMod = {
    *        The gif image element.
    */
   cleanUp: function(aImg) {
+    let viewer = RES.getViewer(aImg);
     let video = Companion.getVideoElem(aImg);
     if (video) {
       Dom.removeElem(video);
@@ -304,12 +322,7 @@ let PageMod = {
       Dom.removeElem(resizeSlider);
     }
 
-    let shim = RES.getResGalleryControlsNodeShimNode(aImg);
-    if (shim) {
-      shim.style.pointerEvents = "none";
-    }
-
-    let anchor = RES.getImageAnchorElem(aImg);
+    let anchor = viewer.container.anchor.getElement();
     if (anchor) {
       anchor.style.display = "";
     }

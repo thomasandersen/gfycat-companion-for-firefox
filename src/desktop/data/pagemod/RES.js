@@ -1,38 +1,40 @@
 let RES = {
-
-  getImageContainerElem: (gif) => {
-    return gif.parentNode.parentNode.parentNode;
+  /**
+   * Creates an object representing the RES mark-up structure
+   * for an image viewer.
+   *
+   * @param element aImage
+   *        The image that is converted to a video.
+   *
+   * @return object
+   *         Object representing the image viewer mark-up structure.
+   */
+  getViewer: function(aImage) {
+    return {
+      container: {
+        getElement: () => {
+          return aImage.parentNode.parentNode.parentNode;
+        },
+        gallerycontrols: {
+          getElement: () => {
+            try {
+              return aImage.parentNode.parentNode.parentNode.querySelector(".RESGalleryControls");
+            } catch(ex) {
+            }
+            return null;
+          }
+        },
+        anchor: {
+          getElement: () => {
+            return aImage.parentNode;
+          },
+          image: {
+            getElement: () => {
+              return aImage;
+            }
+          }
+        }
+      }
+    };
   },
-
-  getImageAnchorElem: (gif) => {
-    return gif.parentNode;
-  },
-
-  getGalleryControlsElem: (gif) => {
-    try {
-      return RES.getImageAnchorElem(gif).parentNode.parentNode.querySelector(".RESGalleryControls");
-    } catch(ex) {
-    }
-    return null;
-  },
-
-  getResGalleryControlsNodeShimNode: (gif) => {
-    let galleryControls = RES.getGalleryControlsElem(gif);
-    try {
-      return galleryControls.querySelector(".gccfx-gallery-controls-shim");
-    } catch(ex) {
-    }
-    return null;
-  },
-
-  createShimForControls: (resGalleryControls) => {
-    let width = resGalleryControls.offsetWidth;
-    let height = resGalleryControls.offsetHeight;
-    let shim = document.createElement("div");
-    shim.classList.add("gccfx-gallery-controls-shim");
-    shim.setAttribute("style", "width: " + width + "px; height:" + height + "px ");
-    shim.style.pointerEvents = "none";
-    return shim;
-  }
-
 };

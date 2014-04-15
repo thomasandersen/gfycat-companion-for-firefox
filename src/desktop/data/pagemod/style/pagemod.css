@@ -23,7 +23,7 @@
 }
 
 .gccfx-loader-animation {
-  animation-duration: 3s; animation-name: gccfxLoaderAnimation; animation-iteration-count: infinite;
+  animation-duration: 2s; animation-name: gccfxLoaderAnimation; animation-iteration-count: infinite;
 }
 
 .gccfx-loader-bar-background {
