@@ -46,25 +46,31 @@ function doTranscode() {
 
 function loadHtml5Video(json) {
   var videoEl = getVideoEl();
-  var videoSrc = json.webmUrl;
-  var sourceEl = document.createElement("source");
+
+  var webMsourceEl = document.createElement("source");
+  webMsourceEl.setAttribute("type", "video/webm");
+  webMsourceEl.setAttribute("src", json.webmUrl);
+
+  var mp4sourceEl = document.createElement("source");
+  mp4sourceEl.setAttribute("type", "video/mp4");
+  mp4sourceEl.setAttribute("src", json.mp4Url);
 
   videoEl.setAttribute("width", json.gifWidth);
   videoEl.setAttribute("controls", "true");
-  sourceEl.setAttribute("type", "video/webm");
-  sourceEl.setAttribute("src", videoSrc);
-  videoEl.appendChild(sourceEl);
+
+  videoEl.appendChild(webMsourceEl);
+  videoEl.appendChild(mp4sourceEl);
 
   videoEl.addEventListener("loadeddata", function() {
     onVideoLoaded(json);
   });
 
   videoEl.addEventListener("pause", function() {
-    document.title = TITLE_TEXT_PREFIX + videoSrc;
+    document.title = TITLE_TEXT_PREFIX;
   });
 
   videoEl.addEventListener("play", function() {
-    document.title = "▶ " + TITLE_TEXT_PREFIX + videoSrc;
+    document.title = "▶ " + TITLE_TEXT_PREFIX;
   });
 }
 

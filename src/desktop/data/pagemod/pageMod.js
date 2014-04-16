@@ -215,7 +215,7 @@ let PageMod = {
       console.log("---------------------------------------------");
     };
 
-    video = Companion.createVideoElem(aTranscodeJson.webmUrl, aTranscodeJson.gifWidth, onVideoDataLoaded);
+    video = Companion.createVideoElem(aTranscodeJson, onVideoDataLoaded);
 
     imageContainer.appendChild(video);
   },

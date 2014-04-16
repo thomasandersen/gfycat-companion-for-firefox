@@ -1,20 +1,28 @@
 let Companion = {
-  createVideoElem: (aSrc, aWidth, aLoadedDataCallback) => {
+  createVideoElem: (aTranscodeJson, aLoadedDataCallback) => {
+    console.log("aTranscodeJson",aTranscodeJson);
     let video = Dom.create("video", {
       "loop": "true",
       "autoplay": "true",
       "controls": "true",
-      "width": aWidth,
+      "width": aTranscodeJson.gifWidth,
       "style": "display: block",
       "class": "gccfx-video",
     });
 
-    let source = Dom.create("source", {
+    let webMsource = Dom.create("source", {
       "type": "video/webm",
-      "src": aSrc
+      "src": aTranscodeJson.webmUrl
     });
 
-    video.appendChild(source);
+    let mp4Source = Dom.create("source", {
+      "type": "video/mp4",
+      "src": aTranscodeJson.mp4Url
+    });
+
+    video.appendChild(webMsource);
+    video.appendChild(mp4Source);
+
     video.addEventListener("loadeddata", aLoadedDataCallback);
 
     return video;
