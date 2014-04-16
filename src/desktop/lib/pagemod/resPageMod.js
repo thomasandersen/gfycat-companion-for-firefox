@@ -43,7 +43,7 @@ function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
   };
 
   let isNotGifCallback = () => {
-    onTranscodeError(gifKey, worker, "Could not transform " + urlHelper.getFileExtension(gifUrl) + " to gfycat video. Displaying original image", false);
+    onTranscodeError(gifKey, worker, "Could not transform " + urlHelper.getFileExtension(gifUrl) + " to gfycat video. Displaying original image");
   };
 
   urlHelper.asyncIsContentTypeGif(gifUrl, isGifFileExtensionCallback, isNotGifCallback);
@@ -66,12 +66,12 @@ function resolveTranscodeResponse(response, requestedUrl, gifKey, worker) {
   console.log("Transcode response gifKey ", gifKey);
 
   if (!response.json) {
-    onTranscodeError(gifKey, worker, "Unknown error. There was no JSON in the response", false);
+    onTranscodeError(gifKey, worker, "Unknown error. There was no JSON in the response");
   } else if (response.status >= 400) {
-    onTranscodeError(gifKey, worker, "Server eroor. Status " + response.status + ", " + response.statusText, false);
+    onTranscodeError(gifKey, worker, "Server eroor. Status " + response.status + ", " + response.statusText);
   } else if (response.json.error) {
     let gfyErrorMessage = response.json.error;
-    onTranscodeError(gifKey, worker, "Could not convert gif. " + gfyErrorMessage, gfyErrorMessage.length < 100);
+    onTranscodeError(gifKey, worker, "Could not convert gif. " + gfyErrorMessage);
   } else {
     // Success
     let transcodingJson = response.json;
@@ -91,9 +91,9 @@ function onTranscodeSuccess(response, gifKey, worker, loadingMessage) {
   worker.port.emit("transcodeRequestSuccess", response.json, gifKey, loadingMessage);
 }
 
-function onTranscodeError(gifKey, worker, errorMessage, showErrorMessage) {
+function onTranscodeError(gifKey, worker, errorMessage) {
   resImageRequestBlocker.enable(false);
-  worker.port.emit("transcodeRequestError", gifKey, errorMessage, showErrorMessage);
+  worker.port.emit("transcodeRequestError", gifKey, errorMessage);
 }
 
 function enableResPageMod() {

@@ -27,8 +27,8 @@ self.port.on("transcodeRequestSuccess", (aTranscodeJson, aImageKey, aMessage) =>
   PageMod.replaceImageWithVideo(aTranscodeJson, aImageKey, aMessage);
 });
 
-self.port.on("transcodeRequestError", (aImageKey, aErrorMessage, aShowErrorMessage) => {
-  PageMod.onTranscodeError(aImageKey, aErrorMessage, aShowErrorMessage);
+self.port.on("transcodeRequestError", (aImageKey, aErrorMessage) => {
+  PageMod.onTranscodeError(aImageKey, aErrorMessage);
 });
 
 self.port.on("resImageViewerSupportDisabled", () => {
@@ -125,10 +125,10 @@ let PageMod = {
    *        Reference to the gif in the ImageElements map.
    * @param string aErrorMessage
    *        The error message to show.
-   * @param boolean aShowErrorMessage
-   *        Wether if the the error message should be shown.
    */
-  onTranscodeError: function(aImageKey, aErrorMessage, aShowErrorMessage) {
+  onTranscodeError: function(aImageKey, aErrorMessage) {
+    console.log("Transcode error", aErrorMessage);
+
     let image = ImageElements.getByKey(aImageKey);
 
     this.cleanUp(image);
@@ -145,15 +145,6 @@ let PageMod = {
     // Enable it again
     self.port.emit("enableImageRequestBlocker");
 
-    if (aShowErrorMessage) {
-      let messageNode = Companion.getMessageElem(image);
-      if (messageNode) {
-        Dom.removeElem(messageNode);
-      }
-      messageNode = Companion.createMessageElem(aErrorMessage);
-      let anchor = RES.getViewer(image).container.anchor.element;
-      anchor.parentNode.insertBefore(messageNode, anchor);
-    }
     ImageElements.deleteByKey(aImageKey);
   },
 
