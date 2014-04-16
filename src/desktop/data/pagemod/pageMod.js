@@ -72,11 +72,12 @@ let PageMod = {
     }
     let viewer = RES.getViewer(aImage);
 
-    let anchor = viewer.container.anchor.getElement();
+    let anchor = viewer.container.anchor.element;
     anchor.style.display = "none";
 
     let galleryControls = viewer.container.gallerycontrols;
-    if (galleryControls.getElement()) {
+
+    if (galleryControls.element) {
       this.initGalleryBrowse(galleryControls);
       // Temporary fix for galleries. Without this the gallery collapses
       // each time a new image is loaded.
@@ -85,7 +86,7 @@ let PageMod = {
 
     this.onRequestTranscoderService(aImage, null);
     // Mark the container as loaded.
-    RES.getViewer(aImage).container.getElement().classList.add("gccfx-loaded");
+    RES.getViewer(aImage).container.element.classList.add("gccfx-loaded");
   },
 
   /**
@@ -112,7 +113,7 @@ let PageMod = {
       Dom.removeElem(bar);
     }
     bar = Companion.createStatusBarElem();
-    let anchor = RES.getViewer(aImg).container.anchor.getElement();
+    let anchor = RES.getViewer(aImg).container.anchor.element;
     Dom.insertBefore(bar, anchor);
   },
 
@@ -150,7 +151,7 @@ let PageMod = {
         Dom.removeElem(messageNode);
       }
       messageNode = Companion.createMessageElem(aErrorMessage);
-      let anchor = RES.getViewer(image).container.anchor.getElement();
+      let anchor = RES.getViewer(image).container.anchor.element;
       anchor.parentNode.insertBefore(messageNode, anchor);
     }
     ImageElements.deleteByKey(aImageKey);
@@ -168,9 +169,9 @@ let PageMod = {
    */
   replaceImageWithVideo: function(aTranscodeJson, aImageKey, aMessage) {
     let viewer = RES.getViewer(ImageElements.getByKey(aImageKey));
-    let imageContainer = viewer.container.getElement();
-    let anchor = viewer.container.anchor.getElement();
-    let image = viewer.container.anchor.image.getElement();
+    let imageContainer = viewer.container.element;
+    let anchor = viewer.container.anchor.element;
+    let image = viewer.container.anchor.image.element;
 
     // Hide image.
     anchor.style.display = "none";
@@ -267,7 +268,7 @@ let PageMod = {
    *        The gallery controls in the RES markup structure.
    */
   initGalleryBrowse: function(aGalleryControls) {
-    let resGalleryControls = aGalleryControls.getElement();
+    let resGalleryControls = aGalleryControls.element;
     if (resGalleryControls && !resGalleryControls.classList.contains("videoClick")) {
       resGalleryControls.style.position = "relative";
       resGalleryControls.classList.add("videoClick");
@@ -277,7 +278,7 @@ let PageMod = {
 
       let browse = function() {
         let image = resGalleryControls.nextSibling.querySelector(".RESImage");
-        let anchor = RES.getViewer(image).container.anchor.getElement();
+        let anchor = RES.getViewer(image).container.anchor.element;
         anchor.style.display = "none";
         let height = image.style.maxHeight ? image.style.maxHeight : 200;
         image.style.height = height;
@@ -322,7 +323,7 @@ let PageMod = {
       Dom.removeElem(resizeSlider);
     }
 
-    let anchor = viewer.container.anchor.getElement();
+    let anchor = viewer.container.anchor.element;
     if (anchor) {
       anchor.style.display = "";
     }

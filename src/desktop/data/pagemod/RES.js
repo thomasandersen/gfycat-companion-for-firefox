@@ -12,11 +12,11 @@ let RES = {
   getViewer: function(aImage) {
     return {
       container: {
-        getElement: () => {
+        get element () {
           return aImage.parentNode.parentNode.parentNode;
         },
         gallerycontrols: {
-          getElement: () => {
+          get element () {
             try {
               return aImage.parentNode.parentNode.parentNode.querySelector(".RESGalleryControls");
             } catch(ex) {
@@ -25,11 +25,11 @@ let RES = {
           }
         },
         anchor: {
-          getElement: () => {
+          get element () {
             return aImage.parentNode;
           },
           image: {
-            getElement: () => {
+            get element () {
               return aImage;
             }
           }
