@@ -48,7 +48,7 @@ function querySelector(cssSelector) {
 
 function simulateMouseEvent(eventType, node) {
   let mouseEvent = node.ownerDocument.createEvent("MouseEvents");
-  
+
   mouseEvent.initMouseEvent(eventType, true, true, node.defaultView, 1,
   0, 0, 0, 0,
   false, false, false, false, 2, null);
@@ -102,7 +102,7 @@ function waitForElement(cssSelector) {
 
 function loadPage(url, args) {
   let deferred = promise.defer();
-  
+
   tabs.once("ready", () => {
     deferred.resolve(args[0]);
   });
