@@ -14,9 +14,9 @@ function test_onResImageViewerExpand(assert) {
   let deferred = promise.defer();
 
   waitForElement(".toggleImage")
-  .then((toggleElement) => {
-    context.simulateMouseEvent("click", toggleElement);
-    waitForElement(".gccfx-video").then(() => {
+  .then((toggleImageElem) => {
+    context.simulateMouseEvent("click", toggleImageElem);
+    waitForElement(".gccfx-video-size-slider").then(() => {
       let pageDocument = context.getDocument();
       let video = pageDocument.querySelector(".gccfx-video");
       let videoResizer = pageDocument.querySelector(".gccfx-video-size-slider");
@@ -35,7 +35,7 @@ function test_onResImageViewerExpand(assert) {
       assert.ok(gifImageAnchorDisplay == "none", "The anchor for the original image should now be hidden.");
 
       assert.ok(loaderBar == null, "The loader bar node should now have been removed.");
-      
+
       assert.ok(messageNode != null, "The message node should exist.");
 
       deferred.resolve(assert);
