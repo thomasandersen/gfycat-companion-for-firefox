@@ -35,65 +35,56 @@ function doEnable(aEnable) {
   });
 }
 
-function checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker) {
-  console.log("Checking content type", gifUrl);
-
-  let isGifFileExtensionCallback = () => {
-    requestGfyTranscoder(gifUrl, gifKey, worker);
-  };
-
-  let isNotGifCallback = () => {
-    onTranscodeError(gifKey, worker, "Could not transform " + urlHelper.getFileExtension(gifUrl) + " to gfycat video. Displaying original image");
-  };
-
-  urlHelper.asyncIsContentTypeGif(gifUrl, isGifFileExtensionCallback, isNotGifCallback);
-}
-
-function requestGfyTranscoder(gifUrl, gifKey, worker) {
-  let url = properties.gfycat.transcodeEndpoint +  createPsudoRandomStr(5) + "?fetchUrl=" + gifUrl;
-  worker.port.emit("transcodeRequestStart", gifUrl, gifKey);
+function requestGfyTranscoder(aImageUrl, aImageKey, aWorker) {
+  aWorker.port.emit("transcodeRequestStart", aImageUrl, aImageKey);
 
   Request({
-    url: url,
+    url: createTranscoderUrl(aImageUrl),
     onComplete: (response) => {
-      resolveTranscodeResponse(response, gifUrl, gifKey, worker);
+      resolveTranscodeResponse(response, aImageKey, aWorker);
     }
   }).get();
 }
 
-function resolveTranscodeResponse(response, requestedUrl, gifKey, worker) {
-  console.log("Transcode response ", response);
-  console.log("Transcode response gifKey ", gifKey);
+function resolveTranscodeResponse(aResponse, aImageKey, aWorker) {
+  console.log("Transcode response ", aResponse);
 
-  if (!response.json) {
-    onTranscodeError(gifKey, worker, "Unknown error. There was no JSON in the response");
-  } else if (response.status >= 400) {
-    onTranscodeError(gifKey, worker, "Server eroor. Status " + response.status + ", " + response.statusText);
-  } else if (response.json.error) {
-    let gfyErrorMessage = response.json.error;
-    onTranscodeError(gifKey, worker, "Could not convert gif. " + gfyErrorMessage);
+  if (!aResponse.json) {
+    onTranscodeError(aImageKey, aWorker,
+      "Unknown error. There was no JSON in the response");
+  } else if (aResponse.status >= 400) {
+    onTranscodeError(aImageKey, aWorker, "Server eroor. Status " +
+      aResponse.status + ", " + aResponse.statusText);
+  } else if (aResponse.json.error) {
+    let gfyErrorMessage = aResponse.json.error;
+    onTranscodeError(aImageKey, aWorker, "Could not convert gif. " +
+      gfyErrorMessage);
   } else {
     // Success
-    let transcodingJson = response.json;
+    let transcodingJson = aResponse.json;
     let mbSaved = getBandwidthSavedInMB(transcodingJson);
-    let message = "About " + mbSaved.toPrecision(2) + " MB of internet bandwidth was saved";
+    let message = "About " + mbSaved.toPrecision(2) +
+      " MB of internet bandwidth was saved";
     if (mbSaved < 0) {
-      message = "The gfycat video file size (" + transcodingJson.gfysize + " Bytes) is actually larger than the gif (" + transcodingJson.gifSize + " Bytes)";
+      message = "The gfycat video file size (" +
+        transcodingJson.gfysize + " Bytes) is actually larger than the gif (" +
+        transcodingJson.gifSize + " Bytes)";
     }
 
     saveBandwidthSaved(transcodingJson);
 
-    onTranscodeSuccess(response, gifKey, worker, message);
+    onTranscodeSuccess(aResponse, aImageKey, aWorker, message);
   }
 }
 
-function onTranscodeSuccess(response, gifKey, worker, loadingMessage) {
-  worker.port.emit("transcodeRequestSuccess", response.json, gifKey, loadingMessage);
+function onTranscodeSuccess(aResponse, aImageKey, worker, aLoadingMessage) {
+  worker.port.emit("transcodeRequestSuccess",
+    aResponse.json, aImageKey, aLoadingMessage);
 }
 
-function onTranscodeError(gifKey, worker, errorMessage) {
+function onTranscodeError(aImageKey, aWorker, aErrorMessage) {
   resImageRequestBlocker.enable(false);
-  worker.port.emit("transcodeRequestError", gifKey, errorMessage);
+  aWorker.port.emit("transcodeRequestError", aImageKey, aErrorMessage);
 }
 
 function enableResPageMod() {
@@ -109,11 +100,10 @@ function enableResPageMod() {
     contentStyleFile: self.data.url("pagemod/style/pagemod.css"),
     onAttach: function(worker) {
       gWorker = worker;
-      worker.port.on("requestTranscoder", (gifUrl, gifKey) => {
-        console.log("requestTranscoder", gifKey);
-        //checkContentTypeBeforeRequestingGfyTranscoder(gifUrl, gifKey, worker);
+      worker.port.on("requestTranscoder", (imageUrl, aImageKey) => {
+        console.log("requestTranscoder", aImageKey);
         resImageRequestBlocker.enable(true);
-        requestGfyTranscoder(gifUrl, gifKey, worker);
+        requestGfyTranscoder(imageUrl, aImageKey, worker);
       });
       worker.port.on("enableImageRequestBlocker", () => {
         resImageRequestBlocker.enable(true);
@@ -123,10 +113,15 @@ function enableResPageMod() {
   });
 }
 
-function createPsudoRandomStr(stringLength) {
+function createTranscoderUrl(aImageUrl) {
+  return properties.gfycat.transcodeEndpoint +
+    createPsudoRandomStr(5) + "?fetchUrl=" + aImageUrl;
+}
+
+function createPsudoRandomStr(aStringLength) {
   let text = "";
   let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for( let i=0; i < stringLength; i++ ) {
+  for( let i=0; i < aStringLength; i++ ) {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   }
   return text;
