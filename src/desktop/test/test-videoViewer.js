@@ -4,7 +4,7 @@ let main = require("./main");
 let { wait, context, loadPage } = require("./lib/sdkTestUtil");
 
 exports["test browser should redirect to gfycat service when a gif is directly requested"] = function(assert, done) {
-  loadPage("http://mr-andersen.no/gfcycat-companion-test/index.html", assert)
+  loadPage("http://mr-andersen.no/gfycat-companion-test/index.html", assert)
   .then(test_clickGifAndRedirect)
   .then(done);
 };

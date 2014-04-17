@@ -5,7 +5,7 @@ let main = require("./main");
 let { wait, context, loadPage } = require("./lib/sdkTestUtil");
 
 exports["test click menu item"] = function(assert, done) {
-  loadPage("http://mr-andersen.no/gfcycat-companion-test/index.html", assert)
+  loadPage("http://mr-andersen.no/gfycat-companion-test/index.html", assert)
   .then(test_clickMenuItem)
   .then(done);
 };
@@ -14,13 +14,14 @@ function test_clickMenuItem(assert) {
   let deferred = promise.defer();
 
   context.simulateMouseEvent("contextmenu", getImageNode());
-  
+
   // Wait for context menu
   wait(500).then(() => {
     let contextMenu = getContentAreaContextMenu();
     let menuItem = contextMenu.querySelector("menuitem[value='gccfx-viewAsHtml5Video']");
 
-    assert.equal(menuItem.hidden, false, "'Upload to gfycat' menuitem is displayed");
+    assert.ok(!menuItem.hidden,
+      "'Upload to gfycat' menuitem is displayed");
 
     menuItem.doCommand();
     // Wait for response from gfycat
@@ -30,7 +31,9 @@ function test_clickMenuItem(assert) {
       let tab = allTabs[allTabs.length-1];
       let contentWindow = tabUtil.getTabContentWindow(tab);
 
-      assert.ok(contentWindow.location.href.startsWith("chrome://gfycat/content/video.html"), "Clicking 'View as HTML5 Video' menu item should open new tab to video page");
+      let href = contentWindow.location.href;
+      assert.ok(href.startsWith("chrome://gfycat/content/video.html"),
+        "'View as HTML5 Video' menu item should open new tab to video page");
 
       browserWindow.gBrowser.removeTab(tab);
       deferred.resolve(assert);
@@ -43,7 +46,8 @@ function test_clickMenuItem(assert) {
 }
 
 function getContentAreaContextMenu() {
-  return windowUtil.getMostRecentBrowserWindow().document.querySelector("#contentAreaContextMenu");
+  let win = windowUtil.getMostRecentBrowserWindow();
+  return win.document.querySelector("#contentAreaContextMenu");
 }
 
 function getImageNode() {

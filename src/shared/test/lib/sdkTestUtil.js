@@ -24,8 +24,8 @@ exports.simulateContextClick = (node) => {
   return contextClick(node);
 };
 
-exports.loadPage = (url, ...args) => {
-  return loadPage(url, args);
+exports.loadPage = (url, assert) => {
+  return loadPage(url, assert);
 };
 
 exports.waitForElement = (cssSelector) => {
@@ -100,11 +100,11 @@ function waitForElement(cssSelector) {
   return deferred.promise;
 }
 
-function loadPage(url, args) {
+function loadPage(url, assert) {
   let deferred = promise.defer();
 
   tabs.once("ready", () => {
-    deferred.resolve(args[0]);
+    deferred.resolve(assert);
   });
 
   let allTabs = tabUtil.getTabs(windowUtil.getMostRecentBrowserWindow());
