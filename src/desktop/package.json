@@ -5,7 +5,7 @@
   "description": "gfycat tools for Firefox. Icon by gfycat.com",
   "author": "Thomas Andersen<thomas@mr-andersen.no>",
   "license": "MPL 2.0",
-  "version": "0.4b3",
+  "version": "0.4",
   "icon": "data/images/icon-128.png",
   "preferences": [
     {
