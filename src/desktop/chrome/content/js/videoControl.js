@@ -31,18 +31,18 @@ function onIncreaseSpeed() {
   }
 }
 
-function onPreviousFrame(json) {
+function navigateToFrame(direction, json) {
   var videoEl = getVideoEl();
-  videoEl.pause();
-  var prevFrame = videoEl.currentTime - (json.frameRate / 100);
-  videoEl.currentTime = prevFrame;
-}
-
-function onNextFrame(json) {
-  var videoEl = getVideoEl();
-  videoEl.pause();
-  var nextFrame = videoEl.currentTime + (json.frameRate / 100);
-  videoEl.currentTime = nextFrame;
+  if (!videoEl.paused) {
+    videoEl.pause();
+  }
+  var time;
+  if (direction == "next") {
+    time = videoEl.currentTime + (json.frameRate / 1000);
+  } else if (direction == "previous") {
+    time = videoEl.currentTime - (json.frameRate / 1000);
+  }
+  videoEl.currentTime = time;
 }
 
 function toggleResizePanel(event) {
@@ -138,11 +138,11 @@ function initVideoControls(json) {
   increaseSpeedButton.addEventListener("click", onIncreaseSpeed);
 
   previousFrameButton.addEventListener("click", function() {
-    onPreviousFrame(json);
+    navigateToFrame("previous", json);
   });
 
   nextFrameButton.addEventListener("click", function() {
-    onNextFrame(json);
+    navigateToFrame("next", json);
   });
 
   screenshotButton.addEventListener("click", Screenshot.create);
