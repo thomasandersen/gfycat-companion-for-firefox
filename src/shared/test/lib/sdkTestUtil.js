@@ -13,7 +13,8 @@ exports.context = {
   getDocument: getPageDocument,
   simulateMouseEvent: simulateMouseEvent,
   simulateChangeEvent: simulateChangeEvent,
-  simulateInputEvent: simulateInputEvent
+  simulateInputEvent: simulateInputEvent,
+  clickAnchor: clickAnchor
 };
 
 exports.createMouseEvent = (mouseEventType, doc) => {
@@ -47,9 +48,8 @@ function querySelector(cssSelector) {
 }
 
 function simulateMouseEvent(eventType, node) {
-  let mouseEvent = node.ownerDocument.createEvent("MouseEvents");
-
-  mouseEvent.initMouseEvent(eventType, true, true, node.defaultView, 1,
+  let mouseEvent = node.ownerDocument.createEvent("MouseEvent");
+  mouseEvent.initMouseEvent(eventType, true, true, getPageWindow(), 1,
   0, 0, 0, 0,
   false, false, false, false, 2, null);
 
@@ -68,6 +68,10 @@ function simulateInputEvent(node, value) {
   let htmlEvents = node.ownerDocument.createEvent("HTMLEvents");
   htmlEvents.initEvent("input", false, true);
   node.dispatchEvent(htmlEvents);
+}
+
+function clickAnchor(anchorNode) {
+  anchorNode.click();
 }
 
 function wait(ms) {

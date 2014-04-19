@@ -17,16 +17,23 @@
   <video width="128" loop="true" autoplay="true" style="display:none"></video>
 
   <div id="controls" class="disable-selection" style="display:none">
-    <button id="play-pause" class="fa fa-pause" title="Play/Pause"></button>
-    <button id="previous-frame" class="fa fa-step-backward" title="Step backward"></button>
-    <button id="next-frame" class="fa fa-step-forward" title="Step forward"></button>
-    <button id="decrease-speed" class="fa fa-minus" title="Decrease speed"></button>
-    <button id="increase-speed" class="fa fa-plus" title="Increase speed"></button>
-    <button id="fullscreen" class="fa fa-arrows-alt" title="Fullscreen"></button>
-    <button id="resize" class="fa fa-expand" title="Resize"></button>
-    <button id="screenshot" class="fa fa-camera" title="Capture current frame"></button>
-    <div id="resize-panel" style="display:none">
-      <input id="resizer" type="range" disabled="true"/> <button id="reset-size" title="Reset to original size">Reset</button>
+    <div>
+      <button id="play-pause" class="fa fa-pause" title="Play/Pause"></button>
+      <button id="previous-frame" class="fa fa-step-backward" title="Step backward"></button>
+      <button id="next-frame" class="fa fa-step-forward" title="Step forward"></button>
+      <button id="decrease-speed" class="fa fa-minus" title="Decrease speed"></button>
+      <button id="increase-speed" class="fa fa-plus" title="Increase speed"></button>
+      <button id="fullscreen" class="fa fa-arrows-alt" title="Fullscreen"></button>
+      <button id="resize" class="fa fa-expand" title="Resize"></button>
+      <button id="screenshot" class="fa fa-camera" title="Capture current frame"></button>
+      <div id="resize-panel" style="display:none">
+        <input id="resizer" type="range" disabled="true"/> <button id="reset-size" title="Reset to original size">Reset</button>
+      </div>
+    </div>
+    <div>
+      <span>Time:</span><span id="current-time"></span>
+      <span>Frame:</span><span id="current-frame"></span>
+      <span>Speed:</span><span id="current-speed"></span>
     </div>
   </div>
 

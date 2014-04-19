@@ -1,7 +1,7 @@
 let promise = require("sdk/core/promise");
 let tabs = require("sdk/tabs");
 let main = require("./main");
-let { wait, context, loadPage } = require("./lib/sdkTestUtil");
+let { wait, context, loadPage, context } = require("./lib/sdkTestUtil");
 
 exports["test browser should redirect to gfycat service when a gif is directly requested"] = function(assert, done) {
   loadPage("http://mr-andersen.no/gfycat-companion-test/index.html", assert)
@@ -11,7 +11,8 @@ exports["test browser should redirect to gfycat service when a gif is directly r
 
 function test_clickGifAndRedirect(assert) {
   let deferred = promise.defer();
-  getAnchorThatLinksToTheImage().click();
+
+  context.clickAnchor(getAnchorThatLinksToTheImage());
 
   wait(5000).then(() => {
     assert.ok(tabs.activeTab.url.startsWith("chrome://gfycat/content/video.html"),
@@ -31,6 +32,9 @@ function test_clickGifAndRedirect(assert) {
     let fullscreenBtnElem = win.getFullscreenButtonEl();
     let resizeBtnElem = win.getResizeButtonEl();
     let screenShotBtnElem = win.getScreenshotButtonEl();
+    let currentTimeElem = win.getCurrentTimeEl();
+    let currentFrameElem = win.getCurrentFrameEl();
+    let currentSpeedElem = win.getCurrentSpeedEl();
 
     assert.ok(videoElem != null,
       "The video element should exist.");
@@ -58,23 +62,34 @@ function test_clickGifAndRedirect(assert) {
     assert.ok(screenShotBtnElem != null,
       "The screenshot button should exist.");
 
-    playPauseBtnElem.click();
+    assert.ok(currentTimeElem != null,
+      "The current time element should exist.");
+    assert.ok(currentFrameElem != null,
+      "The current frame element should exist.");
+    assert.ok(currentSpeedElem != null,
+      "The current speed element should exist.");
+
+    context.simulateMouseEvent("click", playPauseBtnElem);
     assert.ok(videoElem.paused,
       "The video should be paused.");
 
-    playPauseBtnElem.click();
+    context.simulateMouseEvent("click", playPauseBtnElem);
     assert.ok(!videoElem.paused,
       "The video should be playing.");
 
-    decreaseSpeedBtnElem.click();
+    context.simulateMouseEvent("click", decreaseSpeedBtnElem);
     assert.ok(videoElem.playbackRate == 0.9,
       "The video playback rate should be decreased by 0.1");
+    assert.ok(currentSpeedElem.textContent == "0.9",
+      "The current speed element should display 0.9");
 
-    increaseSpeedBtnElem.click();
+    context.simulateMouseEvent("click", increaseSpeedBtnElem);
     assert.ok(videoElem.playbackRate == 1.0,
       "The video playback rate should be increased by 0.1");
+    assert.ok(currentSpeedElem.textContent == "1.0",
+      "The current speed element should display 1.0");
 
-    screenShotBtnElem.click();
+    context.simulateMouseEvent("click", screenShotBtnElem);
     assert.ok(doc.querySelector("#screenshots-bar").style.display == "block",
       "The screenshots bar should be visible.");
     assert.ok(doc.querySelectorAll(".screenshot-canvas").length == 1,

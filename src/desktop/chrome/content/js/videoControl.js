@@ -20,6 +20,7 @@ function onDecreaseSpeed() {
   videoEl.play();
   if (videoEl.playbackRate > 0.1) {
     videoEl.playbackRate -= 0.1;
+    updateCurrentSpeedDisplay();
   }
 }
 
@@ -28,6 +29,7 @@ function onIncreaseSpeed() {
   videoEl.play();
   if (videoEl.playbackRate < 5) {
     videoEl.playbackRate += 0.1;
+    updateCurrentSpeedDisplay();
   }
 }
 
@@ -104,6 +106,11 @@ function initResizer(json) {
   });
 }
 
+function updateCurrentSpeedDisplay() {
+  var videoEl = getVideoEl();
+  getCurrentSpeedEl().textContent = videoEl.playbackRate.toFixed(1);
+
+}
 
 function initVideoControls(json) {
   var controlsEl = getControlsEl();
@@ -116,6 +123,8 @@ function initVideoControls(json) {
   var previousFrameButton = getPreviousFrameButtonEl();
   var screenshotButton = getScreenshotButtonEl();
   var resizeButton = getResizeButtonEl();
+  var currentTimeElem = getCurrentTimeEl();
+  var currentFrameElem = getCurrentFrameEl();
 
   initResizer(json);
 
@@ -127,6 +136,13 @@ function initVideoControls(json) {
   videoEl.addEventListener("pause", function() {
     playPauseButton.classList.add("fa-play");
     playPauseButton.classList.remove("fa-pause");
+  });
+
+  videoEl.addEventListener("timeupdate", function() {
+    var currentTime = videoEl.currentTime;
+    currentTimeElem.textContent = currentTime.toFixed(2);
+    currentFrameElem.textContent = Math.round((currentTime * json.frameRate).toPrecision(6));
+    updateCurrentSpeedDisplay();
   });
 
   playPauseButton.addEventListener("click", onPlayPause);

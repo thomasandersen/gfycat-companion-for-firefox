@@ -97,3 +97,16 @@ function getResizePanelEl() {
 function getErrorMessageEl() {
   return document.querySelector("#error-message");
 }
+
+function getCurrentTimeEl() {
+  return document.querySelector("#current-time");
+}
+
+function getCurrentSpeedEl() {
+  return document.querySelector("#current-speed");
+}
+
+function getCurrentFrameEl() {
+  return document.querySelector("#current-frame");
+}
+
