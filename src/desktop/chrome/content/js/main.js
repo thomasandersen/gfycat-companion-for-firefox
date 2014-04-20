@@ -146,6 +146,7 @@ function clearInfoBox() {
 
 (function() {
   var infoButton = getInfoButtonEl();
+  var controlPanel = getControlsEl();
   var infoPanel = getInfoPanelEl();
   var imageSrc = Helper.getURLParameter("s");
 
@@ -160,9 +161,8 @@ function clearInfoBox() {
   getGfycatVideoUrlEl().value = "transcoding in progress...";
 
   infoButton.addEventListener("click", function() {
-    infoPanel.style.top = (infoButton.offsetTop + infoButton.offsetHeight + 5) + "px";
-    infoPanel.style.right = "10px";
-    infoPanel.style.display = "block";
+    var style = infoPanel.style;
+    style.display = (style.display == "block") ? "none" : "block";
   });
 
   document.addEventListener("click", function(evt) {

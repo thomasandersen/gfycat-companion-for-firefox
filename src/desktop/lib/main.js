@@ -5,7 +5,7 @@ let tabs = require("sdk/tabs");
 let contextMenu = require("sdk/context-menu");
 let properties = require("packages/properties");
 let redirecter = require("packages/redirecter");
-let resPageMod = require("./pagemod/resPageMod");
+let pageMod = require("./pagemod/pageMod");
 
 // ------------------------------------------------------------------------------
 // Setup listeners
@@ -17,7 +17,7 @@ simplePrefs.on("showVideoInsteadOfGif", () => {
 
 simplePrefs.on("resImageViewerSupport", () => {
   let enable = simplePrefs.prefs.resImageViewerSupport;
-  resPageMod.enable(enable);
+  pageMod.enable(enable);
   redirecter.enable(enable);
 });
 
@@ -41,4 +41,4 @@ contextMenu.Item({
 // ------------------------------------------------------------------------------
 
 redirecter.enable(simplePrefs.prefs.showVideoInsteadOfGif);
-resPageMod.enable(simplePrefs.prefs.resImageViewerSupport);
+pageMod.enable(simplePrefs.prefs.resImageViewerSupport);
