@@ -30,7 +30,6 @@ var Screenshot = {
     });
 
     bar.addEventListener("mouseleave", function(event) {
-      console.log(event.pageY);
       if (event.pageY > bar.offsetTop) {
         return;
       }
@@ -93,12 +92,16 @@ var Screenshot = {
       Screenshot.revealScreenshotBar();
     }
 
+    setTimeout(function() {
+      var scrollTo = containerEl.offsetLeft + containerEl.offsetWidth;
+      $(screenshotsBar).getNiceScroll().doScrollPos(scrollTo,0);
+    }, 10);
   },
 
   revealScreenshotBar: function() {
     var screenshotsBar = getScreenshotsBarEl();
     var currentStyleBottomProperty = screenshotsBar.style.bottom;
-    // fixme: use css class.  
+    // fixme: use css class.
     screenshotsBar.style.bottom = "0";
     screenshotsBar.style.opacity = "1";
     setTimeout(function() {

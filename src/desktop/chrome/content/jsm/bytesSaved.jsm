@@ -1,6 +1,6 @@
 var EXPORTED_SYMBOLS = [
-  "getBandwidthSavedInMB", 
-  "saveBandwidthSaved", 
+  "getBandwidthSavedInMB",
+  "saveBandwidthSaved",
   "getTotalBandwidthSavedInMB"
 ];
 

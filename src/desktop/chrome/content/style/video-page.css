@@ -88,7 +88,7 @@ input[type=text] {
   left: 15px;
   animation-name: loadingAnimation;
   animation-iteration-count: infinite;
-  animation-duration: 3s;
+  animation-duration: 2s;
 }
 
 #controls {
