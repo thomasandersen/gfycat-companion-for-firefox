@@ -125,8 +125,15 @@ input[type=text] {
 
 #controls #current-time,
 #controls #current-frame {
-  width: 50px;
   text-align: left;
+}
+
+#controls #current-time {
+  width: 80px;
+}
+
+#controls #current-frame {
+  width: 35px;
 }
 
 #controls:hover {

@@ -1,6 +1,6 @@
 // fixme: namespace
 
-function onPlayPause() {
+function onPlayPauseClick() {
   var playPauseButton = getPlayPauseButtonEl();
   var videoEl = getVideoEl();
   if (videoEl.paused) {
@@ -10,12 +10,24 @@ function onPlayPause() {
   }
 }
 
-function onFullScreen() {
+function onPlay() {
+  var playPauseButton = getPlayPauseButtonEl();
+  playPauseButton.classList.add("fa-pause");
+  playPauseButton.classList.remove("fa-play");
+}
+
+function onPause() {
+  var playPauseButton = getPlayPauseButtonEl();
+  playPauseButton.classList.add("fa-play");
+  playPauseButton.classList.remove("fa-pause");
+}
+
+function onFullScreenClick() {
   var videoEl = getVideoEl();
   Helper.requestFullscreen(videoEl);
 }
 
-function onDecreaseSpeed() {
+function onDecreaseSpeedClick() {
   var videoEl = getVideoEl();
   videoEl.play();
   if (videoEl.playbackRate > 0.1) {
@@ -24,13 +36,24 @@ function onDecreaseSpeed() {
   }
 }
 
-function onIncreaseSpeed() {
+function onIncreaseSpeedClick() {
   var videoEl = getVideoEl();
   videoEl.play();
   if (videoEl.playbackRate < 5) {
     videoEl.playbackRate += 0.1;
     updateCurrentSpeedDisplay();
   }
+}
+
+function onTimeUpdate(json) {
+  var videoEl = getVideoEl();
+  var currentTime = videoEl.currentTime;
+  var currentTimeElem = getCurrentTimeEl();
+  var currentFrameElem = getCurrentFrameEl();
+
+  currentTimeElem.textContent = currentTime.toFixed(2) + " / " + videoEl.duration.toFixed(2);
+  currentFrameElem.textContent = Math.round((currentTime * json.frameRate).toPrecision(6));
+  updateCurrentSpeedDisplay();
 }
 
 function navigateToFrame(direction, json) {
@@ -109,7 +132,6 @@ function initResizer(json) {
 function updateCurrentSpeedDisplay() {
   var videoEl = getVideoEl();
   getCurrentSpeedEl().textContent = videoEl.playbackRate.toFixed(1);
-
 }
 
 function initVideoControls(json) {
@@ -123,46 +145,20 @@ function initVideoControls(json) {
   var previousFrameButton = getPreviousFrameButtonEl();
   var screenshotButton = getScreenshotButtonEl();
   var resizeButton = getResizeButtonEl();
-  var currentTimeElem = getCurrentTimeEl();
-  var currentFrameElem = getCurrentFrameEl();
 
   initResizer(json);
 
-  videoEl.addEventListener("play", function() {
-    playPauseButton.classList.add("fa-pause");
-    playPauseButton.classList.remove("fa-play");
-  });
+  videoEl.addEventListener("play", onPlay);
+  videoEl.addEventListener("pause", onPause);
+  videoEl.addEventListener("timeupdate", onTimeUpdate.bind(this, json));
 
-  videoEl.addEventListener("pause", function() {
-    playPauseButton.classList.add("fa-play");
-    playPauseButton.classList.remove("fa-pause");
-  });
-
-  videoEl.addEventListener("timeupdate", function() {
-    var currentTime = videoEl.currentTime;
-    currentTimeElem.textContent = currentTime.toFixed(2);
-    currentFrameElem.textContent = Math.round((currentTime * json.frameRate).toPrecision(6));
-    updateCurrentSpeedDisplay();
-  });
-
-  playPauseButton.addEventListener("click", onPlayPause);
-
-  fullscreenButton.addEventListener("click", onFullScreen);
-
-  decreaseSpeedButton.addEventListener("click", onDecreaseSpeed);
-
-  increaseSpeedButton.addEventListener("click", onIncreaseSpeed);
-
-  previousFrameButton.addEventListener("click", function() {
-    navigateToFrame("previous", json);
-  });
-
-  nextFrameButton.addEventListener("click", function() {
-    navigateToFrame("next", json);
-  });
-
+  playPauseButton.addEventListener("click", onPlayPauseClick);
+  fullscreenButton.addEventListener("click", onFullScreenClick);
+  decreaseSpeedButton.addEventListener("click", onDecreaseSpeedClick);
+  increaseSpeedButton.addEventListener("click", onIncreaseSpeedClick);
+  previousFrameButton.addEventListener("click", navigateToFrame.bind(this, "previous", json));
+  nextFrameButton.addEventListener("click", navigateToFrame.bind(this, "next", json));
   screenshotButton.addEventListener("click", Screenshot.create);
-
   resizeButton.addEventListener("click", toggleResizePanel);
 
   controlsEl.style.display = "block";
