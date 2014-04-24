@@ -41,7 +41,7 @@ function enableResPageMod() {
       self.data.url("pagemod/domHelper.js"),
       self.data.url("pagemod/RES.js"),
       self.data.url("pagemod/companion.js"),
-      self.data.url("pagemod/pageMod.js")
+      self.data.url("pagemod/main.js")
     ],
     contentStyleFile: self.data.url("pagemod/style/pagemod.css"),
     onAttach: function(worker) {

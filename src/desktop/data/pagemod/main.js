@@ -84,9 +84,22 @@ let PageMod = {
       anchor.style.overflow = "auto";
     }
 
-    this.onRequestTranscoderService(aImage, null);
     // Mark the container as loaded.
     RES.getViewer(aImage).container.element.classList.add("gccfx-loaded");
+
+    this.pauseAllVideos();
+    this.onRequestTranscoderService(aImage, null);
+  },
+
+  pauseAllVideos: function() {
+    let videos = document.querySelectorAll("video.gccfx-video");
+    let i = 0;
+    while(i < videos.length) {
+      if (!videos[i].paused) {
+        videos[i].pause();
+      }
+      i++;
+    }
   },
 
   /**
@@ -99,53 +112,6 @@ let PageMod = {
     this.addStatusBar(aImage);
     let key = ImageElements.add(aImage);
     self.port.emit("requestTranscoder", aImage.src, key);
-  },
-
-  /**
-   * Adds status bar before the image.
-   *
-   * @param element aImg
-   *        The image we are trying to convert into a video.
-   */
-  addStatusBar: function(aImg) {
-    let bar = Companion.getStatusBarElem(aImg);
-    if (bar) {
-      Dom.removeElem(bar);
-    }
-    bar = Companion.createStatusBarElem();
-    let anchor = RES.getViewer(aImg).container.anchor.element;
-    Dom.insertBefore(bar, anchor);
-  },
-
-  /**
-   * Called when the add-on receives an error response from the GfyCat
-   * transcoder service.
-   *
-   * @param number aImageKey
-   *        Reference to the gif in the ImageElements map.
-   * @param string aErrorMessage
-   *        The error message to show.
-   */
-  onTranscodeError: function(aImageKey, aErrorMessage) {
-    console.log("Transcode error", aErrorMessage);
-
-    let image = ImageElements.getByKey(aImageKey);
-
-    this.cleanUp(image);
-
-    // Make sure that the gif is requested.
-    // Set the source twice in order to properly load the image from the server.
-    let src = image.getAttribute("src");
-    let newSrc = !src.contains("?") ? src + "?" : src + "&";
-    newSrc += "gccfxDoRequest=1";
-    image.setAttribute("src", newSrc);
-    image.setAttribute("src", src);
-
-    // The image request blocker has been disabled in order to load the image.
-    // Enable it again
-    self.port.emit("enableImageRequestBlocker");
-
-    ImageElements.deleteByKey(aImageKey);
   },
 
   /**
@@ -221,6 +187,37 @@ let PageMod = {
   },
 
   /**
+   * Called when the add-on receives an error response from the GfyCat
+   * transcoder service.
+   *
+   * @param number aImageKey
+   *        Reference to the gif in the ImageElements map.
+   * @param string aErrorMessage
+   *        The error message to show.
+   */
+  onTranscodeError: function(aImageKey, aErrorMessage) {
+    console.log("Transcode error", aErrorMessage);
+
+    let image = ImageElements.getByKey(aImageKey);
+
+    this.cleanUp(image);
+
+    // Make sure that the gif is requested.
+    // Set the source twice in order to properly load the image from the server.
+    let src = image.getAttribute("src");
+    let newSrc = !src.contains("?") ? src + "?" : src + "&";
+    newSrc += "gccfxDoRequest=1";
+    image.setAttribute("src", newSrc);
+    image.setAttribute("src", src);
+
+    // The image request blocker has been disabled in order to load the image.
+    // Enable it again
+    self.port.emit("enableImageRequestBlocker");
+
+    ImageElements.deleteByKey(aImageKey);
+  },
+
+  /**
    * Called when the image resizer changes
    *
    * @param object aEvent
@@ -292,6 +289,22 @@ let PageMod = {
     let image = aEvent.target;
     image.style.height = "";
     image.removeEventListener("load", PageMod.onGalleryImageLoaded);
+  },
+
+  /**
+   * Adds status bar before the image.
+   *
+   * @param element aImg
+   *        The image we are trying to convert into a video.
+   */
+  addStatusBar: function(aImg) {
+    let bar = Companion.getStatusBarElem(aImg);
+    if (bar) {
+      Dom.removeElem(bar);
+    }
+    bar = Companion.createStatusBarElem();
+    let anchor = RES.getViewer(aImg).container.anchor.element;
+    Dom.insertBefore(bar, anchor);
   },
 
   /**
