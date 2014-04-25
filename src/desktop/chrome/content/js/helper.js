@@ -1,24 +1,24 @@
 var Helper = {
-  getURLParameter: function(name) {
+  getURLParameter: function(aName) {
     return decodeURI(
-      (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
+      (RegExp(aName + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
     );
   },
 
-  createPsudoRandomStr: function(stringLength) {
+  createPsudoRandomStr: function(aStringLength) {
     var text = "";
     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for(var i=0; i < stringLength; i++) {
+    for(var i=0; i < aStringLength; i++) {
       text += possible.charAt(Math.floor(Math.random() * possible.length));
     }
     return text;
   },
 
-  requestFullscreen: function(el) {
-    if (el.requestFullscreen) {
-      el.requestFullscreen();
-    } else if (el.mozRequestFullScreen) {
-      el.mozRequestFullScreen();
+  requestFullscreen: function(aElem) {
+    if (aElem.requestFullscreen) {
+      aElem.requestFullscreen();
+    } else if (aElem.mozRequestFullScreen) {
+      aElem.mozRequestFullScreen();
     } else {
       console.warn("Fullscreen is not supported by this device.");
     }
@@ -26,9 +26,9 @@ var Helper = {
 };
 
 var DomHelper = {
-  findParentBySelector: function(el, selector) {
-    var all = document.querySelectorAll(selector);
-    var current = el.parentNode;
+  findParentBySelector: function(aElem, aSelector) {
+    var all = document.querySelectorAll(aSelector);
+    var current = aElem.parentNode;
     while(current && !this._collectionHas(all, current)) {
       current = current.parentNode; //go up
     }
