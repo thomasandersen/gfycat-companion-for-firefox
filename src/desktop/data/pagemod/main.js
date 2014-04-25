@@ -19,15 +19,15 @@ let ImageElements = {
   }
 };
 
-self.port.on("transcodeRequestStart", (aImageUrl, aImageKey) => {
+self.port.on("transCodeRequestStart", (aImageUrl, aImageKey) => {
   Companion.showLoadingBar(ImageElements.getByKey(aImageKey));
 });
 
-self.port.on("transcodeRequestSuccess", (aTranscodeJson, aImageKey, aMessage) => {
+self.port.on("transCodeRequestSuccess", (aTranscodeJson, aImageKey, aMessage) => {
   PageMod.replaceImageWithVideo(aTranscodeJson, aImageKey, aMessage);
 });
 
-self.port.on("transcodeRequestError", (aImageKey, aErrorMessage) => {
+self.port.on("transCodeRequestError", (aImageKey, aErrorMessage) => {
   PageMod.onTranscodeError(aImageKey, aErrorMessage);
 });
 
@@ -88,7 +88,7 @@ let PageMod = {
     RES.getViewer(aImage).container.element.classList.add("gccfx-loaded");
 
     this.pauseAllVideos();
-    this.onRequestTranscoderService(aImage, null);
+    this.onRequestTransCoderService(aImage, null);
   },
 
   pauseAllVideos: function() {
@@ -105,10 +105,10 @@ let PageMod = {
   /**
    * Emits event to the add-on which requests the GfyCat transcoder service.
    *
-   * @param element aImg
+   * @param element aImage
    *        The gif we are trying to convert into a video.
    */
-  onRequestTranscoderService: function(aImage) {
+  onRequestTransCoderService: function(aImage) {
     this.addStatusBar(aImage);
     let key = ImageElements.add(aImage);
     self.port.emit("requestTranscoder", aImage.src, key);
@@ -117,14 +117,14 @@ let PageMod = {
   /**
    * Replaces the image with a video element.
    *
-   * @param object aTranscodeJson
+   * @param object aTransCodeJson
    *               GfyCat json response.
    * @param number aImageKey
    *               The reference to the image element in the ImageElements map.
    * @param string aMessage
    *               The message to display next to the video.
    */
-  replaceImageWithVideo: function(aTranscodeJson, aImageKey, aMessage) {
+  replaceImageWithVideo: function(aTransCodeJson, aImageKey, aMessage) {
     let viewer = RES.getViewer(ImageElements.getByKey(aImageKey));
     let imageContainer = viewer.container.element;
     let anchor = viewer.container.anchor.element;
@@ -160,8 +160,8 @@ let PageMod = {
         Dom.removeElem(videoResizer);
       }
 
-      let resizerMinValue = aTranscodeJson.gifWidth / 2;
-      let resizerMaxValue = aTranscodeJson.gifWidth * 2;
+      let resizerMinValue = aTransCodeJson.gifWidth / 2;
+      let resizerMaxValue = aTransCodeJson.gifWidth * 2;
 
       videoResizer = Companion.createResizeSliderElem(resizerMinValue, resizerMaxValue, PageMod.onResizerInput);
       videoResizer.addEventListener("DOMMouseScroll", function(event) {
@@ -173,7 +173,7 @@ let PageMod = {
       });
 
       video.parentNode.insertBefore(videoResizer, video);
-      videoResizer.setAttribute("value", aTranscodeJson.gifWidth);
+      videoResizer.setAttribute("value", aTransCodeJson.gifWidth);
 
       ImageElements.deleteByKey(aImageKey);
 
@@ -181,7 +181,7 @@ let PageMod = {
       console.log("---------------------------------------------");
     };
 
-    video = Companion.createVideoElem(aTranscodeJson, onVideoDataLoaded);
+    video = Companion.createVideoElem(aTransCodeJson, onVideoDataLoaded);
 
     imageContainer.appendChild(video);
   },
@@ -272,7 +272,7 @@ let PageMod = {
         image.style.height = height;
         image.addEventListener("load", PageMod.onGalleryImageLoaded);
 
-        PageMod.onRequestTranscoderService(image);
+        PageMod.onRequestTransCoderService(image);
       };
       nextButton.addEventListener("click", browse);
       prevButton.addEventListener("click", browse);

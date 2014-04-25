@@ -12,7 +12,7 @@ function request(aImageUrl, aImageKey, aWorker) {
       onResponse(response, aImageKey, aWorker);
     }
   }).get();
-  aWorker.port.emit("transcodeRequestStart", aImageUrl, aImageKey);
+  aWorker.port.emit("transCodeRequestStart", aImageUrl, aImageKey);
 }
 
 function onResponse(aResponse, aImageKey, aWorker) {
@@ -47,13 +47,13 @@ function onResponse(aResponse, aImageKey, aWorker) {
 }
 
 function onSuccess(aResponse, aImageKey, worker, aLoadingMessage) {
-  worker.port.emit("transcodeRequestSuccess",
+  worker.port.emit("transCodeRequestSuccess",
     aResponse.json, aImageKey, aLoadingMessage);
 }
 
 function onError(aImageKey, aWorker, aErrorMessage) {
   imageRequestBlocker.enable(false);
-  aWorker.port.emit("transcodeRequestError", aImageKey, aErrorMessage);
+  aWorker.port.emit("transCodeRequestError", aImageKey, aErrorMessage);
 }
 
 function createUrl(aImageUrl) {
