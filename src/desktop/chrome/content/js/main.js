@@ -79,7 +79,7 @@ function onVideoLoaded(json) {
   initInfoPanel(json);
   removeLoadingSplash();
   getVideoElem().style.display = "block";
-  Screenshot.initScreenshotBar(json);
+  ScreenShot.initScreenShotBar(json);
   saveBandwidthSaved(json);
 }
 

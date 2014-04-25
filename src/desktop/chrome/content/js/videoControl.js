@@ -158,7 +158,7 @@ function initVideoControls(json) {
   increaseSpeedButton.addEventListener("click", onIncreaseSpeedClick);
   previousFrameButton.addEventListener("click", navigateToFrame.bind(this, "previous", json));
   nextFrameButton.addEventListener("click", navigateToFrame.bind(this, "next", json));
-  screenShotButton.addEventListener("click", Screenshot.create);
+  screenShotButton.addEventListener("click", ScreenShot.create);
   resizeButton.addEventListener("click", toggleResizePanel);
 
   controlsEl.style.display = "block";

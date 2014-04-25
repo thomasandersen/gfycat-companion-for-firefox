@@ -1,19 +1,16 @@
-var Screenshot = {
+var ScreenShot = {
 
-  initScreenshotBar: function(json) {
+  initScreenShotBar: function() {
     var bar = getScreenshotsBarElem();
-
     var height = getVideoElem().videoHeight;
-
     var originalBottomStyle = "-" + (height - 10) + "px";
     var originalOpacityStyle = "0.3";
+    var contextMenu = mainWindow.document.querySelector("#contentAreaContextMenu");
+    var contextMenuIsHidden = true;
 
     bar.style.opacity = originalOpacityStyle;
     bar.style.height = (height + 24) + "px";
     bar.style.bottom = originalBottomStyle;
-
-    var contextMenu = mainWindow.document.querySelector("#contentAreaContextMenu");
-    var contextMenuIsHidden = true;
 
     contextMenu.addEventListener("popupshowing", function() {
       contextMenuIsHidden = false;
@@ -56,17 +53,17 @@ var Screenshot = {
   create: function() {
     var videoElem = getVideoElem();
     var time = videoElem.currentTime;
-    var screenshotsBar = getScreenshotsBarElem();
+    var screenShotsBar = getScreenshotsBarElem();
     var containerElem = document.createElement("div");
     var canvasElem = document.createElement("canvas");
-    var screenshotInfoElem = document.createElement("div");
+    var screenShotInfoElem = document.createElement("div");
     var removeButtonElem = document.createElement("div");
     var w = videoElem.videoWidth;
     var h = videoElem.videoHeight;
 
     containerElem.classList.add("screenshot-container");
-    screenshotInfoElem.classList.add("screenshot-info");
-    screenshotInfoElem.textContent = time.toPrecision(3) + "s";
+    screenShotInfoElem.classList.add("screenshot-info");
+    screenShotInfoElem.textContent = time.toPrecision(3) + "s";
     removeButtonElem.classList.add("screenshot-remove-button");
     removeButtonElem.classList.add("fa");
     removeButtonElem.classList.add("fa-times");
@@ -82,23 +79,23 @@ var Screenshot = {
     context.drawImage(videoElem, 0, 0, w, h);
 
     containerElem.appendChild(canvasElem);
-    containerElem.appendChild(screenshotInfoElem);
+    containerElem.appendChild(screenShotInfoElem);
     containerElem.appendChild(removeButtonElem);
 
-    screenshotsBar.appendChild(containerElem);
-    screenshotsBar.style.display = "block";
+    screenShotsBar.appendChild(containerElem);
+    screenShotsBar.style.display = "block";
 
-    if (screenshotsBar.querySelectorAll("canvas").length == 1) {
-      Screenshot.revealScreenshotBar();
+    if (screenShotsBar.querySelectorAll("canvas").length == 1) {
+      ScreenShot.revealScreenShotBar();
     }
 
     setTimeout(function() {
       var scrollTo = containerElem.offsetLeft + containerElem.offsetWidth;
-      $(screenshotsBar).getNiceScroll().doScrollPos(scrollTo,0);
+      $(screenShotsBar).getNiceScroll().doScrollPos(scrollTo,0);
     }, 10);
   },
 
-  revealScreenshotBar: function() {
+  revealScreenShotBar: function() {
     var screenshotsBar = getScreenshotsBarElem();
     var currentStyleBottomProperty = screenshotsBar.style.bottom;
     // fixme: use css class.
