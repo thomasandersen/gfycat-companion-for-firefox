@@ -138,12 +138,12 @@ function initVideoControls(json) {
   var controlsEl = getControlsElem();
   var videoEl = getVideoElem();
   var playPauseButton = getPlayPauseButtonElem();
-  var fullscreenButton = getFullscreenButtonElem();
+  var fullScreenButton = getFullscreenButtonElem();
   var increaseSpeedButton = getIncreaseSpeedButtonElem();
   var decreaseSpeedButton = getDecreaseSpeedButtonElem();
   var nextFrameButton = getNextFrameButtonElem();
   var previousFrameButton = getPreviousFrameButtonElem();
-  var screenshotButton = getScreenshotButtonElem();
+  var screenShotButton = getScreenshotButtonElem();
   var resizeButton = getResizeButtonElem();
 
   initResizer(json);
@@ -153,12 +153,12 @@ function initVideoControls(json) {
   videoEl.addEventListener("timeupdate", onTimeUpdate.bind(this, json));
 
   playPauseButton.addEventListener("click", onPlayPauseClick);
-  fullscreenButton.addEventListener("click", onFullScreenClick);
+  fullScreenButton.addEventListener("click", onFullScreenClick);
   decreaseSpeedButton.addEventListener("click", onDecreaseSpeedClick);
   increaseSpeedButton.addEventListener("click", onIncreaseSpeedClick);
   previousFrameButton.addEventListener("click", navigateToFrame.bind(this, "previous", json));
   nextFrameButton.addEventListener("click", navigateToFrame.bind(this, "next", json));
-  screenshotButton.addEventListener("click", Screenshot.create);
+  screenShotButton.addEventListener("click", Screenshot.create);
   resizeButton.addEventListener("click", toggleResizePanel);
 
   controlsEl.style.display = "block";

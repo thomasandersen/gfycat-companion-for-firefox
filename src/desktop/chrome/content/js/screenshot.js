@@ -54,38 +54,38 @@ var Screenshot = {
   },
 
   create: function() {
-    var videoEl = getVideoElem();
-    var time = videoEl.currentTime;
+    var videoElem = getVideoElem();
+    var time = videoElem.currentTime;
     var screenshotsBar = getScreenshotsBarElem();
-    var containerEl = document.createElement("div");
-    var canvasEl = document.createElement("canvas");
-    var screenshotInfoEl = document.createElement("div");
-    var removeButtonEl = document.createElement("div");
-    var w = videoEl.videoWidth;
-    var h = videoEl.videoHeight;
+    var containerElem = document.createElement("div");
+    var canvasElem = document.createElement("canvas");
+    var screenshotInfoElem = document.createElement("div");
+    var removeButtonElem = document.createElement("div");
+    var w = videoElem.videoWidth;
+    var h = videoElem.videoHeight;
 
-    containerEl.classList.add("screenshot-container");
-    screenshotInfoEl.classList.add("screenshot-info");
-    screenshotInfoEl.textContent = time.toPrecision(3) + "s";
-    removeButtonEl.classList.add("screenshot-remove-button");
-    removeButtonEl.classList.add("fa");
-    removeButtonEl.classList.add("fa-times");
-    removeButtonEl.addEventListener("click", function() {
-      containerEl.parentNode.removeChild(containerEl);
+    containerElem.classList.add("screenshot-container");
+    screenshotInfoElem.classList.add("screenshot-info");
+    screenshotInfoElem.textContent = time.toPrecision(3) + "s";
+    removeButtonElem.classList.add("screenshot-remove-button");
+    removeButtonElem.classList.add("fa");
+    removeButtonElem.classList.add("fa-times");
+    removeButtonElem.addEventListener("click", function() {
+      containerElem.parentNode.removeChild(containerElem);
     });
 
-    canvasEl.classList.add("screenshot-canvas");
-    canvasEl.width  = w;
-    canvasEl.height = h;
+    canvasElem.classList.add("screenshot-canvas");
+    canvasElem.width  = w;
+    canvasElem.height = h;
 
-    var context = canvasEl.getContext("2d");
-    context.drawImage(videoEl, 0, 0, w, h);
+    var context = canvasElem.getContext("2d");
+    context.drawImage(videoElem, 0, 0, w, h);
 
-    containerEl.appendChild(canvasEl);
-    containerEl.appendChild(screenshotInfoEl);
-    containerEl.appendChild(removeButtonEl);
+    containerElem.appendChild(canvasElem);
+    containerElem.appendChild(screenshotInfoElem);
+    containerElem.appendChild(removeButtonElem);
 
-    screenshotsBar.appendChild(containerEl);
+    screenshotsBar.appendChild(containerElem);
     screenshotsBar.style.display = "block";
 
     if (screenshotsBar.querySelectorAll("canvas").length == 1) {
@@ -93,7 +93,7 @@ var Screenshot = {
     }
 
     setTimeout(function() {
-      var scrollTo = containerEl.offsetLeft + containerEl.offsetWidth;
+      var scrollTo = containerElem.offsetLeft + containerElem.offsetWidth;
       $(screenshotsBar).getNiceScroll().doScrollPos(scrollTo,0);
     }, 10);
   },

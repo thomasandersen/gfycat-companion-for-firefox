@@ -1,6 +1,5 @@
 let self = require("sdk/self");
 let simplePrefs = require("sdk/simple-prefs");
-let clipboard = require("sdk/clipboard");
 let tabs = require("sdk/tabs");
 let contextMenu = require("sdk/context-menu");
 let properties = require("packages/properties");
