@@ -4,6 +4,13 @@
 /dist/
 /node_modules/
 
+# IDEA files
+*.iws
+*.ids
+*.iml
+*.ipr
+.idea
+
 # Copied by build
 src/desktop/lib/packages
 src/mobile/lib/packages

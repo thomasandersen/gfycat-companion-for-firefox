@@ -1,112 +1,104 @@
-function getVideoEl() {
+function getVideoElem() {
   return document.querySelector("video");
 }
 
-function getLoadingSplashEl() {
+function getLoadingSplashElem() {
   return document.querySelector("#loading-splash");
 }
 
-function getInfoBoxEl() {
-  return document.querySelector("#info-box");
-}
-
-function getGfyInfoEl() {
-  return document.querySelector("#gfyinfo");
-}
-
-function getOriginalImageEl() {
+function getOriginalImageElem() {
   return document.querySelector("#info-panel #original-image");
 }
 
-function getGfycatUrlEl() {
+function getGfycatUrlElem() {
   return document.querySelector("#info-panel #gfycat-url");
 }
 
-function getGfycatVideoUrlEl() {
+function getGfycatVideoUrlElem() {
   return document.querySelector("#info-panel #gfycat-video-url");
 }
 
-function getResizerEl() {
+function getResizerElem() {
   return document.querySelector("#resizer");
 }
 
-function getControlsEl() {
+function getControlsElem() {
   return document.querySelector("#controls");
 }
 
-function getPlayPauseButtonEl() {
+function getPlayPauseButtonElem() {
   return document.querySelector("#play-pause");
 }
 
-function getFullscreenButtonEl() {
+function getFullscreenButtonElem() {
   return document.querySelector("#fullscreen");
 }
 
-function getDecreaseSpeedButtonEl() {
+function getDecreaseSpeedButtonElem() {
   return document.querySelector("#decrease-speed");
 }
 
-function getIncreaseSpeedButtonEl() {
+function getIncreaseSpeedButtonElem() {
   return document.querySelector("#increase-speed");
 }
 
-function getPreviousFrameButtonEl() {
+function getPreviousFrameButtonElem() {
   return document.querySelector("#previous-frame");
 }
 
-function getNextFrameButtonEl() {
+function getNextFrameButtonElem() {
   return document.querySelector("#next-frame");
 }
 
-function getScreenshotButtonEl() {
+function getScreenshotButtonElem() {
   return document.querySelector("#screenshot");
 }
 
-function getResizeButtonEl() {
+function getResizeButtonElem() {
   return document.querySelector("#resize");
 }
 
-function getResetResizeButtonEl() {
+function getResetResizeButtonElem() {
   return document.querySelector("#reset-size");
 }
 
-function getInfoButtonEl() {
+function getInfoButtonElem() {
   return document.querySelector("#info");
 }
 
-function getInfoPanelEl() {
+function getInfoPanelElem() {
   return document.querySelector("#info-panel");
 }
 
-function getBytesSavedEl() {
+function getBytesSavedElem() {
   return document.querySelector("#bytes-saved-info");
 }
 
-function getTotalBytesSavedEl() {
+function getTotalBytesSavedElem() {
   return document.querySelector("#total-bytes-saved-info");
 }
 
-function getScreenshotsBarEl() {
+function getScreenshotsBarElem() {
   return document.querySelector("#screenshots-bar");
 }
 
-function getResizePanelEl() {
+function getResizePanelElem() {
   return document.querySelector("#resize-panel");
 }
 
-function getErrorMessageEl() {
+function getErrorMessageElem() {
   return document.querySelector("#error-message");
 }
 
-function getCurrentTimeEl() {
+function getCurrentTimeElem() {
   return document.querySelector("#current-time");
 }
 
-function getCurrentSpeedEl() {
+function getCurrentSpeedElem() {
   return document.querySelector("#current-speed");
 }
 
-function getCurrentFrameEl() {
+function getCurrentFrameElem() {
   return document.querySelector("#current-frame");
 }
 

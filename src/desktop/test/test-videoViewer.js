@@ -20,21 +20,21 @@ function test_clickGifAndRedirect(assert) {
 
     let doc = context.getDocument();
     let win = context.getWindow();
-    let videoElem = win.getVideoEl();
+    let videoElem = win.getVideoElem();
     let webmSourceElem = videoElem.querySelector("source[type='video/webm']");
     let mp4SourceElem = videoElem.querySelector("source[type='video/mp4']");
-    let controlsElem = win.getControlsEl();
-    let playPauseBtnElem = win.getPlayPauseButtonEl();
-    let previousFrameBtnElem = win.getPreviousFrameButtonEl();
-    let nextFrameBtnElem = win.getNextFrameButtonEl();
-    let decreaseSpeedBtnElem = win.getDecreaseSpeedButtonEl();
-    let increaseSpeedBtnElem = win.getIncreaseSpeedButtonEl();
-    let fullscreenBtnElem = win.getFullscreenButtonEl();
-    let resizeBtnElem = win.getResizeButtonEl();
-    let screenShotBtnElem = win.getScreenshotButtonEl();
-    let currentTimeElem = win.getCurrentTimeEl();
-    let currentFrameElem = win.getCurrentFrameEl();
-    let currentSpeedElem = win.getCurrentSpeedEl();
+    let controlsElem = win.getControlsElem();
+    let playPauseBtnElem = win.getPlayPauseButtonElem();
+    let previousFrameBtnElem = win.getPreviousFrameButtonElem();
+    let nextFrameBtnElem = win.getNextFrameButtonElem();
+    let decreaseSpeedBtnElem = win.getDecreaseSpeedButtonElem();
+    let increaseSpeedBtnElem = win.getIncreaseSpeedButtonElem();
+    let fullscreenBtnElem = win.getFullscreenButtonElem();
+    let resizeBtnElem = win.getResizeButtonElem();
+    let screenShotBtnElem = win.getScreenshotButtonElem();
+    let currentTimeElem = win.getCurrentTimeElem();
+    let currentFrameElem = win.getCurrentFrameElem();
+    let currentSpeedElem = win.getCurrentSpeedElem();
 
     assert.ok(videoElem != null,
       "The video element should exist.");

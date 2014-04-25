@@ -1,8 +1,8 @@
 // fixme: namespace
 
 function onPlayPauseClick() {
-  var playPauseButton = getPlayPauseButtonEl();
-  var videoEl = getVideoEl();
+  var playPauseButton = getPlayPauseButtonElem();
+  var videoEl = getVideoElem();
   if (videoEl.paused) {
     videoEl.play();
   } else {
@@ -11,24 +11,24 @@ function onPlayPauseClick() {
 }
 
 function onPlay() {
-  var playPauseButton = getPlayPauseButtonEl();
+  var playPauseButton = getPlayPauseButtonElem();
   playPauseButton.classList.add("fa-pause");
   playPauseButton.classList.remove("fa-play");
 }
 
 function onPause() {
-  var playPauseButton = getPlayPauseButtonEl();
+  var playPauseButton = getPlayPauseButtonElem();
   playPauseButton.classList.add("fa-play");
   playPauseButton.classList.remove("fa-pause");
 }
 
 function onFullScreenClick() {
-  var videoEl = getVideoEl();
+  var videoEl = getVideoElem();
   Helper.requestFullscreen(videoEl);
 }
 
 function onDecreaseSpeedClick() {
-  var videoEl = getVideoEl();
+  var videoEl = getVideoElem();
   videoEl.play();
   if (videoEl.playbackRate > 0.1) {
     videoEl.playbackRate -= 0.1;
@@ -37,7 +37,7 @@ function onDecreaseSpeedClick() {
 }
 
 function onIncreaseSpeedClick() {
-  var videoEl = getVideoEl();
+  var videoEl = getVideoElem();
   videoEl.play();
   if (videoEl.playbackRate < 5) {
     videoEl.playbackRate += 0.1;
@@ -46,10 +46,10 @@ function onIncreaseSpeedClick() {
 }
 
 function onTimeUpdate(json) {
-  var videoEl = getVideoEl();
+  var videoEl = getVideoElem();
   var currentTime = videoEl.currentTime;
-  var currentTimeElem = getCurrentTimeEl();
-  var currentFrameElem = getCurrentFrameEl();
+  var currentTimeElem = getCurrentTimeElem();
+  var currentFrameElem = getCurrentFrameElem();
 
   currentTimeElem.textContent = currentTime.toFixed(2) + " / " + videoEl.duration.toFixed(2);
   currentFrameElem.textContent = Math.round((currentTime * json.frameRate).toPrecision(6));
@@ -57,7 +57,7 @@ function onTimeUpdate(json) {
 }
 
 function navigateToFrame(direction, json) {
-  var videoEl = getVideoEl();
+  var videoEl = getVideoElem();
   if (!videoEl.paused) {
     videoEl.pause();
   }
@@ -72,7 +72,7 @@ function navigateToFrame(direction, json) {
 
 function toggleResizePanel(event) {
   var resizeButton = event.target;
-  var panel = getResizePanelEl();
+  var panel = getResizePanelElem();
   var style = panel.style;
   if (style.display == "block") {
     panel.style.display = "none";
@@ -85,8 +85,8 @@ function toggleResizePanel(event) {
 }
 
 function initResizer(json) {
-  var resizerEl = getResizerEl();
-  var videoEl = getVideoEl();
+  var resizerEl = getResizerElem();
+  var videoEl = getVideoElem();
 
   resizerEl.removeAttribute("disabled");
   resizerEl.setAttribute("min", json.gifWidth / 2);
@@ -105,7 +105,7 @@ function initResizer(json) {
 
   document.addEventListener("click", function(event) {
     if (!DomHelper.findParentBySelector(event.target, "#controls")) {
-      getResizePanelEl().style.display = "none";
+      getResizePanelElem().style.display = "none";
     }
   });
 
@@ -123,28 +123,28 @@ function initResizer(json) {
     triggerInputEvent();
   });
 
-  getResetResizeButtonEl().addEventListener("click", function() {
+  getResetResizeButtonElem().addEventListener("click", function() {
     resizerEl.value = json.gifWidth;
     triggerInputEvent();
   });
 }
 
 function updateCurrentSpeedDisplay() {
-  var videoEl = getVideoEl();
-  getCurrentSpeedEl().textContent = videoEl.playbackRate.toFixed(1);
+  var videoEl = getVideoElem();
+  getCurrentSpeedElem().textContent = videoEl.playbackRate.toFixed(1);
 }
 
 function initVideoControls(json) {
-  var controlsEl = getControlsEl();
-  var videoEl = getVideoEl();
-  var playPauseButton = getPlayPauseButtonEl();
-  var fullscreenButton = getFullscreenButtonEl();
-  var increaseSpeedButton = getIncreaseSpeedButtonEl();
-  var decreaseSpeedButton = getDecreaseSpeedButtonEl();
-  var nextFrameButton = getNextFrameButtonEl();
-  var previousFrameButton = getPreviousFrameButtonEl();
-  var screenshotButton = getScreenshotButtonEl();
-  var resizeButton = getResizeButtonEl();
+  var controlsEl = getControlsElem();
+  var videoEl = getVideoElem();
+  var playPauseButton = getPlayPauseButtonElem();
+  var fullscreenButton = getFullscreenButtonElem();
+  var increaseSpeedButton = getIncreaseSpeedButtonElem();
+  var decreaseSpeedButton = getDecreaseSpeedButtonElem();
+  var nextFrameButton = getNextFrameButtonElem();
+  var previousFrameButton = getPreviousFrameButtonElem();
+  var screenshotButton = getScreenshotButtonElem();
+  var resizeButton = getResizeButtonElem();
 
   initResizer(json);
 

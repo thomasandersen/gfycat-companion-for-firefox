@@ -45,7 +45,7 @@ function doTranscode() {
 }
 
 function loadHtml5Video(json) {
-  var videoEl = getVideoEl();
+  var videoEl = getVideoElem();
 
   var webMsourceEl = document.createElement("source");
   webMsourceEl.setAttribute("type", "video/webm");
@@ -78,13 +78,13 @@ function onVideoLoaded(json) {
   initVideoControls(json);
   initInfoPanel(json);
   removeLoadingSplash();
-  getVideoEl().style.display = "block";
+  getVideoElem().style.display = "block";
   Screenshot.initScreenshotBar(json);
   saveBandwidthSaved(json);
 }
 
 function loadFallbackImage() {
-  var video = getVideoEl();
+  var video = getVideoElem();
   var img = document.createElement("img");
   img.setAttribute("id", "fallback");
   img.setAttribute("src", Helper.getURLParameter("s"));
@@ -92,14 +92,14 @@ function loadFallbackImage() {
 }
 
 function initInfoPanel(json) {
-  var panel = getInfoPanelEl();
+  var panel = getInfoPanelElem();
   var allInputs = panel.querySelectorAll("input");
-  var bytesSavedEl = getBytesSavedEl();
-  var totalBytesSavedEl = getTotalBytesSavedEl();
+  var bytesSavedEl = getBytesSavedElem();
+  var totalBytesSavedEl = getTotalBytesSavedElem();
   var gfycatSrc = "http://gfycat.com/" + json.gfyName;
 
-  getGfycatUrlEl().value = gfycatSrc;
-  getGfycatVideoUrlEl().value = json.webmUrl;
+  getGfycatUrlElem().value = gfycatSrc;
+  getGfycatVideoUrlElem().value = json.webmUrl;
 
   var bytesSaved = getBandwidthSavedInMB(json).toFixed(2);
   bytesSavedEl.textContent = "About " + bytesSaved + " MB of bandwidth was saved";
@@ -123,14 +123,14 @@ function addClickEventForLinkInput(input) {
 }
 
 function removeLoadingSplash() {
-  var splash = getLoadingSplashEl();
+  var splash = getLoadingSplashElem();
   if (splash) {
     splash.parentNode.removeChild(splash);
   }
 }
 
 function showErrorMessage(json) {
-  var errorMessageEl = getErrorMessageEl();
+  var errorMessageEl = getErrorMessageElem();
   var text = "Showing original image.";
   if (json && json.error) {
     text += (" " + json.error);
@@ -140,14 +140,14 @@ function showErrorMessage(json) {
 }
 
 function clearInfoBox() {
-  getGfycatUrlEl().value = "";
-  getGfycatVideoUrlEl().value = "";
+  getGfycatUrlElem().value = "";
+  getGfycatVideoUrlElem().value = "";
 }
 
 (function() {
-  var infoButton = getInfoButtonEl();
-  var controlPanel = getControlsEl();
-  var infoPanel = getInfoPanelEl();
+  var infoButton = getInfoButtonElem();
+  var controlPanel = getControlsElem();
+  var infoPanel = getInfoPanelElem();
   var imageSrc = Helper.getURLParameter("s");
 
   if (imageSrc.contains("?")) {
@@ -156,9 +156,9 @@ function clearInfoBox() {
     imageSrc += "?gccfxDoRequest=1";
   }
 
-  getOriginalImageEl().value = imageSrc;
-  getGfycatUrlEl().value = "transcoding in progress...";
-  getGfycatVideoUrlEl().value = "transcoding in progress...";
+  getOriginalImageElem().value = imageSrc;
+  getGfycatUrlElem().value = "transcoding in progress...";
+  getGfycatVideoUrlElem().value = "transcoding in progress...";
 
   infoButton.addEventListener("click", function() {
     var style = infoPanel.style;

@@ -1,9 +1,9 @@
 var Screenshot = {
 
   initScreenshotBar: function(json) {
-    var bar = getScreenshotsBarEl();
+    var bar = getScreenshotsBarElem();
 
-    var height = getVideoEl().videoHeight;
+    var height = getVideoElem().videoHeight;
 
     var originalBottomStyle = "-" + (height - 10) + "px";
     var originalOpacityStyle = "0.3";
@@ -24,7 +24,7 @@ var Screenshot = {
     });
 
     bar.addEventListener("mouseenter", function() {
-      getVideoEl().style.opacity = 0.3;
+      getVideoElem().style.opacity = 0.3;
       bar.style.opacity = "1";
       bar.style.bottom = "0";
     });
@@ -35,7 +35,7 @@ var Screenshot = {
       }
 
       if (contextMenuIsHidden) {
-        getVideoEl().style.opacity = 1;
+        getVideoElem().style.opacity = 1;
         bar.style.opacity = originalOpacityStyle;
         bar.style.bottom = originalBottomStyle;
       }
@@ -54,9 +54,9 @@ var Screenshot = {
   },
 
   create: function() {
-    var videoEl = getVideoEl();
+    var videoEl = getVideoElem();
     var time = videoEl.currentTime;
-    var screenshotsBar = getScreenshotsBarEl();
+    var screenshotsBar = getScreenshotsBarElem();
     var containerEl = document.createElement("div");
     var canvasEl = document.createElement("canvas");
     var screenshotInfoEl = document.createElement("div");
@@ -99,7 +99,7 @@ var Screenshot = {
   },
 
   revealScreenshotBar: function() {
-    var screenshotsBar = getScreenshotsBarEl();
+    var screenshotsBar = getScreenshotsBarElem();
     var currentStyleBottomProperty = screenshotsBar.style.bottom;
     // fixme: use css class.
     screenshotsBar.style.bottom = "0";
