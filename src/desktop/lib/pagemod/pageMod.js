@@ -16,7 +16,6 @@ let gPageMod = null;
 let gWorker = null;
 
 function doEnable(aEnable) {
-  imageRequestBlocker.enable(aEnable);
   if (!aEnable) {
     try {
       gPageMod.destroy();
@@ -59,3 +58,4 @@ function enableResPageMod() {
   });
 }
 
+imageRequestBlocker.enable(false);

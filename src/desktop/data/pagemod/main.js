@@ -88,7 +88,7 @@ let PageMod = {
     RES.getViewer(aImage).container.element.classList.add("gccfx-loaded");
 
     this.pauseAllVideos();
-    this.onRequestTransCoderService(aImage, null);
+    this.onRequestTransCoderService(aImage);
   },
 
   pauseAllVideos: function() {
