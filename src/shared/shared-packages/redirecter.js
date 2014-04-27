@@ -14,30 +14,49 @@ exports.enable = (enable) => {
   return doEnable(enable);
 };
 
-function doEnable(enable) {
-  if (enable) {
+/**
+ * Whether the redirecter should be enabled or not.
+ *
+ * @private
+ * @param {boolean} aEnable
+ */
+function doEnable(aEnable) {
+  if (aEnable) {
     systemEvents.on("http-on-modify-request", requestListener);
   } else {
     systemEvents.off("http-on-modify-request", requestListener);
   }
 }
 
-function isChannelInitialDocument(httpChannel) {
-  return httpChannel.loadFlags & httpChannel.LOAD_INITIAL_DOCUMENT_URI;
+/**
+ * Returns a number if the resource is the initial document.
+ * Eg. index.html
+ *
+ * @private
+ * @param {object} aHttpChannel
+ * @returns {number}
+ */
+function isChannelInitialDocument(aHttpChannel) {
+  return aHttpChannel.loadFlags & aHttpChannel.LOAD_INITIAL_DOCUMENT_URI;
 }
 
-function getWindowForRequest(request){
-  if (request instanceof Ci.nsIRequest) {
+/**
+ * @private
+ * @param {object} aRequest
+ * @returns {object}
+ */
+function getWindowForRequest(aRequest){
+  if (aRequest instanceof Ci.nsIRequest) {
     try {
-      if (request.notificationCallbacks) {
-        return request.notificationCallbacks
+      if (aRequest.notificationCallbacks) {
+        return aRequest.notificationCallbacks
               .getInterface(Ci.nsILoadContext).associatedWindow;
       }
     } catch(e) {
     }
     try {
-      if (request.loadGroup && request.loadGroup.notificationCallbacks) {
-        return request.loadGroup.notificationCallbacks
+      if (aRequest.loadGroup && aRequest.loadGroup.notificationCallbacks) {
+        return aRequest.loadGroup.notificationCallbacks
               .getInterface(Ci.nsILoadContext).associatedWindow;
       }
     } catch(e) {
@@ -46,6 +65,11 @@ function getWindowForRequest(request){
   return null;
 }
 
+/**
+ * @private
+ * @param {object} request
+ * @param {string} url
+ */
 function redirectRequest(request, url) {
   let browserWindow = windowUtils.getMostRecentBrowserWindow();
   if (system.platform == "android") {
@@ -58,8 +82,14 @@ function redirectRequest(request, url) {
   }
 }
 
-function requestListener(event) {
-  let request = event.subject;
+/**
+ * Called for each request.
+ * 
+ * @private
+ * @param {Event} aEvent
+ */
+function requestListener(aEvent) {
+  let request = aEvent.subject;
   let channel = request.QueryInterface(Ci.nsIHttpChannel);
   let url = request.URI.spec;
 

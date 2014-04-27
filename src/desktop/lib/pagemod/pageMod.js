@@ -15,6 +15,11 @@ exports.enable = (aEnable) => {
 let gPageMod = null;
 let gWorker = null;
 
+/**
+ * Enables the page mod.
+ * @param {boolean} aEnable
+ *        Whether the page mod should be enabled or not.
+ */
 function doEnable(aEnable) {
   if (!aEnable) {
     try {

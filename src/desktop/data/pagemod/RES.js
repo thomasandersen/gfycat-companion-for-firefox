@@ -3,10 +3,10 @@ let RES = {
    * Creates an object representing the RES mark-up structure
    * for an image viewer.
    *
-   * @param element aImage
+   * @param {HTMLImageElement} aImage
    *        The image that is converted to a video.
    *
-   * @return object
+   * @return {object}
    *         Object representing the image viewer mark-up structure.
    */
   getViewer: function(aImage) {

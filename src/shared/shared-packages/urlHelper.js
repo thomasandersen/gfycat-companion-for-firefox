@@ -1,27 +1,52 @@
 let Request = require("sdk/request").Request;
-
-exports.getDomainForHostName = (host) => {
-  return host.split(".").slice(-2).join('.');
+/**
+ * @param {string} aHost
+ * @returns {string}
+ */
+exports.getDomainForHostName = (aHost) => {
+  return aHost.split(".").slice(-2).join('.');
 };
 
-exports.getFileExtension = (url) => {
-  return url.split(".").pop().replace(/[#\?].*/gi, "");
+/**
+ * @param {string} aUrl
+ * @returns {string}
+ */
+exports.getFileExtension = (aUrl) => {
+  return aUrl.split(".").pop().replace(/[#\?].*/gi, "");
 };
 
-exports.isGifFileExtension = (url) => {
-  return /\.gif.*$/i.test(url);
+/**
+ * @param {string} aUrl
+ * @returns {boolean}
+ */
+exports.isGifFileExtension = (aUrl) => {
+  return /\.gif.*$/i.test(aUrl);
 };
 
-exports.isImageFileExtension = (url) => {
-  return /\.(gif|jpg|jpeg|png).*$/i.test(url);
+/**
+ * @param {string} aUrl
+ * @returns {boolean}
+ */
+exports.isImageFileExtension = (aUrl) => {
+  return /\.(gif|jpg|jpeg|png).*$/i.test(aUrl);
 };
 
-exports.addParameterToUrl = (paramName, paramValue, url) => {
-  let urlWithParam = !url.contains("?") ? url + "?" : url + "&";
-  urlWithParam += (paramName + "=" + String(paramValue));
+/**
+ * @param {string} aParamName
+ * @param {string} aParamValue
+ * @param {string} aUrl
+ */
+exports.addParameterToUrl = (aParamName, aParamValue, aUrl) => {
+  let urlWithParam = !aUrl.contains("?") ? aUrl + "?" : aUrl + "&";
+  urlWithParam += (aParamName + "=" + String(aParamValue));
   return urlWithParam;
 };
 
+/**
+ * @param {string} url
+ * @param {function} isGifCallback
+ * @param {function} isNotGifCallback
+ */
 exports.asyncIsContentTypeGif = (url, isGifCallback, isNotGifCallback) => {
   Request({
     url: url,

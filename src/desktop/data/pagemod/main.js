@@ -63,7 +63,7 @@ let PageMod = {
   /**
    * Called when the image viewer expando button is called.
    *
-   * @param element aImage
+   * @param {HTMLImageElement} aImage
    *        The image that we will try to convert to video.
    */
   onExpandImageViewer: function(aImage) {
@@ -105,7 +105,7 @@ let PageMod = {
   /**
    * Emits event to the add-on which requests the GfyCat transcoder service.
    *
-   * @param element aImage
+   * @param {HTMLImageElement} aImage
    *        The gif we are trying to convert into a video.
    */
   onRequestTransCoderService: function(aImage) {
@@ -117,14 +117,14 @@ let PageMod = {
   /**
    * Replaces the image with a video element.
    *
-   * @param object aTransCodeJson
-   *               GfyCat json response.
-   * @param number aImageKey
-   *               The reference to the image element in the ImageElements map.
-   * @param string aMessage
-   *               The message to display next to the video.
+   * @param {ITransCodeResponse} json
+*           GfyCat json response.
+   * @param {number} aImageKey
+   *        The reference to the image element in the ImageElements map.
+   * @param {string} aMessage
+   *        The message to display next to the video.
    */
-  replaceImageWithVideo: function(aTransCodeJson, aImageKey, aMessage) {
+  replaceImageWithVideo: function(json, aImageKey, aMessage) {
     let viewer = RES.getViewer(ImageElements.getByKey(aImageKey));
     let imageContainer = viewer.container.element;
     let anchor = viewer.container.anchor.element;
@@ -160,8 +160,8 @@ let PageMod = {
         Dom.removeElem(videoResizer);
       }
 
-      let resizerMinValue = aTransCodeJson.gifWidth / 2;
-      let resizerMaxValue = aTransCodeJson.gifWidth * 2;
+      let resizerMinValue = json.gifWidth / 2;
+      let resizerMaxValue = json.gifWidth * 2;
 
       videoResizer = Companion.createResizeSliderElem(resizerMinValue, resizerMaxValue, PageMod.onResizerInput);
       videoResizer.addEventListener("DOMMouseScroll", function(event) {
@@ -173,7 +173,7 @@ let PageMod = {
       });
 
       video.parentNode.insertBefore(videoResizer, video);
-      videoResizer.setAttribute("value", aTransCodeJson.gifWidth);
+      videoResizer.setAttribute("value", json.gifWidth);
 
       ImageElements.deleteByKey(aImageKey);
 
@@ -181,7 +181,7 @@ let PageMod = {
       console.log("---------------------------------------------");
     };
 
-    video = Companion.createVideoElem(aTransCodeJson, onVideoDataLoaded);
+    video = Companion.createVideoElem(json, onVideoDataLoaded);
 
     imageContainer.appendChild(video);
   },
@@ -190,9 +190,9 @@ let PageMod = {
    * Called when the add-on receives an error response from the GfyCat
    * transcoder service.
    *
-   * @param number aImageKey
+   * @param {number} aImageKey
    *        Reference to the gif in the ImageElements map.
-   * @param string aErrorMessage
+   * @param {string} aErrorMessage
    *        The error message to show.
    */
   onTranscodeError: function(aImageKey, aErrorMessage) {
@@ -220,7 +220,7 @@ let PageMod = {
   /**
    * Called when the image resizer changes
    *
-   * @param object aEvent
+   * @param {Event} aEvent
    *        The input event object.
    */
   onResizerInput: function(aEvent) {
@@ -232,9 +232,9 @@ let PageMod = {
   /**
    * Called when the mouse scroll wheel is used.
    *
-   * @param object aEvent
+   * @param {Event} aEvent
    *        The event object.
-   * @param element aVideoResizer
+   * @param {HTMLInputElement} aVideoResizer
    *        The video resizer element.
    */
   onMouseScroll: function(aEvent, aVideoResizer) {
@@ -252,7 +252,7 @@ let PageMod = {
   /**
    * Adds listeners to the back/forward buttons for galleries.
    *
-   * @param object aGalleryControls
+   * @param {HTMLDivElement} aGalleryControls
    *        The gallery controls in the RES markup structure.
    */
   initGalleryBrowse: function(aGalleryControls) {
@@ -282,7 +282,7 @@ let PageMod = {
   /**
    * Called when the image is loaded.
    *
-   * @param object aEvent
+   * @param {Event} aEvent
    *        The input event object.
    */
   onGalleryImageLoaded: function(aEvent) {
@@ -294,33 +294,33 @@ let PageMod = {
   /**
    * Adds status bar before the image.
    *
-   * @param element aImg
+   * @param {HTMLImageElement} aImage
    *        The image we are trying to convert into a video.
    */
-  addStatusBar: function(aImg) {
-    let bar = Companion.getStatusBarElem(aImg);
+  addStatusBar: function(aImage) {
+    let bar = Companion.getStatusBarElem(aImage);
     if (bar) {
       Dom.removeElem(bar);
     }
     bar = Companion.createStatusBarElem();
-    let anchor = RES.getViewer(aImg).container.anchor.element;
+    let anchor = RES.getViewer(aImage).container.anchor.element;
     Dom.insertBefore(bar, anchor);
   },
 
   /**
    * Restores the modiefied RES mark-up.
    *
-   * @param element aImg
+   * @param {HTMLImageElement} aImage
    *        The gif image element.
    */
-  cleanUp: function(aImg) {
-    let viewer = RES.getViewer(aImg);
-    let video = Companion.getVideoElem(aImg);
+  cleanUp: function(aImage) {
+    let viewer = RES.getViewer(aImage);
+    let video = Companion.getVideoElem(aImage);
     if (video) {
       Dom.removeElem(video);
     }
 
-    let resizeSlider = Companion.getResizeSliderElem(aImg);
+    let resizeSlider = Companion.getResizeSliderElem(aImage);
     if (resizeSlider) {
       resizeSlider.removeEventListener("input", PageMod.onResizerInput);
       // Fixme: remove mousewheel event.
@@ -332,20 +332,20 @@ let PageMod = {
       anchor.style.display = "";
     }
 
-    aImg.nextSibling.style.width = aImg.width + "px";
-    aImg.nextSibling.style.height = aImg.height + "px";
+    aImage.nextSibling.style.width = aImage.width + "px";
+    aImage.nextSibling.style.height = aImage.height + "px";
 
-    let statusBar = Companion.getStatusBarElem(aImg);
+    let statusBar = Companion.getStatusBarElem(aImage);
     if (statusBar) {
       Dom.removeElem(statusBar);
     }
 
-    let messageNode = Companion.getMessageElem(aImg);
+    let messageNode = Companion.getMessageElem(aImage);
     if (messageNode) {
       Dom.removeElem(messageNode);
     }
 
-    aImg.removeEventListener("load", PageMod.onGalleryImageLoaded);
+    aImage.removeEventListener("load", PageMod.onGalleryImageLoaded);
   }
 
 };

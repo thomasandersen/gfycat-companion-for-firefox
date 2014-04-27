@@ -5,6 +5,12 @@ let imageRequestBlocker = require("./imageRequestBlocker");
 
 Cu.import("chrome://gfycat/content/jsm/bytesSaved.jsm");
 
+/**
+ * @private
+ * @param aImageUrl
+ * @param aImageKey
+ * @param aWorker
+ */
 function request(aImageUrl, aImageKey, aWorker) {
   Request({
     url: createUrl(aImageUrl),
@@ -15,6 +21,12 @@ function request(aImageUrl, aImageKey, aWorker) {
   aWorker.port.emit("transCodeRequestStart", aImageUrl, aImageKey);
 }
 
+/**
+ * @private
+ * @param {ITransCodeResponse} aResponse
+ * @param aImageKey
+ * @param aWorker
+ */
 function onResponse(aResponse, aImageKey, aWorker) {
   console.log("Transcode response ", aResponse);
 
@@ -46,21 +58,43 @@ function onResponse(aResponse, aImageKey, aWorker) {
   }
 }
 
+/**
+ * @private
+ * @param aResponse
+ * @param aImageKey
+ * @param worker
+ * @param aLoadingMessage
+ */
 function onSuccess(aResponse, aImageKey, worker, aLoadingMessage) {
   worker.port.emit("transCodeRequestSuccess",
     aResponse.json, aImageKey, aLoadingMessage);
 }
 
+/**
+ * @private
+ * @param aImageKey
+ * @param aWorker
+ * @param aErrorMessage
+ */
 function onError(aImageKey, aWorker, aErrorMessage) {
   imageRequestBlocker.enable(false);
   aWorker.port.emit("transCodeRequestError", aImageKey, aErrorMessage);
 }
 
+/**
+ * @private
+ * @param aImageUrl
+ * @returns {string}
+ */
 function createUrl(aImageUrl) {
   return properties.gfycat.transcodeEndpoint +
   createPsudoRandomStr(5) + "?fetchUrl=" + aImageUrl;
 }
-
+/**
+ * @private
+ * @param aStringLength
+ * @returns {string}
+ */
 function createPsudoRandomStr(aStringLength) {
   let text = "";
   let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
